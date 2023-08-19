@@ -1308,6 +1308,15 @@
 /* ==========================================================================
    1.0 Reset default styles
    ========================================================================== */
+
+body {
+    --kandelaber-cl-primary: #00296B;
+    --kandelaber-cl-secondary: #003F88;
+    --kandelaber-cl-normal: #00509D;
+    --kandelaber-cl-orange: #FDC500;
+    --kandelaber-cl-yellow-bright: #FFD500;
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font,
 ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
@@ -1689,7 +1698,7 @@ body:not([class*="lucent-core"]) .alignright {
    5.0 Typography styles
    ========================================================================== */
 body {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 18px;
   line-height: 1.5em;
   font-weight: 400;
@@ -1702,7 +1711,7 @@ body {
 
 h1,
 .qodef-h1 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 62px;
@@ -1739,7 +1748,7 @@ h1 a:hover,
 
 h2,
 .qodef-h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 52px;
@@ -1769,7 +1778,7 @@ h2 a:hover,
 
 h3,
 .qodef-h3 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -1799,7 +1808,7 @@ h3 a:hover,
 
 h4,
 .qodef-h4 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 27px;
@@ -1829,7 +1838,7 @@ h4 a:hover,
 
 h5,
 .qodef-h5 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 19px;
@@ -1859,7 +1868,7 @@ h5 a:hover,
 
 h6,
 .qodef-h6 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 16px;
@@ -1923,7 +1932,7 @@ blockquote,
   position: relative;
   padding: 18px 10% 20px 0;
   border: none;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 19px;
@@ -2226,7 +2235,7 @@ button[type="submit"],
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -3682,7 +3691,7 @@ button.mfp-close:after {
 
 .mfp-bottom-bar .mfp-title,
 .mfp-bottom-bar .mfp-counter {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   text-transform: uppercase;
   font-size: 15px;
   font-weight: 500;
@@ -4735,7 +4744,7 @@ body:not([class*="lucent-core"]) .qodef-blog .qodef-blog-item .qodef-e-info .qod
   font-weight: 400;
   line-height: 30px;
   letter-spacing: -0.01em;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
 }
 
 .qodef-blog .qodef-blog-item .qodef-e-info .qodef-e-info-item:before {
@@ -4762,7 +4771,7 @@ body:not([class*="lucent-core"]) .qodef-blog .qodef-blog-item .qodef-e-info .qod
   font-weight: 400;
   line-height: 30px;
   letter-spacing: -0.01em;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
 }
 
 .qodef-blog .qodef-blog-item .qodef-e-info .qodef-e-info-item a:hover {
@@ -5031,7 +5040,7 @@ body:not([class*="lucent-core"]) .qodef-blog.qodef--single .qodef-blog-item .qod
 }
 
 .qodef-blog.qodef--single .qodef-blog-item .qodef-e-text p {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
 }
 
 .qodef-blog.qodef--single .qodef-blog-item .qodef-e-media {
@@ -5094,7 +5103,7 @@ body:not([class*="lucent-core"]) .qodef-blog.qodef--single .qodef-blog-item .qod
   line-height: 32px;
   letter-spacing: -0.02em;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
 }
 
 /* ==========================================================================
@@ -5125,7 +5134,7 @@ body:not([class*="lucent-core"]) #qodef-page-comments {
 }
 
 #qodef-page-comments-list .qodef-m-title {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 27px;
@@ -5494,7 +5503,7 @@ body.logged-in #qodef-page-comments-form .qodef-comment-form p.form-submit, body
   -webkit-transition: color 0.3s ease, background-color 0.3s ease;
   -o-transition: color 0.3s ease, background-color 0.3s ease;
   transition: color 0.3s ease, background-color 0.3s ease;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 1.6em;
@@ -5725,7 +5734,7 @@ body:not([class*="lucent-core"]) #qodef-page-footer-top-area {
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -6212,10 +6221,10 @@ body:not([class*="lucent-core"]) .qodef-mobile-header-navigation ul li.menu-item
 }
 
 .qodef-mobile-header-navigation > ul > li > a {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 500;
@@ -6280,10 +6289,10 @@ body:not([class*="lucent-core"]) .qodef-mobile-header-navigation ul.sub-menu li 
   -o-transition: padding 0.2s ease-out;
   transition: padding 0.2s ease-out;
   padding-right: 11px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -6380,10 +6389,10 @@ body:not([class*="lucent-core"]) .qodef-mobile-header-navigation ul.sub-menu li.
   -o-transition: padding 0.2s ease-out;
   transition: padding 0.2s ease-out;
   padding-right: 11px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -6607,10 +6616,10 @@ body:not([class*="lucent-core"]) .qodef-header-navigation ul li.qodef-menu-item-
       -ms-flex-align: center;
           align-items: center;
   height: 100%;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 500;
@@ -6716,10 +6725,10 @@ body:not([class*="lucent-core"]) .qodef-header-navigation ul li.qodef-menu-item-
 }
 
 .qodef-header-navigation > ul > li.qodef-menu-item--narrow ul li > a {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -7331,7 +7340,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 .qodef-single-links .qodef-m-single-links-title {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -7745,9 +7754,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 
 .widget.widget_rss ul .rsswidget {
   display: block;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -8202,9 +8211,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 
 #qodef-top-area .widget.widget_rss ul .rsswidget {
   display: block;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -8658,9 +8667,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 
 #qodef-page-footer .widget.widget_rss ul .rsswidget {
   display: block;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -9115,9 +9124,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 
 #qodef-side-area .widget.widget_rss ul .rsswidget {
   display: block;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -9572,9 +9581,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 
 .qodef-mega-menu-widget-holder .widget.widget_rss ul .rsswidget {
   display: block;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -9820,7 +9829,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 .widget.widget_block.widget_search .qodef-search-form .qodef-search-form-label {
   display: block;
   position: relative;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 1.263em;
   letter-spacing: -.025em;
@@ -10099,7 +10108,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -10192,10 +10201,10 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
   margin: 0;
   padding: 12px 10px;
   text-align: center;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -10246,10 +10255,10 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 .woocommerce-page div.woocommerce .shop_table th {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -10438,9 +10447,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 #qodef-woo-page.qodef--cart .shop_table td.product-name a {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -10535,7 +10544,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 
 #qodef-woo-page.qodef--cart .cross-sells > h2,
 #qodef-woo-page.qodef--cart .cart_totals > h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -10574,7 +10583,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 .woocommerce-page div.woocommerce > .cart-empty {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -10613,7 +10622,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -10777,10 +10786,10 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 #qodef-woo-page.qodef--checkout .wc_payment_methods label {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -10850,9 +10859,9 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 .woocommerce-account .woocommerce-MyAccount-navigation ul li a {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -10882,7 +10891,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 .woocommerce-account .woocommerce-MyAccount-content h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -10911,7 +10920,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -11064,7 +11073,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
    WooCommerce order received styles
    ========================================================================== */
 .woocommerce-order-received .woocommerce-order .woocommerce-thankyou-order-received {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -11095,7 +11104,7 @@ body:not([class*="lucent-core"]) .qodef-m-pagination.qodef--standard .qodef-m-pa
 }
 
 .woocommerce-order-received .woocommerce-order h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -11946,7 +11955,7 @@ body .select2-results__options[id^="select2-orderby-"] {
 }
 
 #qodef-woo-page.qodef--single .entry-summary .price {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 19px;
@@ -12118,10 +12127,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 
 #qodef-woo-page.qodef--single form.cart.grouped_form .group_table label {
   margin-bottom: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12158,10 +12167,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single form.cart .group_table th {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12225,10 +12234,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 
 #qodef-woo-page.qodef--single form.cart .variations label {
   margin-bottom: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12300,10 +12309,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .out-of-stock {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12339,10 +12348,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
   -ms-flex-negative: 0;
       flex-shrink: 0;
   margin-right: 3px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12353,10 +12362,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .product_meta .qodef-woo-meta-value {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12439,7 +12448,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
   -o-transition: color 0.2s ease-out, background-color 0.2s ease-out;
   transition: color 0.2s ease-out, background-color 0.2s ease-out;
   position: relative;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   font-size: 19px;
   line-height: 1.6em;
@@ -12692,7 +12701,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
   margin: 0;
   font-size: 16px;
   letter-spacing: -.01em;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
 }
 
 #qodef-woo-page.qodef--single .shop_attributes tr {
@@ -12712,10 +12721,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .shop_attributes th {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12816,7 +12825,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .woocommerce-Reviews .meta strong {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 19px;
@@ -12836,10 +12845,10 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .woocommerce-Reviews .woocommerce-review__author {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -12865,7 +12874,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 #qodef-woo-page.qodef--single #review_form .comment-reply-title {
   display: block;
   margin-bottom: 11px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 27px;
@@ -12880,7 +12889,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single #review_form .comment-form-rating label {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 19px;
@@ -13047,13 +13056,13 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .upsells > h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
   line-height: 1.222em;
   letter-spacing: -0.01em;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -13067,7 +13076,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single .related > h2 {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
   font-size: 45px;
@@ -13290,7 +13299,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single > .product.qodef-layout--wide-gallery .woocommerce-tabs .wc-tabs li a {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   font-size: 27px;
   line-height: 1.267em;
@@ -13353,7 +13362,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 
 #qodef-woo-page.qodef--single > .product.qodef-layout--wide-gallery .woocommerce-tabs .wc-tab > h2 {
   display: block;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   font-size: 27px;
   line-height: 1.267em;
@@ -13399,7 +13408,7 @@ body:not([class*="lucent-core"]) #qodef-woo-page.qodef--single form.cart:not(.va
 }
 
 #qodef-woo-page.qodef--single > .product.qodef-layout--wide-gallery .woocommerce-tabs .wc-tab .woocommerce-Reviews-title {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   font-size: 27px;
   line-height: 1.267em;
@@ -13691,7 +13700,7 @@ body.single-product .select2-selection--single .select2-selection__arrow {
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -13738,9 +13747,9 @@ body.single-product .select2-selection--single .select2-selection__arrow {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -13824,7 +13833,7 @@ body:not([class*="lucent-core"]) .widget.widget_shopping_cart .widget_shopping_c
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -13918,7 +13927,7 @@ body:not([class*="lucent-core"]) .widget.widget_shopping_cart .widget_shopping_c
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -14319,10 +14328,10 @@ body:not([class*="lucent-core"]) .widget.widget_shopping_cart .widget_shopping_c
 
 .widget.widget_recent_reviews a {
   position: relative;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -14365,9 +14374,9 @@ body:not([class*="lucent-core"]) .widget.widget_shopping_cart .widget_shopping_c
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -14451,7 +14460,7 @@ body:not([class*="lucent-core"]) #qodef-page-footer .widget.widget_shopping_cart
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -14545,7 +14554,7 @@ body:not([class*="lucent-core"]) #qodef-page-footer .widget.widget_shopping_cart
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -14946,10 +14955,10 @@ body:not([class*="lucent-core"]) #qodef-page-footer .widget.widget_shopping_cart
 
 #qodef-page-footer .widget.widget_recent_reviews a {
   position: relative;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
   color: #000;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;
@@ -15174,7 +15183,7 @@ body:not([class*="lucent-core"]) #qodef-page-footer .widget.widget_shopping_cart
   vertical-align: middle;
   width: auto;
   margin: 0;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 19px;
   line-height: 2em;
   font-weight: 500;
@@ -15258,9 +15267,9 @@ body:not([class*="lucent-core"]) #qodef-page-footer .widget.widget_shopping_cart
 }
 
 .widget .wc-block-product-categories-list--has-images .wc-block-product-categories-list-item a {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-weight: 500;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Lexend", sans-serif;
   font-size: 16px;
   line-height: 1.625em;
   font-weight: 400;

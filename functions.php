@@ -11,6 +11,7 @@ if ( ! class_exists( 'LucentHandler' ) ) {
 			// Include required files
 			require_once get_template_directory() . '/constants.php';
 			require_once LUCENT_ROOT_DIR . '/helpers/helper.php';
+            require_once LUCENT_ROOT_DIR . '/helpers/custom-functions.php';
 
 			// Include theme's style and inline style
 			add_action( 'wp_enqueue_scripts', array( $this, 'include_css_scripts' ) );
@@ -58,7 +59,7 @@ if ( ! class_exists( 'LucentHandler' ) ) {
 			do_action( 'lucent_action_before_main_css' );
 
 			// Enqueue theme's main style
-			wp_enqueue_style( 'lucent-main', LUCENT_ASSETS_CSS_ROOT . '/main.min.css', $main_css_dependency );
+			wp_enqueue_style( 'lucent-main', LUCENT_ASSETS_CSS_ROOT . '/main.css', $main_css_dependency );
 
 			// Enqueue theme's style
 			wp_enqueue_style( 'lucent-style', LUCENT_ROOT . '/style.css' );

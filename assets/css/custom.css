@@ -1,0 +1,17 @@
+
+
+.qodef-header-navigation > ul > li > a .qodef-menu-item-text {
+    position: relative;
+    font-size: 18px;
+    color: var(--kandelaber-cl-primary);
+}
+
+
+#qodef-page-header-inner {
+    padding: 0 5%;
+    background-color: white;
+
+    -webkit-box-shadow: 2px 3px 22px -14px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 3px 22px -14px rgba(0,0,0,0.75);
+    box-shadow: 2px 3px 22px -14px rgba(0,0,0,0.75);
+}
