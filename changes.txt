@@ -1,0 +1,37 @@
+1.1
+- Added WooCommerce 7.7.0 compatibility
+- Added support for core/search block
+- Added support for Filter By Price
+- Added support for Tag Cloud block
+- Added PHP 8.2 compatibility
+- Added Qi Blocks to plugin activation as optional
+- Added lucent_validate_pagination_data helper function
+- Added Lucent Membership plugin to required plugins
+- Updated Lucent Core plugin to 1.0.3 version
+- Updated Lucent Membership plugin to 1.1 version
+- Updated Qode Framework plugin to 1.2.2 version
+- Updated Revolution Slider plugin to 6.6.13
+- Updated Swiper script to 8.4.5
+- Fixed elementor grid size
+- Fixed WooCommerce Side Area cart
+- Fixed WooCommerce shipping methods style
+- Fixed Disabled Google Fonts option
+- Fixed product search widget not searching for products
+- Fixed potential security vulnerability for theme and qode framework
+- Removed magic methods __clone and __wakeup
+- Improved instagram feed shortcode
+- Improved Google Maps deprecated addDomListener()
+- Improved Google Maps API with callback function
+- Improved lucent_core_get_social_network_share_link function
+- Improved demo import functionality
+
+1.0.2
+- Added compatibility with Qi Addons for Elementor plugin
+- Added WordPress 5.7.1 compatibility
+- Added WooCommerce 5.2.2 compatibility
+- Updated 'Lucent Core' plugin to 1.0.2 version
+- Updated Revolution Slider plugin to 6.4.11
+- Fixed theme registration compatibility PHP 8
+
+1.0.1
+- Minor styling adjustments

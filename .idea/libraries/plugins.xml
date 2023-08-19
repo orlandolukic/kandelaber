@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="plugins">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/inc/plugins/lucent-core.zip!/" />
+      <root url="jar://$PROJECT_DIR$/inc/plugins/revslider.zip!/" />
+      <root url="jar://$PROJECT_DIR$/inc/plugins/lucent-membership.zip!/" />
+      <root url="jar://$PROJECT_DIR$/inc/plugins/qode-framework.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
