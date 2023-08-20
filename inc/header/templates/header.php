@@ -6,6 +6,9 @@ do_action( 'lucent_action_before_page_header' );
 	<?php
 	// Hook to include additional content before page header inner
 	do_action( 'lucent_action_before_page_header_inner' );
+
+    // Include top info bar
+    echo lucent_get_template_part( 'header', 'templates/parts/top-info-bar' );
 	?>
 	<div id="qodef-page-header-inner" <?php lucent_class_attribute( apply_filters( 'lucent_filter_header_inner_class', array(), 'default' ) ); ?>>
 		<?php

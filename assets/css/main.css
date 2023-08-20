@@ -1310,11 +1310,11 @@
    ========================================================================== */
 
 body {
-    --kandelaber-cl-primary: #00296B;
-    --kandelaber-cl-secondary: #003F88;
-    --kandelaber-cl-normal: #00509D;
-    --kandelaber-cl-orange: #FDC500;
-    --kandelaber-cl-yellow-bright: #FFD500;
+    --kandelaber-cl-primary: #679436;
+    --kandelaber-cl-secondary: #A5BE00;
+    --kandelaber-cl-normal: #064789;
+    --kandelaber-cl-1: #427AA1;
+    --kandelaber-cl-2: #EBF2FA;
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font,

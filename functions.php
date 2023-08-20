@@ -11,7 +11,7 @@ if ( ! class_exists( 'LucentHandler' ) ) {
 			// Include required files
 			require_once get_template_directory() . '/constants.php';
 			require_once LUCENT_ROOT_DIR . '/helpers/helper.php';
-            require_once LUCENT_ROOT_DIR . '/helpers/custom-functions.php';
+            require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-handler.php';
 
 			// Include theme's style and inline style
 			add_action( 'wp_enqueue_scripts', array( $this, 'include_css_scripts' ) );
