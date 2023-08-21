@@ -1,0 +1,210 @@
+
+@import "global";
+@import "media-query";
+@import "keyframes";
+
+
+body {
+  height: 1000px;
+}
+
+.qodef-header-navigation > ul > li > a .qodef-menu-item-text {
+  position: relative;
+  font-size: 18px;
+  padding: 8px 20px;
+  color: var(--kandelaber-cl-primary);
+  border-radius: 3px;
+  transition: 0.2s;
+}
+
+.qodef-header-navigation > ul > li > a .qodef-menu-item-text:hover {
+  background-color: var(--kandelaber-cl-primary);
+  color: var(--kandelaber-cl-2);
+  -webkit-box-shadow: 9px 4px 19px -11px var(--kandelaber-cl-primary);
+  -moz-box-shadow: 9px 4px 19px -11px var(--kandelaber-cl-primary);
+  box-shadow: 9px 4px 19px -11px var(--kandelaber-cl-primary);
+}
+
+.qodef-header-navigation > ul > li > a .qodef-menu-item-text:active {
+  background-color: rgba(103, 148, 54, 0.71);
+}
+
+/* Remove UNDERLINING for menu items */
+.qodef-header-navigation > ul > li > a:hover .qodef-menu-item-text:after {
+  display: none;
+}
+
+.qodef-header-navigation > ul > li.current-menu-item > a .qodef-menu-item-text:after,
+.qodef-header-navigation > ul > li.current-menu-ancestor > a .qodef-menu-item-text:after{
+  display: none;
+}
+
+
+#qodef-page-header-inner {
+  padding: 0 5%;
+  background-color: white;
+
+  -webkit-box-shadow: 2px 3px 22px -14px rgba(0,0,0,0.75);
+  -moz-box-shadow: 2px 3px 22px -14px rgba(0,0,0,0.75);
+  box-shadow: 2px 3px 22px -14px rgba(0,0,0,0.75);
+}
+
+#menu-main-menu-1 > li {
+  display: flex;
+  height: auto;
+  margin: 0 5px;
+}
+
+#menu-main-menu-1 > li > a {
+  height: auto;
+}
+
+
+.qodef-top-info-bar {
+  background-color: var(--kandelaber-cl-normal);
+  color: var(--kandelaber-cl-2);
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.qodef-top-info-bar div.info-bar-item {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.qodef-top-info-bar div.info-bar-item i {
+  color: var(--kandelaber-cl-secondary);
+  padding-right: 10px;
+  font-size: 24px;
+}
+
+/*
+=========================================================================
+    Page loader
+=========================================================================
+ */
+
+.page-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  overflow: visible !important;
+
+  .content {
+    width: 40%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    .loading-logo {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      img {
+        width: 550px;
+        animation-name: flash;
+        animation-duration: 3s;
+        animation-delay: 5s;
+        animation-iteration-count: infinite;
+      }
+    }
+
+
+    .loading-image {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+
+      img {
+        position: relative;
+        left: -15%;
+        width: 280px;
+      }
+
+      &.loading-image-bottom {
+        transform: rotate(-180deg);
+        justify-content: flex-start;
+        img {
+          position: relative;
+          right: 15%;
+        }
+      }
+    }
+
+    @include media-query-xs() {
+      width: 95%;
+      .loading-image {
+        img {
+          width: 180px;
+          left: -15%;
+        }
+      }
+
+      .loading-logo {
+        img {
+          width: auto;
+        }
+      }
+    }
+
+    @include media-query-sm() {
+      width: 80%;
+      .loading-image {
+        img {
+          width: 180px;
+          left: -0%;
+        }
+      }
+
+      .loading-logo {
+        img {
+          width: 450px;
+        }
+      }
+    }
+
+    @include media-query-md() {
+      width: 60%;
+      .loading-image {
+        img {
+          width: 180px;
+          left: -15%;
+        }
+      }
+
+      .loading-logo {
+        img {
+          width: 450px;
+        }
+      }
+    }
+
+    @include media-query-lg() {
+      width: 40%;
+      .loading-image {
+        img {
+          width: 220px;
+          left: -45%;
+        }
+      }
+
+      .loading-logo {
+        img {
+          width: 450px;
+        }
+      }
+    }
+
+  }
+  // .content
+}
