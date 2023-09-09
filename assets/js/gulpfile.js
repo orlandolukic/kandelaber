@@ -12,7 +12,7 @@ gulp.task('sass', function () {
 
 // Define a watch task to automatically compile SCSS on changes
 gulp.task('watch', function () {
-    gulp.watch('../scss/custom.scss', gulp.series('sass'));
+    gulp.watch('../scss/*.scss', gulp.series('sass'));
 });
 
 // Define the default task that runs when you execute 'gulp' in the terminal

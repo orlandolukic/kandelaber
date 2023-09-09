@@ -208,3 +208,14 @@ body {
   }
   // .content
 }
+
+.container-tween {
+  overflow: hidden;
+}
+
+.kandelaber-button {
+  transition: 0.2s;
+  &:active {
+    opacity: 0.8;
+  }
+}

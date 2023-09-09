@@ -36,6 +36,7 @@ if ( ! class_exists('KandelaberHandler') ) {
         }
 
         public function include_js_scripts() {
+            wp_enqueue_script( 'tweenmax', LUCENT_ASSETS_JS_ROOT . '/tweenmax-1.20.2.js', ['kandelaber-main'], '1.20.2' );
             wp_enqueue_script( 'kandelaber-main', LUCENT_ASSETS_JS_ROOT . '/kandelaber-main.js', [], KandelaberHandler::$JS_VERSION );
         }
     }
