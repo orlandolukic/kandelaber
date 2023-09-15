@@ -186,8 +186,24 @@ body {
   }
 }
 
-.container-tween {
-  overflow: hidden;
+.search-more-button {
+  cursor: pointer;
+  transition: 0.2s;
+}
+.search-more-button:active {
+  transform: scale3d(0.9, 0.9, 0.9);
+}
+
+.category-go-button {
+  cursor: pointer;
+  transition: 0.2s;
+  opacity: 1;
+}
+.category-go-button:hover {
+  opacity: 0.8;
+}
+.category-go-button:active {
+  transform: scale3d(0.9, 0.9, 0.9);
 }
 
 .kandelaber-button {

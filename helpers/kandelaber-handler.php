@@ -21,6 +21,8 @@ if ( ! class_exists('KandelaberHandler') ) {
             add_action('lucent_action_after_main_css', array($this, 'add_custom_css'));
 
             add_action('lucent_action_after_body_tag_open', array($this, 'set_loading_screen'));
+
+            add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
         }
 
         public function add_custom_css() {
@@ -38,6 +40,13 @@ if ( ! class_exists('KandelaberHandler') ) {
         public function include_js_scripts() {
             wp_enqueue_script( 'tweenmax', LUCENT_ASSETS_JS_ROOT . '/tweenmax-1.20.2.js', ['kandelaber-main'], '1.20.2' );
             wp_enqueue_script( 'kandelaber-main', LUCENT_ASSETS_JS_ROOT . '/kandelaber-main.js', [], KandelaberHandler::$JS_VERSION );
+        }
+
+        public function set_mce_colors( $init ) {
+            $custom_colours = '"679436", "Primary", "427AA1", "Secondary", "313131", "Text", "064789", "Accent", "A5BE00", "CL1", "EBF2FA", "White"';
+            $init['textcolor_map'] = '['.$custom_colours.']';
+            $init['textcolor_rows'] = 6;
+            return $init;
         }
     }
 

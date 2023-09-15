@@ -5580,14 +5580,6 @@ body:not([class*="lucent-core"]) #qodef-page-footer .select2-container--default 
   margin: 0;
 }
 
-#qodef-page-footer.qodef-footer-columns-spacing .qodef-grid > .qodef-grid-inner .qodef-grid-item:nth-child(5) > div {
-  padding-left: 23.5%;
-}
-
-#qodef-page-footer.qodef-footer-columns-spacing .qodef-grid > .qodef-grid-inner .qodef-grid-item:nth-child(4) > div {
-  padding-left: 35.5%;
-}
-
 #qodef-page-footer.qodef-footer-columns-spacing .qodef-grid > .qodef-grid-inner .qodef-grid-item:nth-child(3) > div {
   padding-left: 19.8%;
 }
