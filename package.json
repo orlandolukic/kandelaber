@@ -13,5 +13,8 @@
     "gulp-autoprefixer": "^8.0.0",
     "gulp-sass": "^5.1.0",
     "sass": "^1.66.1"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.6.0"
   }
 }

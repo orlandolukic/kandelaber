@@ -186,6 +186,10 @@ body {
   }
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 .search-more-button {
   cursor: pointer;
   transition: 0.2s;
@@ -211,4 +215,23 @@ body {
 }
 .kandelaber-button:active {
   opacity: 0.8;
+}
+
+.scroll-top i {
+  transition: 0.2s;
+  padding: 10px;
+  color: #EBF2FA;
+  background-color: #064789;
+}
+.scroll-top i:active {
+  transform: scale3d(0.95, 0.95, 0.95);
+}
+
+.confetti-star-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 650px;
+  background-color: transparent;
 }
