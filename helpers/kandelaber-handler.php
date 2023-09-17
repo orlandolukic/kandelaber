@@ -23,6 +23,7 @@ if ( ! class_exists('KandelaberHandler') ) {
             add_action('lucent_action_after_body_tag_open', array($this, 'set_loading_screen'));
 
             add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
+            add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
         }
 
         public function add_custom_css() {
@@ -48,6 +49,22 @@ if ( ! class_exists('KandelaberHandler') ) {
             $init['textcolor_map'] = '['.$custom_colours.']';
             $init['textcolor_rows'] = 6;
             return $init;
+        }
+
+        /**
+         * Action that fires during form entry processing after initial field validation.
+         *
+         * @link   https://wpforms.com/developers/wpforms_process/
+         *
+         * @param  array  $fields    Sanitized entry field. values/properties.
+         * @param  array  $entry     Original $_POST global.
+         * @param  array  $form_data Form data and settings.
+         */
+        public function wpf_dev_process( $fields, $entry, $form_data ) {
+            $sec_check_value = $fields[4][ 'value' ];
+            if ( $sec_check_value !== "8" )  {
+                wpforms()->process->errors[ $form_data[ 'id' ] ] [ '4' ] = esc_html__( 'Dogodila se greška', 'kandelaber' );
+            }
         }
     }
 

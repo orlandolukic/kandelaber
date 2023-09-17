@@ -13,6 +13,13 @@
     opacity: 1;
   }
 }
+a.link {
+  color: inherit;
+}
+a.link:hover {
+  text-decoration: underline;
+}
+
 body {
   height: 1000px;
 }
@@ -234,4 +241,40 @@ body {
   width: 100%;
   min-height: 650px;
   background-color: transparent;
+}
+
+.contact-form-message textarea {
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 350px;
+}
+
+button.submit-form-button {
+  background: transparent !important;
+  border-radius: 5px !important;
+  border: 2px solid #064789 !important;
+  color: #064789 !important;
+  padding: 18px 40px !important;
+  height: auto !important;
+  transition: 0.2s;
+  outline: none !important;
+}
+button.submit-form-button:hover {
+  background: #064789 !important;
+  color: #EBF2FA !important;
+}
+button.submit-form-button:active {
+  opacity: 0.8 !important;
+}
+button.submit-form-button::after {
+  content: none !important;
+}
+
+div.wpforms-container-full .wpforms-confirmation-container-full {
+  background-color: #9ac868 !important;
+  color: white !important;
+}
+
+.contact-form-placeholder {
+  min-height: 350px;
 }
