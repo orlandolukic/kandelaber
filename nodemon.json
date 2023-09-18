@@ -1,0 +1,5 @@
+{
+  "watch": ["inc/elementor/product-category-listing/react"],
+  "ext": "js,jsx,ts,tsx,json",
+  "exec": "npm run build"
+}
