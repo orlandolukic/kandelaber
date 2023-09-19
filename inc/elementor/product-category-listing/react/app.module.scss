@@ -1,0 +1,55 @@
+$cl-primary: #679436;
+$cl-secondary: #A5BE00;
+$cl-normal: #064789;
+$cl-1: #427AA1;
+$cl-2: #EBF2FA;
+
+.loader {
+  width: 70px;
+  height: 70px;
+  display: block;
+  border: 10px solid $cl-2;
+  border-bottom-color: $cl-normal;
+  border-radius: 50%;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+.mainContainer {
+  min-height: 350px;
+  position: relative;
+
+  .loaderContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+
+    .loaderText {
+      margin-top: 20px;
+      font-size: 24px;
+      color: $cl-normal;
+      opacity: 0.7;
+    }
+
+    .loader {
+
+    }
+  }
+}

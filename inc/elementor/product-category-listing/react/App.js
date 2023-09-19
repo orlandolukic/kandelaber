@@ -1,13 +1,33 @@
-import styles from './test.module.scss';
+import styles from './app.module.scss';
+import {useState} from "react";
+import Loader from "./Loader";
 
 const App = () => {
 
+    const [loading, setLoading] = useState(true);
+    const [response, setResponse] = useState(null);
     const clickHandler = () => {
-        console.log("sdsdsd");
+        jQuery.ajax({
+            type: 'POST',
+            url: ajax_object.ajax_url,
+            data: {
+                action: 'custom_ajax_action',
+                parameter1: 'value1',
+                parameter2: 'value2'
+            },
+            success: function(response) {
+                // Handle the response from the server
+                setResponse(response);
+            }
+        });
     }
+
+
     return (
-        <div>
-            <h2 onClick={clickHandler}>Hello World</h2>
+        <div className={styles.mainContainer}>
+            {loading &&
+                <Loader />
+            }
         </div>
     );
 };

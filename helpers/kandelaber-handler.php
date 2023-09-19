@@ -27,6 +27,9 @@ if ( ! class_exists('KandelaberHandler') ) {
 
             add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
+
+            add_action('wp_ajax_custom_ajax_action', array($this, 'custom_ajax_callback')); // For logged-in users
+            add_action('wp_ajax_nopriv_custom_ajax_action', array($this, 'custom_ajax_callback')); // For non-logged-in users
         }
 
         private function require_files() {
@@ -53,6 +56,38 @@ if ( ! class_exists('KandelaberHandler') ) {
             //wp_register_script('react', LUCENT_ASSETS_JS_ROOT . "/react.production.min.js", [], '18');
            //wp_register_script('react-dom', LUCENT_ASSETS_JS_ROOT . "/react-dom.production.min.js", ['react'], '18');
             wp_register_script('react-rendered', LUCENT_ASSETS_JS_ROOT . "/react-rendered.js", ['react-dom'], KandelaberHandler::$JS_VERSION );
+
+            wp_localize_script('kandelaber-main', 'ajax_object', array(
+                'ajax_url' => admin_url('admin-ajax.php'),
+            ));
+
+//            $taxonomy     = 'product_cat';
+//            $orderby      = 'name';
+//            $show_count   = 1;      // 1 for yes, 0 for no
+//            $pad_counts   = 1;      // 1 for yes, 0 for no
+//            $hierarchical = 1;      // 1 for yes, 0 for no
+//            $title        = '';
+//            $empty        = 0;
+//
+//            $args = array(
+//                'taxonomy'     => $taxonomy,
+//                'orderby'      => $orderby,
+//                'show_count'   => $show_count,
+//                'pad_counts'   => $pad_counts,
+//                'hierarchical' => $hierarchical,
+//                'title_li'     => $title,
+//                'hide_empty'   => $empty,
+//                'parent'       => 0
+//            );
+//            $all_categories = get_categories( $args );
+//
+//            $thumbnail_id = get_term_meta($all_categories[0]->term_id, 'thumbnail_id', true);
+//            if ($thumbnail_id) {
+//                $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+//                echo json_encode($image);
+//            }
+//
+//            echo json_encode($all_categories);
         }
 
         public function set_mce_colors( $init ) {
@@ -77,6 +112,22 @@ if ( ! class_exists('KandelaberHandler') ) {
                 wpforms()->process->errors[ $form_data[ 'id' ] ] [ '4' ] = esc_html__( 'Dogodila se greška', 'kandelaber' );
             }
         }
+
+        public function custom_ajax_callback() {
+            // Handle the AJAX request here
+
+            $parameter1 = $_POST['parameter1'];
+            $parameter2 = $_POST['parameter2'];
+
+            // Perform your server-side logic here
+
+            // Return a response
+            echo 'Hello, AJAX! Received parameter1: ' . $parameter1 . ', parameter2: ' . $parameter2;
+
+            // Always exit to prevent extra output
+            wp_die();
+        }
+
 
     }
 
