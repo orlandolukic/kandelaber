@@ -40,6 +40,7 @@ $cl-2: #EBF2FA;
     height: 100%;
     align-items: center;
     justify-content: center;
+    transition: 0.25s;
 
     .loaderText {
       margin-top: 20px;
@@ -51,5 +52,110 @@ $cl-2: #EBF2FA;
     .loader {
 
     }
+
+    &.loaded {
+      opacity: 0;
+    }
+
+  }
+}
+
+.categoriesPlaceholder {
+
+  .singleCategory {
+
+    display: flex;
+    animation-name: show-in;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+      position: relative;
+
+      background: $cl-2;
+      border-radius: 10px;
+      padding: 30px 15px;
+      margin: {
+        right: 15px;
+        top: 40px;
+      }
+      -webkit-box-shadow: 2px -1px 17px -8px rgba(0,0,0,0.75);
+      -moz-box-shadow: 2px -1px 17px -8px rgba(0,0,0,0.75);
+      box-shadow: 2px -1px 17px -8px rgba(0,0,0,0.75);
+
+
+      .imagePlaceholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        height: 100%;
+
+        img {
+          max-height: 250px;
+          transition: 0.2s;
+        }
+      }
+
+      .categoryTitle {
+        color: $cl-primary;
+        font-weight: bold;
+        font-size: 24px;
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .subcategoriesContent {
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin-top: 10px;
+        margin-right: 10px;
+        font-size: 14px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: $cl-secondary;
+
+        .threeDots {
+          background-color: $cl-secondary;
+          color: $cl-2;
+          border-radius: 50%;
+          margin-left: 10px;
+          padding: 3px 10px
+        }
+      }
+
+
+      &:hover {
+        .imagePlaceholder {
+          img {
+            transform: scale3d(1.12,1.12,1.12);
+          }
+        }
+      }
+
+      &:active {
+        opacity: 0.9;
+        transform: scale3d(0.95,0.95,0.95);
+      }
+    }
+  }
+}
+
+@keyframes show-in {
+  from {
+    opacity: 0;
+    transform: scale3d(0.9,0.9,0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1,1,1);
   }
 }

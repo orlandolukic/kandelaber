@@ -1,33 +1,33 @@
 import styles from './app.module.scss';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Loader from "./Loader";
+import Categories from "./Categories";
 
 const App = () => {
 
     const [loading, setLoading] = useState(true);
-    const [response, setResponse] = useState(null);
-    const clickHandler = () => {
+    const [visible, setVisible] = useState(true);
+    const [categories, setCategories] = useState(null);
+
+    useEffect(() => {
         jQuery.ajax({
             type: 'POST',
             url: ajax_object.ajax_url,
             data: {
-                action: 'custom_ajax_action',
-                parameter1: 'value1',
-                parameter2: 'value2'
+                action: 'get_root_categories'
             },
+            dataType: "json",
             success: function(response) {
-                // Handle the response from the server
-                setResponse(response);
+                setCategories(response);
+                setLoading(false);
             }
         });
-    }
-
+    }, []);
 
     return (
         <div className={styles.mainContainer}>
-            {loading &&
-                <Loader />
-            }
+            <Loader loading={loading} visible={visible} setVisible={setVisible} />
+            {!visible && <Categories categories={categories} />}
         </div>
     );
 };
