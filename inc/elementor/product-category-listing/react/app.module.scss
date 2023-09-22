@@ -77,6 +77,7 @@ $cl-2: #EBF2FA;
       cursor: pointer;
       transition: 0.2s;
       position: relative;
+      overflow: hidden;
 
       background: $cl-2;
       border-radius: 10px;
@@ -122,15 +123,149 @@ $cl-2: #EBF2FA;
         flex-direction: row;
         align-items: center;
         color: $cl-secondary;
+        transition: 0.2s;
+        opacity: 0.5;
 
         .threeDots {
           background-color: $cl-secondary;
           color: $cl-2;
           border-radius: 50%;
-          margin-left: 10px;
+          margin-left: 5px;
           padding: 3px 10px
         }
+
+        &.noOpacity {
+          opacity: 0;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
       }
+      .subcategoriesOverlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: $cl-2;
+        width: 100%;
+        height: 100%;
+        opacity: 0.9;
+        transform: translateX(0);
+        transition: 0.7s;
+        transition-timing-function: cubic-bezier(.17,.67,.05,.99);
+        cursor: auto;
+        display: flex;
+        flex-direction: column;
+        
+        &.noDisplay {
+          transform: translateX(300px);
+        }
+
+        .nameContainer {
+          display: flex;
+          flex-direction: row;;
+          align-items: center;
+          border-bottom: 1px dashed $cl-secondary;
+          width: 100%;
+
+          .icon {
+            padding: 15px 15px;
+            color: $cl-secondary;
+            border-right: 1px dashed $cl-secondary;
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:hover {
+              background-color: lighten($cl-secondary, 30%);
+            }
+          }
+          .text {
+            padding: 10px 15px 10px 10px;
+            color: $cl-secondary;
+            font-weight: bold;
+            font-size: 16px;
+
+            .smallText {
+              text-transform: uppercase;
+              font-size: 10px;
+              color: black;
+              line-height: 10px;
+              opacity: 0.5;
+            }
+
+            .categoryName {
+              line-height: 16px;
+            }
+          }
+        }
+
+        .subcategoryList {
+          height: 100%;
+
+          .subcategoryListPlaceholder {
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+
+          .singleSubcategory {
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            &:hover {
+              background-color: lighten($cl-secondary, 30%);
+              color: $cl-1;
+
+              .openArrow {
+                transform: translateX(0);
+              }
+            }
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .icon {
+              img {
+                width: 40px;
+                height: 40px;
+              }
+            }
+
+            .name {
+              padding-left: 10px;
+              width: 100%;
+            }
+
+            .openArrow {
+              padding: 10px;
+              color: $cl-normal;
+              transition: 0.2s;
+              transform: translateX(100px);
+            }
+          }
+        }
+        // .subcategoryList
+
+        .seeAllCategories {
+          padding: 10px;
+          text-align: center;
+          color: $cl-2;
+          background-color: $cl-primary;
+          transition: 0.2s;
+          cursor: pointer;
+
+          .text {
+            padding-left: 10px;
+          }
+
+          &:hover {
+            background-color: lighten($cl-primary, 5%);
+          }
+        }
+      }
+      // .subcategoryOverlay
 
 
       &:hover {
@@ -141,9 +276,21 @@ $cl-2: #EBF2FA;
         }
       }
 
+
+      &.noZoom {
+        .imagePlaceholder {
+          img {
+            transform: scale3d(1.12, 1.12, 1.12);
+          }
+        }
+
+        &:active {
+          opacity: 1;
+        }
+      }
+
       &:active {
-        opacity: 0.9;
-        transform: scale3d(0.95,0.95,0.95);
+        opacity: 0.7;
       }
     }
   }
@@ -158,4 +305,8 @@ $cl-2: #EBF2FA;
     opacity: 1;
     transform: scale3d(1,1,1);
   }
+}
+
+.noOpacity {
+  opacity: 0;
 }

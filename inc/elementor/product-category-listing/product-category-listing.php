@@ -76,6 +76,13 @@ class Product_Category_Listing {
                 // Loop through and display subcategories.
                 foreach ($subcategories as $subcategory) {
                     array_push($subcategories_array, $subcategory);
+
+                    // Get image for subcategory
+                    $thumbnail_id = get_term_meta($subcategory->term_id, 'thumbnail_id', true);
+                    if ($thumbnail_id) {
+                        $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+                        $subcategory->image = $image;
+                    }
                 }
                 $all_categories[$i]->subcategories = $subcategories_array;
             } else {
