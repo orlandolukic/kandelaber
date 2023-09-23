@@ -1,12 +1,44 @@
 import styles from './app.module.scss';
-import {useCallback} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
-const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, setShowSubcategoriesContent, subcategories}) => {
+const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, setShowSubcategoriesContent, subcategories, singleCategoryDiv}) => {
 
     const hideOverlay = useCallback(() => {
         setShowSubcategoriesContent(true);
         setShowSubcategoriesOverlay(false);
     }, []);
+    const seeAllCategoriesDiv = useRef(null);
+    const nameContainerDiv = useRef(null);
+    const subcategoriesListDiv = useRef(null);
+    const subcategoriesOverlayDiv = useRef(null);
+    const [subcategoriesListDivHeight, setSubcategoriesListDivHeight] = useState("auto");
+
+    useEffect(() => {
+        if (seeAllCategoriesDiv.current !== null &&
+            nameContainerDiv.current !== null &&
+            subcategoriesListDiv.current !== null &&
+            subcategoriesOverlayDiv.current !== null &&
+            singleCategoryDiv.current !== null
+        ) {
+            const totalHeight = singleCategoryDiv.current.clientHeight;
+            const nameContainerDivHeight = nameContainerDiv.current.clientHeight;
+            const seeAllCategoriesDivHeight = seeAllCategoriesDiv.current.clientHeight;
+            const theRest = totalHeight - nameContainerDivHeight - seeAllCategoriesDivHeight;
+            setSubcategoriesListDivHeight(theRest + "px");
+
+            if (show) {
+                subcategoriesListDiv.current.scrollTop = 0;
+            }
+        }
+    }, [
+        seeAllCategoriesDiv.current,
+        nameContainerDiv.current,
+        subcategoriesListDiv.current,
+        subcategoriesOverlayDiv.current,
+        singleCategoryDiv.current,
+        subcategories,
+        show
+    ]);
 
     const subcategoriesListElements = subcategories.map((subcategory, i) =>
         <div className={styles.singleSubcategory}>
@@ -23,8 +55,8 @@ const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, 
     );
 
     return (
-      <div className={`${styles.subcategoriesOverlay}${!show ? ' ' + styles.noDisplay : ''}`}>
-          <div className={styles.nameContainer}>
+      <div ref={subcategoriesOverlayDiv} className={`${styles.subcategoriesOverlay}${!show ? ' ' + styles.noDisplay : ''}`}>
+          <div ref={nameContainerDiv} className={styles.nameContainer}>
               <div className={styles.icon} onClick={hideOverlay}>
                   <i className={'fa fa-chevron-left'} />
               </div>
@@ -33,12 +65,12 @@ const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, 
                   <div className={styles.categoryName}>{categoryName}</div>
               </div>
           </div>
-          <div className={styles.subcategoryList}>
+          <div ref={subcategoriesListDiv} className={styles.subcategoryList} style={{height: subcategoriesListDivHeight}}>
               <div className={styles.subcategoryListPlaceholder}>
                   {subcategoriesListElements}
               </div>
           </div>
-          <div className={styles.seeAllCategories}>
+          <div ref={seeAllCategoriesDiv} className={styles.seeAllCategories}>
               <i className="fa-solid fa-eye"></i>
               <span className={styles.text}>Pogledajte sve</span>
           </div>

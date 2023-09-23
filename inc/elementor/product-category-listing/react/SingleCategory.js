@@ -1,6 +1,6 @@
 import styles from "./app.module.scss";
 import SubcategoriesOverlay from "./SubcategoriesOverlay";
-import {useCallback, useState} from "react";
+import {useCallback, useRef, useState} from "react";
 
 const SingleCategory = ({category}) => {
 
@@ -10,9 +10,10 @@ const SingleCategory = ({category}) => {
         setShowSubcategoriesContent(false);
         setShowSubcategoriesOverlay(true);
     }, []);
+    const singleCategoryDiv = useRef(null);
 
     return (
-        <div className={`col-md-3 ${styles.singleCategory}`} style={{animationDelay: i*500 + "ms"}}>
+        <div ref={singleCategoryDiv} className={`col-md-3 ${styles.singleCategory}`} style={{animationDelay: i*500 + "ms"}}>
             <div className={`${styles.content}${!showSubcategoriesContent ? ' ' + styles.noZoom : ''}`}>
                 <div className={styles.imagePlaceholder}>
                     <img src={category.image[0]} />
@@ -37,6 +38,7 @@ const SingleCategory = ({category}) => {
                             setShowSubcategoriesContent={setShowSubcategoriesContent}
                             setShowSubcategoriesOverlay={setShowSubcategoriesOverlay}
                             subcategories={category.subcategories}
+                            singleCategoryDiv={singleCategoryDiv}
                         />
                     </>
                 }

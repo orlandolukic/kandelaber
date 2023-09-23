@@ -102,3 +102,22 @@ if ( ! class_exists('KandelaberHandler') ) {
 
     KandelaberHandler::get_instance();
 }
+
+
+
+add_action( 'init',  function() {
+    add_rewrite_rule( 'proizvodi/([a-z0-9\\-]+)[/]?$', 'index.php?s=$matches[1]', 'top' );
+} );
+
+add_filter( 'query_vars', function( $query_vars ) {
+    $query_vars[] = 's';
+    return $query_vars;
+} );
+
+add_filter( 'template_include', function( $template ) {
+    if ( get_query_var( 's' ) == false || get_query_var( 's' ) == '' ) {
+        return $template;
+    }
+
+    return get_template_directory() . '/category-preview.php';
+} );
