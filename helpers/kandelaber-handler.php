@@ -24,6 +24,7 @@ if ( ! class_exists('KandelaberHandler') ) {
             add_action('lucent_action_after_main_css', array($this, 'add_custom_css'));
 
             add_action('lucent_action_after_body_tag_open', array($this, 'set_loading_screen'));
+            add_action('lucent_action_before_wrapper_close_tag', array($this, 'add_loading_overlay'));
 
             add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
@@ -43,6 +44,10 @@ if ( ! class_exists('KandelaberHandler') ) {
 
         public function set_loading_screen() {
             echo lucent_get_template_part('footer', 'templates/parts/page-loader');
+        }
+
+        public function add_loading_overlay() {
+            echo lucent_get_template_part('footer', 'templates/parts/overlay-loader');
         }
 
         public function include_js_scripts() {
@@ -97,27 +102,7 @@ if ( ! class_exists('KandelaberHandler') ) {
             wp_die();
         }
 
-
     }
 
     KandelaberHandler::get_instance();
 }
-
-
-
-add_action( 'init',  function() {
-    add_rewrite_rule( 'proizvodi/([a-z0-9\\-]+)[/]?$', 'index.php?s=$matches[1]', 'top' );
-} );
-
-add_filter( 'query_vars', function( $query_vars ) {
-    $query_vars[] = 's';
-    return $query_vars;
-} );
-
-add_filter( 'template_include', function( $template ) {
-    if ( get_query_var( 's' ) == false || get_query_var( 's' ) == '' ) {
-        return $template;
-    }
-
-    return get_template_directory() . '/category-preview.php';
-} );

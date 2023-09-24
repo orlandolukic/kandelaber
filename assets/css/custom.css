@@ -278,3 +278,40 @@ div.wpforms-container-full .wpforms-confirmation-container-full {
 .contact-form-placeholder {
   min-height: 350px;
 }
+
+.overlay-loader-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.overlay-loader-container .loader-placeholder .loader {
+  width: 80px;
+  --b: 12px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #064789;
+  -webkit-mask: repeating-conic-gradient(rgba(0, 0, 0, 0) 0deg, #000 1deg 70deg, rgba(0, 0, 0, 0) 71deg 90deg), radial-gradient(farthest-side, rgba(0, 0, 0, 0) calc(100% - var(--b) - 1px), #000 calc(100% - var(--b)));
+  -webkit-mask-composite: destination-in;
+  mask-composite: intersect;
+  animation: l5 1s infinite;
+}
+@keyframes l5 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -35,7 +35,7 @@ class Product_Category_Listing {
     public function get_root_categories() {
 
         $taxonomy     = 'product_cat';
-        $orderby      = 'name';
+        $orderby      = 'menu_order';
         $show_count   = 1;      // 1 for yes, 0 for no
         $pad_counts   = 1;      // 1 for yes, 0 for no
         $hierarchical = 1;      // 1 for yes, 0 for no
@@ -51,9 +51,13 @@ class Product_Category_Listing {
             'title_li'     => $title,
             'hide_empty'   => $empty,
             'exclude'      => [15],
-            'parent'       => 0
+            'parent'       => 0,
+            'meta_query'   => array(
+                'meta_key' => 'is_product_and_category'
+            )
         );
         $all_categories = get_categories( $args );
+
 
         // Go through all categories and fetch thumbnail
         for ($i=0; $i < count($all_categories); $i++) {
@@ -62,12 +66,19 @@ class Product_Category_Listing {
                 $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
                 $all_categories[$i]->image = $image;
             }
+            $is_product_and_category = get_term_meta($all_categories[$i]->term_id, 'is_product_and_category', true);
+            if ($is_product_and_category) {
+                $all_categories[$i]->is_product_and_category = $is_product_and_category === "1";
+            } else {
+                $all_categories[$i]->is_product_and_category = false;
+            }
 
             // Check for subcategories
             // Use the parent category ID to retrieve its child categories (subcategories).
             $subcategories = get_categories(array(
                 'taxonomy' => $taxonomy,
                 'child_of' => $all_categories[$i]->term_id,
+                'orderby' => $orderby,
                 'hide_empty'   => 0,
             ));
             $subcategories_array = [];

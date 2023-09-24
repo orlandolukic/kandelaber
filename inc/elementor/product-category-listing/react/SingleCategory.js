@@ -1,19 +1,36 @@
 import styles from "./app.module.scss";
 import SubcategoriesOverlay from "./SubcategoriesOverlay";
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
-const SingleCategory = ({category}) => {
+const SingleCategory = ({category, i}) => {
 
     const [showSubcategoriesContent, setShowSubcategoriesContent] = useState(true);
     const [showSubcategoriesOverlay, setShowSubcategoriesOverlay] = useState(false);
-    const openSubcategoriesOverlay = useCallback(() => {
+    const openSubcategoriesOverlay = useCallback((e) => {
         setShowSubcategoriesContent(false);
         setShowSubcategoriesOverlay(true);
+        e.preventDefault();
+        e.stopPropagation();
     }, []);
     const singleCategoryDiv = useRef(null);
 
+    const openCategory = useCallback(() => {
+        window.openCategory(showSubcategoriesOverlay, category.name, category.slug);
+    }, [category, showSubcategoriesOverlay]);
+
+    useEffect(() => {
+        const onPopStateHandler = (e) => {
+            setShowSubcategoriesContent(true);
+            setShowSubcategoriesOverlay(false);
+        };
+        window.addEventListener('popstate', onPopStateHandler);
+        return () => {
+            window.removeEventListener('popstate', onPopStateHandler);
+        };
+    }, []);
+
     return (
-        <div ref={singleCategoryDiv} className={`col-md-3 ${styles.singleCategory}`} style={{animationDelay: i*500 + "ms"}}>
+        <div ref={singleCategoryDiv} className={`col-md-3 ${styles.singleCategory}`} style={{animationDelay: i*250 + "ms"}} onClick={openCategory}>
             <div className={`${styles.content}${!showSubcategoriesContent ? ' ' + styles.noZoom : ''}`}>
                 <div className={styles.imagePlaceholder}>
                     <img src={category.image[0]} />
@@ -34,7 +51,7 @@ const SingleCategory = ({category}) => {
                         </div>
                         <SubcategoriesOverlay
                             show={showSubcategoriesOverlay}
-                            categoryName={category.name}
+                            parentCategory={category}
                             setShowSubcategoriesContent={setShowSubcategoriesContent}
                             setShowSubcategoriesOverlay={setShowSubcategoriesOverlay}
                             subcategories={category.subcategories}

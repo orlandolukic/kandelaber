@@ -1,7 +1,7 @@
 import styles from './app.module.scss';
 import {useCallback, useEffect, useRef, useState} from "react";
 
-const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, setShowSubcategoriesContent, subcategories, singleCategoryDiv}) => {
+const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay, setShowSubcategoriesContent, subcategories, singleCategoryDiv}) => {
 
     const hideOverlay = useCallback(() => {
         setShowSubcategoriesContent(true);
@@ -40,8 +40,17 @@ const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, 
         show
     ]);
 
+    const openCategory = useCallback(() => {
+        window.openCategory(false, parentCategory.name, parentCategory.slug);
+    }, [parentCategory.slug, parentCategory.name]);
+
+    const openSubcategory = useCallback((subcategory) => {
+        window.openSubcategory(parentCategory, subcategory);
+    }, []);
+
+    // Mapping of subcategories
     const subcategoriesListElements = subcategories.map((subcategory, i) =>
-        <div className={styles.singleSubcategory}>
+        <div className={styles.singleSubcategory} onClick={openSubcategory.bind(null, subcategory)}>
             <div className={styles.icon}>
                 <img src={subcategory.image[0]} />
             </div>
@@ -62,7 +71,7 @@ const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, 
               </div>
               <div className={styles.text}>
                   <div className={styles.smallText}>Sve podkategorije</div>
-                  <div className={styles.categoryName}>{categoryName}</div>
+                  <div className={styles.categoryName}>{parentCategory.name}</div>
               </div>
           </div>
           <div ref={subcategoriesListDiv} className={styles.subcategoryList} style={{height: subcategoriesListDivHeight}}>
@@ -70,7 +79,7 @@ const SubcategoriesOverlay = ({show, categoryName, setShowSubcategoriesOverlay, 
                   {subcategoriesListElements}
               </div>
           </div>
-          <div ref={seeAllCategoriesDiv} className={styles.seeAllCategories}>
+          <div ref={seeAllCategoriesDiv} className={styles.seeAllCategories} onClick={openCategory}>
               <i className="fa-solid fa-eye"></i>
               <span className={styles.text}>Pogledajte sve</span>
           </div>

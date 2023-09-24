@@ -10,6 +10,7 @@ const App = () => {
     const [categories, setCategories] = useState(null);
 
     useEffect(() => {
+        history.pushState("products-page", null);
         jQuery.ajax({
             type: 'POST',
             url: ajax_object.ajax_url,
@@ -23,6 +24,19 @@ const App = () => {
             }
         });
     }, []);
+
+    // useEffect(() => {
+    //     const onPopStateHandler=  (e) => {
+    //         console.log(e);
+    //         if (e.state === null) {
+    //             jQuery("#heading-section").parent().fadeIn();
+    //         }
+    //     };
+    //     window.addEventListener('popstate', onPopStateHandler);
+    //     return () => {
+    //         window.removeEventListener('popstate', onPopStateHandler);
+    //     };
+    // }, []);
 
     return (
         <div className={styles.mainContainer}>
