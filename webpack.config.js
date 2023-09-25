@@ -1,9 +1,11 @@
 const defaults = require('@wordpress/scripts/config/webpack.config');
 
 module.exports = {
-    entry: {
-        productCategoryListing: './inc/elementor/product-category-listing/react/index.js'
-    },
+    entry: [
+        './inc/elementor/product-category-listing/react/index.js',
+        './inc/react/product-category-preview/index.js',
+        './assets/js/react-main.js'
+    ],
     output: {
         filename: '../assets/js/react-rendered.js'
     },

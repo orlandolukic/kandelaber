@@ -1,4 +1,10 @@
 (function($) {
+
+    $(document).on("ready", function () {
+        $("#qodef-page-header").css('height', 'auto');
+        $("#qodef-page-inner").css('padding', '0');
+    });
+
     $(window).on("load", function() {
         let aboutStarsInterval;
 
@@ -104,14 +110,17 @@
         let timeout1 = null;
         let timeout2 = null;
 
-        const transitionOverlayLoader = () => {
+        const transitionOverlayLoader = (whenFinishedCallback) => {
             clearTimeout(timeout1);
             clearTimeout(timeout2);
             jQuery(".overlay-loader-container").css('display', 'flex');
             timeout1 = setTimeout(() => {
-                jQuery("#heading-section").parent().fadeOut(function() {
+                jQuery("#heading-section").parents("#qodef-page-outer").fadeOut(function() {
                     timeout2 = setTimeout(() => {
                         jQuery(".overlay-loader-container").hide();
+                        if (typeof whenFinishedCallback === 'function') {
+                            whenFinishedCallback();
+                        }
                     }, 500);
                 });
             }, 500);
@@ -121,11 +130,11 @@
             if (e.state === null) {
                 window.location.reload();
             } else if (e.state === "products-page") {
-                if (jQuery("#heading-section").parent().length === 0) {
+                if (jQuery("#heading-section").parents("#qodef-page-outer").length === 0) {
                     jQuery(".overlay-loader-container").css('display', 'flex');
                     window.location.reload();
                 } else {
-                    jQuery("#heading-section").parent().fadeIn();
+                    jQuery("#heading-section").parents("#qodef-page-outer").fadeIn();
                 }
             } else if (e.state === "opened-category") {
                 transitionOverlayLoader();
@@ -133,12 +142,16 @@
         };
         window.addEventListener('popstate', onPopStateHandler);
 
-        window.openCategory = (showSubcategoriesOverlay, categoryName, categorySlug) => {
+        window.openCategory = (showSubcategoriesOverlay, categoryName, categorySlug, callback) => {
             if (showSubcategoriesOverlay) {
                 return;
             }
 
-            transitionOverlayLoader();
+            transitionOverlayLoader(function() {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
 
             // Push a new state to the history
             const newState = "opened-category";

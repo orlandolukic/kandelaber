@@ -4,7 +4,7 @@
 
 /***/ "./inc/elementor/product-category-listing/react/App.js":
 /*!*************************************************************!*\
-  !*** ./inc/elementor/product-category-listing/react/App.js ***!
+  !*** ./inc/elementor/product-category-listing/react/ProductCategoryPreview.js ***!
   \*************************************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
@@ -106,7 +106,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./inc/elementor/product-category-listing/react/App.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductCategoryPreview */ "./inc/elementor/product-category-listing/react/App.js");
 
 const {
   render

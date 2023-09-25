@@ -1,6 +1,9 @@
 			</div><!-- close #qodef-page-inner div from header.php -->
 		</div><!-- close #qodef-page-outer div from header.php -->
 		<?php
+        // Hook to add content before footer template
+        do_action( 'kandelaber_action_before_page_template_footer' );
+
 		// Hook to include page footer template
 		do_action( 'lucent_action_page_footer_template' );
 		

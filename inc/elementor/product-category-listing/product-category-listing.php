@@ -30,6 +30,7 @@ class Product_Category_Listing {
     public function enqueue_scripts() {
         wp_enqueue_script('react-dom');
         wp_enqueue_script('react-rendered');
+        wp_enqueue_script('react-main');
     }
 
     public function get_root_categories() {

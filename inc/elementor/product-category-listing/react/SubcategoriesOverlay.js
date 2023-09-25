@@ -1,5 +1,7 @@
 import styles from './app.module.scss';
 import {useCallback, useEffect, useRef, useState} from "react";
+import {createRoot} from "react-dom/client";
+import ProductCategoryPreview from "../../../react/product-category-preview/ProductCategoryPreview";
 
 const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay, setShowSubcategoriesContent, subcategories, singleCategoryDiv}) => {
 
@@ -41,7 +43,9 @@ const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay
     ]);
 
     const openCategory = useCallback(() => {
-        window.openCategory(false, parentCategory.name, parentCategory.slug);
+        window.openCategory(false, parentCategory.name, parentCategory.slug, () => {
+            window.renderApp("product-category-preview", <ProductCategoryPreview />);
+        });
     }, [parentCategory.slug, parentCategory.name]);
 
     const openSubcategory = useCallback((subcategory) => {

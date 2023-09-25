@@ -1,5 +1,5 @@
 {
-  "watch": ["inc/elementor/product-category-listing/react"],
+  "watch": ["inc/elementor/product-category-listing/react", "inc/react/*", "assets/js/react-main.js"],
   "ext": "js,jsx,ts,tsx,json,scss",
   "exec": "npm run build"
 }

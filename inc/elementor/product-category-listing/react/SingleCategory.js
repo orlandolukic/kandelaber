@@ -1,6 +1,7 @@
 import styles from "./app.module.scss";
 import SubcategoriesOverlay from "./SubcategoriesOverlay";
 import {useCallback, useEffect, useRef, useState} from "react";
+import ProductCategoryPreview from "../../../react/product-category-preview/ProductCategoryPreview";
 
 const SingleCategory = ({category, i}) => {
 
@@ -15,7 +16,9 @@ const SingleCategory = ({category, i}) => {
     const singleCategoryDiv = useRef(null);
 
     const openCategory = useCallback(() => {
-        window.openCategory(showSubcategoriesOverlay, category.name, category.slug);
+        window.openCategory(showSubcategoriesOverlay, category.name, category.slug, () => {
+            window.renderApp('product-category-preview', <ProductCategoryPreview />);
+        });
     }, [category, showSubcategoriesOverlay]);
 
     useEffect(() => {

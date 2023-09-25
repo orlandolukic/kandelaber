@@ -5947,7 +5947,6 @@ body:not([class*="lucent-core"]) #qodef-page-footer-top-area {
   display: inline-block;
   width: 100%;
   vertical-align: top;
-  height: 81px;
   background-color: #fff;
   z-index: 100;
 }
