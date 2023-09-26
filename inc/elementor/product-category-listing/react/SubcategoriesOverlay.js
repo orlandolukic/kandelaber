@@ -44,12 +44,14 @@ const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay
 
     const openCategory = useCallback(() => {
         window.openCategory(false, parentCategory.name, parentCategory.slug, () => {
-            window.renderApp("product-category-preview", <ProductCategoryPreview />);
+            window.renderApp("product-category-preview", <ProductCategoryPreview category={parentCategory} />);
         });
     }, [parentCategory.slug, parentCategory.name]);
 
     const openSubcategory = useCallback((subcategory) => {
-        window.openSubcategory(parentCategory, subcategory);
+        window.openSubcategory(parentCategory, subcategory, () => {
+            window.renderApp("product-category-preview", <ProductCategoryPreview category={parentCategory} subcategory={subcategory} />);
+        });
     }, []);
 
     // Mapping of subcategories

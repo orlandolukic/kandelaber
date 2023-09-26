@@ -162,8 +162,12 @@
             document.title = newTitle;
         };
 
-        window.openSubcategory = (parentCategory, subcategory) => {
-            transitionOverlayLoader();
+        window.openSubcategory = (parentCategory, subcategory, callback) => {
+            transitionOverlayLoader(() => {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
 
             // Push a new state to the history
             const newState = "opened-category";
@@ -172,6 +176,10 @@
 
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
+        };
+
+        window.showLoader = function () {
+            jQuery(".overlay-loader-container").css('display', 'flex');
         };
 
     });

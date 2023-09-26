@@ -17,7 +17,7 @@ const SingleCategory = ({category, i}) => {
 
     const openCategory = useCallback(() => {
         window.openCategory(showSubcategoriesOverlay, category.name, category.slug, () => {
-            window.renderApp('product-category-preview', <ProductCategoryPreview />);
+            window.renderApp('product-category-preview', <ProductCategoryPreview category={category} />);
         });
     }, [category, showSubcategoriesOverlay]);
 

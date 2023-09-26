@@ -10,6 +10,29 @@ class Product_Category_Listing {
         return self::$instance;
     }
 
+    public static function fetch_data_for_category_by($slug) {
+        $args = array(
+            'taxonomy'     => 'product_cat',
+            'hide_empty'   => 0,
+            'slug'         => $slug
+        );
+        $all_categories = get_categories( $args );
+
+        $thumbnail_id = get_term_meta($all_categories[0]->term_id, 'thumbnail_id', true);
+        if ($thumbnail_id) {
+            $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+            $all_categories[0]->image = $image;
+        }
+        $is_product_and_category = get_term_meta($all_categories[0]->term_id, 'is_product_and_category', true);
+        if ($is_product_and_category) {
+            $all_categories[0]->is_product_and_category = $is_product_and_category === "1";
+        } else {
+            $all_categories[0]->is_product_and_category = false;
+        }
+
+        return $all_categories[0];
+    }
+
     private function __construct() {
         add_action( 'elementor/widgets/register', array($this, 'register_new_widgets') );
         add_action( 'elementor/init', array($this, 'load_all_elementor_files') );
