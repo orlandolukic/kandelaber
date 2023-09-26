@@ -1,0 +1,80 @@
+@import '../../../assets/scss/global';
+
+.productCategoryPreviewContainer {
+
+  min-height: 850px;
+
+
+  .categoryListing {
+    margin: {
+      top: 30px;
+      bottom: 30px;
+    };
+  }
+
+  .breadcrumbs {
+    margin-top: 0px;
+    padding: 15px 0;
+    background: $cl-2;
+    color: $cl-normal;
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      > div:not(:first-child) {
+        margin-left: 40px;
+      }
+
+      .showAllProductsIcon {
+        cursor: pointer;
+      }
+
+      .arrow {
+        font-size: 140%;
+        opacity: 0.6;
+      }
+
+      .categoryNameDisplay {
+        display: flex;
+        flex-direction: row;
+
+        .image {
+          img {
+            width: 60px;
+            height: 80px;
+          }
+        }
+
+        .textContent {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-left: 10px;
+          justify-content: center;
+
+          .text {
+            text-transform: uppercase;
+            font-size: 14px;
+            line-height: 14px;
+            color: $cl-primary;
+          }
+
+          .name {
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+
+            &:hover {
+              color: $cl-secondary;
+            }
+          }
+        }
+      }
+
+    }
+
+
+  }
+}

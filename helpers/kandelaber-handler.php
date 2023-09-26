@@ -54,10 +54,12 @@ if ( ! class_exists('KandelaberHandler') ) {
             wp_enqueue_script( 'tweenmax', LUCENT_ASSETS_JS_ROOT . '/tweenmax-1.20.2.js', ['kandelaber-main'], '1.20.2' );
             wp_enqueue_script( 'confetti', LUCENT_ASSETS_JS_ROOT . '/confetti.browser.js', [], "1.6.0" );
             wp_enqueue_script( 'kandelaber-main', LUCENT_ASSETS_JS_ROOT . '/kandelaber-main.js', [], KandelaberHandler::$JS_VERSION );
+            wp_enqueue_script( 'popperjs', LUCENT_ASSETS_JS_ROOT . '/popper.min.js', [], '2.11.8' );
+            wp_enqueue_script( 'tippy-bundle', LUCENT_ASSETS_JS_ROOT . '/tippy-bundle.umd.min.js', ['popperjs'], '6.3.7' );
 
             //wp_register_script('react', LUCENT_ASSETS_JS_ROOT . "/react.production.min.js", [], '18');
            //wp_register_script('react-dom', LUCENT_ASSETS_JS_ROOT . "/react-dom.production.min.js", ['react'], '18');
-            wp_register_script('react-rendered', LUCENT_ASSETS_JS_ROOT . "/react-rendered.js", ['react-dom'], KandelaberHandler::$JS_VERSION );
+            wp_register_script('react-rendered', LUCENT_ASSETS_JS_ROOT . "/react-rendered.js", ['react-dom', 'tippy-bundle'], KandelaberHandler::$JS_VERSION );
 
             wp_localize_script('kandelaber-main', 'ajax_object', array(
                 'ajax_url' => admin_url('admin-ajax.php'),

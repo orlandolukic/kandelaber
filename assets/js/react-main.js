@@ -45,23 +45,23 @@ jQuery(document).on("ready", function() {
             }
         }
 
-        // window.addEventListener( 'popstate', function(e) {
-        //     for (const pageId in whitelistedApps) {
-        //         if (pageId === e.state) {
-        //             continue;
-        //         }
-        //
-        //         const appsToRemove = whitelistedApps[pageId];
-        //
-        //         for (const appId in appsToRemove) {
-        //             renderedApps[appId].root.unmount();
-        //             delete renderedApps[appId];
-        //         }
-        //     }
-        // } );
+        window.addEventListener( 'popstate', function(e) {
+            for (const pageId in whitelistedApps) {
+                if (pageId === e.state) {
+                    continue;
+                }
+
+                const appsToRemove = whitelistedApps[pageId];
+
+                for (const appId in appsToRemove) {
+                    renderedApps[appId].root.unmount();
+                    delete renderedApps[appId];
+                }
+            }
+        } );
 
         // Whitelist all components on other pages
-        whitelistApp("opened-category", "product-category-preview", <ProductCategoryPreview />);
+        whitelistApp("opened-category", "product-category-preview", <ProductCategoryPreview category={react_vars.category} subcategory={react_vars.subcategory} />);
 
         // Initialize all react apps
         initializeApps();

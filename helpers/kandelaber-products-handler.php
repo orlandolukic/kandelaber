@@ -26,6 +26,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             add_action( 'product_cat_add_form_fields', array($this, 'add_custom_product_cat_fields') );
             add_action( 'edited_term_taxonomy', array($this, 'custom_update_product_cat'), 10, 3 );
             add_action( 'deleted_term_taxonomy', array($this, 'delete_product_cat_taxonomy') );
+            add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11 );
 
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
@@ -79,14 +80,64 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         }
 
         public function custom_modify_page_title($title) {
-            $queryVars = get_query_var('product_category');
-            if (empty($queryVars)) {
+            if (!$this->is_category && !$this->is_subcategory) {
                 return $title;
             }
 
+            if ($this->is_subcategory) {
+                $category_slug = get_query_var('product_subcategory');
+            } else {
+                $category_slug = get_query_var('product_category');
+            }
+
+            $args = array(
+                'taxonomy'     => 'product_cat',
+                'hide_empty'   => 0
+            );
+            $all_categories = get_categories( $args );
+
+            $newTitle = '';
+            // Go through all categories and fetch thumbnail
+            for ($i=0; $i < count($all_categories); $i++) {
+                if ($all_categories[$i]->slug === $category_slug) {
+                    $newTitle = $all_categories[$i]->name;
+                    break;
+                }
+            }
+
             // Customize the page title here
-            $title['title'] = "Custom Page Title";
+            $title['title'] = $newTitle;
             return $title;
+        }
+
+        public function enqueue_scripts() {
+
+            $array = array(
+                "category" => "",
+                "subcategory" => ""
+            );
+
+            if ($this->get_is_only_category()) {
+                $array["category"] = get_query_var('product_category');
+
+                $args = array(
+                    'taxonomy'     => 'product_cat',
+                    'hide_empty'   => 0,
+                    'slug'         => $array["category"]
+                );
+                $all_categories = get_categories( $args );
+
+                $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
+            } else if ($this->is_subcategory) {
+                $array["category"] = get_query_var('product_category');
+                $array["subcategory"] = get_query_var('product_subcategory');
+
+                $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
+                $array["subcategory"] = Product_Category_Listing::fetch_data_for_category_by($array["subcategory"]);
+            }
+
+            // Add variable for react rendered script
+            wp_localize_script('react-rendered', 'react_vars', $array);
         }
 
         public function custom_product_cat_fields($term) {
