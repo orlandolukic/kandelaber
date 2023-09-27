@@ -11,6 +11,7 @@ class Product_Category_Listing {
     }
 
     public static function fetch_data_for_category_by($slug) {
+
         $args = array(
             'taxonomy'     => 'product_cat',
             'hide_empty'   => 0,
@@ -33,13 +34,49 @@ class Product_Category_Listing {
         return $all_categories[0];
     }
 
+    public static function fetch_subcategories_for($category_slug) {
+
+        $args = array(
+            'taxonomy'     => 'product_cat',
+            'hide_empty'   => 0,
+            'slug'         => $category_slug
+        );
+        $all_categories = get_categories( $args );
+
+        // Check for subcategories
+        // Use the parent category ID to retrieve its child categories (subcategories).
+        $subcategories = get_categories(array(
+            'taxonomy'      => 'product_cat',
+            'child_of'      => $all_categories[0]->term_id,
+            'hide_empty'   => 0,
+        ));
+        $subcategories_array = [];
+
+        if (!empty($subcategories)) {
+            // Loop through and display subcategories.
+            foreach ($subcategories as $subcategory) {
+                array_push($subcategories_array, $subcategory);
+
+                // Get image for subcategory
+                $thumbnail_id = get_term_meta($subcategory->term_id, 'thumbnail_id', true);
+                if ($thumbnail_id) {
+                    $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+                    $subcategory->image = $image;
+                }
+            }
+
+        }
+
+        return $subcategories_array;
+    }
+
     private function __construct() {
         add_action( 'elementor/widgets/register', array($this, 'register_new_widgets') );
         add_action( 'elementor/init', array($this, 'load_all_elementor_files') );
         add_action( 'lucent_action_after_main_js', array($this, 'enqueue_scripts'));
 
-        add_action('wp_ajax_get_root_categories', array($this, 'get_root_categories'));
-        add_action('wp_ajax_nopriv_get_root_categories', array($this, 'get_root_categories'));
+        //add_action('wp_ajax_get_root_categories', array($this, 'get_root_categories'));
+        //add_action('wp_ajax_nopriv_get_root_categories', array($this, 'get_root_categories'));
     }
 
     public function load_all_elementor_files() {
@@ -56,7 +93,7 @@ class Product_Category_Listing {
         wp_enqueue_script('react-main');
     }
 
-    public function get_root_categories() {
+    public static function get_root_categories() {
 
         $taxonomy     = 'product_cat';
         $orderby      = 'menu_order';
@@ -125,9 +162,7 @@ class Product_Category_Listing {
             }
         }
 
-        echo json_encode($all_categories);
-
-        wp_die();
+        return $all_categories;
     }
 
 }

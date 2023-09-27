@@ -129,20 +129,20 @@
         const onPopStateHandler=  (e) => {
             if (e.state === null) {
                 window.location.reload();
-            } else if (e.state === "products-page") {
+            } else if (e.state.page === "products-page") {
                 if (jQuery("#heading-section").parents("#qodef-page-outer").length === 0) {
                     jQuery(".overlay-loader-container").css('display', 'flex');
                     window.location.reload();
                 } else {
                     jQuery("#heading-section").parents("#qodef-page-outer").fadeIn();
                 }
-            } else if (e.state === "opened-category") {
+            } else if (e.state.page === "opened-category") {
                 transitionOverlayLoader();
             }
         };
         window.addEventListener('popstate', onPopStateHandler);
 
-        window.openCategory = (showSubcategoriesOverlay, categoryName, categorySlug, callback) => {
+        window.openCategory = (showSubcategoriesOverlay, category, callback) => {
             if (showSubcategoriesOverlay) {
                 return;
             }
@@ -154,9 +154,13 @@
             });
 
             // Push a new state to the history
-            const newState = "opened-category";
-            const newTitle = categoryName + " — Kandelaber";
-            const newUrl = '/proizvodi/' + categorySlug + "/";
+            const newState = {
+                page: "opened-category",
+                category: category,
+                subcategory: null
+            };
+            const newTitle = category.name + " — Kandelaber";
+            const newUrl = '/proizvodi/' + category.slug + "/";
 
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
@@ -170,7 +174,11 @@
             });
 
             // Push a new state to the history
-            const newState = "opened-category";
+            const newState = {
+                page: "opened-category",
+                category: parentCategory,
+                subcategory: subcategory
+            };
             const newTitle = subcategory.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + parentCategory.slug + '/' + subcategory.slug + "/";
 
@@ -180,6 +188,11 @@
 
         window.showLoader = function () {
             jQuery(".overlay-loader-container").css('display', 'flex');
+        };
+
+        window.hideLoader = function () {
+            console.log("here");
+            jQuery(".overlay-loader-container").hide();
         };
 
     });

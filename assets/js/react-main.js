@@ -47,7 +47,7 @@ jQuery(document).on("ready", function() {
 
         window.addEventListener( 'popstate', function(e) {
             for (const pageId in whitelistedApps) {
-                if (pageId === e.state) {
+                if (pageId === e.state.page) {
                     continue;
                 }
 
@@ -61,7 +61,13 @@ jQuery(document).on("ready", function() {
         } );
 
         // Whitelist all components on other pages
-        whitelistApp("opened-category", "product-category-preview", <ProductCategoryPreview category={react_vars.category} subcategory={react_vars.subcategory} />);
+        whitelistApp("opened-category", "product-category-preview",
+            <ProductCategoryPreview
+                category={react_vars.category}
+                subcategory={react_vars.subcategory}
+                subcategories={react_vars.subcategories}
+            />
+        );
 
         // Initialize all react apps
         initializeApps();

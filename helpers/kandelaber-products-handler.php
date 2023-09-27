@@ -113,25 +113,18 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         public function enqueue_scripts() {
 
             $array = array(
-                "category" => "",
-                "subcategory" => ""
+                "category" => get_query_var('product_category'),
+                "subcategory" => get_query_var('product_subcategory') !== '' ? get_query_var('product_subcategory') : null,
+                "categories" => null,
+                "subcategories" => null
             );
 
+            $array["categories"] = Product_Category_Listing::get_root_categories();
+            $array["subcategories"] = Product_Category_Listing::fetch_subcategories_for($array["category"]);
+
             if ($this->get_is_only_category()) {
-                $array["category"] = get_query_var('product_category');
-
-                $args = array(
-                    'taxonomy'     => 'product_cat',
-                    'hide_empty'   => 0,
-                    'slug'         => $array["category"]
-                );
-                $all_categories = get_categories( $args );
-
                 $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
             } else if ($this->is_subcategory) {
-                $array["category"] = get_query_var('product_category');
-                $array["subcategory"] = get_query_var('product_subcategory');
-
                 $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
                 $array["subcategory"] = Product_Category_Listing::fetch_data_for_category_by($array["subcategory"]);
             }

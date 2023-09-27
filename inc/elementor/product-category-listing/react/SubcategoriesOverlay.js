@@ -43,14 +43,14 @@ const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay
     ]);
 
     const openCategory = useCallback(() => {
-        window.openCategory(false, parentCategory.name, parentCategory.slug, () => {
-            window.renderApp("product-category-preview", <ProductCategoryPreview category={parentCategory} />);
+        window.openCategory(false, parentCategory, () => {
+            window.renderApp("product-category-preview", <ProductCategoryPreview category={parentCategory} subcategories={subcategories} />);
         });
-    }, [parentCategory.slug, parentCategory.name]);
+    }, [parentCategory.slug, parentCategory.name, subcategories]);
 
     const openSubcategory = useCallback((subcategory) => {
         window.openSubcategory(parentCategory, subcategory, () => {
-            window.renderApp("product-category-preview", <ProductCategoryPreview category={parentCategory} subcategory={subcategory} />);
+            window.renderApp("product-category-preview", <ProductCategoryPreview category={parentCategory} subcategory={subcategory} subcategories={subcategories} />);
         });
     }, []);
 

@@ -1,7 +1,8 @@
 import styles from "./product-category-preview.module.scss";
 import {useCallback, useEffect} from "react";
+import SubcategoriesListing from "./SubcategoriesListing";
 
-const Breadcrumbs = ({category, subcategory}) => {
+const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories}) => {
 
     useEffect(() => {
         tippy('#tooltipAllProducts', {
@@ -15,6 +16,25 @@ const Breadcrumbs = ({category, subcategory}) => {
         window.showLoader();
         window.location.href = "/proizvodi";
     }, []);
+
+    const openCategory = useCallback(() => {
+        if (subcategory !== undefined && subcategory !== null) {
+
+            // Push a new state to the history
+            const newState = {
+                page: "opened-category",
+                category: category,
+                subcategory: null
+            };
+            const newTitle = category.name + " — Kandelaber";
+            const newUrl = '/proizvodi/' + category.slug + '/';
+            history.pushState(newState, null, newUrl);
+            document.title = newTitle;
+
+            changeSubcategory(null);
+            window.showLoader();
+        }
+    }, [subcategory, category]);
 
     return (
         <div className={styles.breadcrumbs}>
@@ -31,12 +51,9 @@ const Breadcrumbs = ({category, subcategory}) => {
                             </div>
 
                             <div className={styles.categoryNameDisplay}>
-                                <div className={styles.image}>
-                                    <img src={category.image[0]} />
-                                </div>
                                 <div className={styles.textContent}>
                                     <div className={styles.text}>Kategorija</div>
-                                    <div className={styles.name}>{category.name}</div>
+                                    <div className={styles.name} onClick={openCategory}>{category.name}</div>
                                 </div>
                             </div>
 
@@ -46,9 +63,7 @@ const Breadcrumbs = ({category, subcategory}) => {
                                         <i className="fa-solid fa-chevron-right"></i>
                                     </div>
                                     <div className={styles.categoryNameDisplay}>
-                                        <div className={styles.image}>
-                                            <img src={subcategory.image[0]} />
-                                        </div>
+
                                         <div className={styles.textContent}>
                                             <div className={styles.text}>Podkategorija</div>
                                             <div className={styles.name}>{subcategory.name}</div>

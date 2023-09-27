@@ -4,17 +4,9 @@
 
   min-height: 850px;
 
-
-  .categoryListing {
-    margin: {
-      top: 30px;
-      bottom: 30px;
-    };
-  }
-
   .breadcrumbs {
     margin-top: 0px;
-    padding: 15px 0;
+    padding: 25px 0;
     background: $cl-2;
     color: $cl-normal;
 
@@ -42,8 +34,8 @@
 
         .image {
           img {
-            width: 60px;
-            height: 80px;
+            width: 30px;
+            height: 40px;
           }
         }
 
@@ -51,7 +43,7 @@
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          margin-left: 10px;
+          margin-left: 0px;
           justify-content: center;
 
           .text {
@@ -77,4 +69,18 @@
 
 
   }
+  // .breadcrumbs
+
+  .subcategoryListing {
+    margin: {
+      top: 30px;
+      bottom: 30px;
+    };
+
+    .title {
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+  }
+
 }

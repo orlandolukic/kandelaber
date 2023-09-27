@@ -10,19 +10,14 @@ const App = () => {
     const [categories, setCategories] = useState(null);
 
     useEffect(() => {
-        history.pushState("products-page", null);
-        jQuery.ajax({
-            type: 'POST',
-            url: ajax_object.ajax_url,
-            data: {
-                action: 'get_root_categories'
-            },
-            dataType: "json",
-            success: function(response) {
-                setCategories(response);
-                setLoading(false);
-            }
-        });
+        history.pushState({
+            page: "products-page"
+        }, null);
+
+        setTimeout(() => {
+            setCategories(react_vars.categories);
+            setLoading(false);
+        }, 200)
     }, []);
 
     // useEffect(() => {
