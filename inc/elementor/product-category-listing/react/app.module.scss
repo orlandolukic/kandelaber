@@ -71,6 +71,45 @@ $cl-2: #EBF2FA;
     opacity: 0;
     margin-top: 40px;
 
+    // From category preview View
+    &.subcategoryListing {
+      margin-top: 20px;
+
+      &.hasProducts {
+        .content {
+          padding: 10px 15px;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          .imagePlaceholder {
+            margin-left: 20px;
+            img {
+              max-height: 100px;
+            }
+          }
+
+          .categoryTitle {
+            text-align: center;
+            margin-left: 15px;
+            margin-top: 0;
+            width: 100%;
+          }
+        }
+      }
+      // .singleCategory.content.hasProducts
+
+      // Without products
+      .content {
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        border: 1px solid $cl-primary;
+      }
+      // .singleCategory.content
+
+    }
+
     .content {
       display: flex;
       flex-direction: column;

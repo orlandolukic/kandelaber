@@ -31,6 +31,28 @@ class Product_Category_Listing {
             $all_categories[0]->is_product_and_category = false;
         }
 
+        // Check if category has products within
+        $args = array(
+            'post_type'      => 'product',
+            'posts_per_page' => 1,
+            'tax_query'      => array(
+                array(
+                    'taxonomy'         => 'product_cat',
+                    'field'            => 'slug',
+                    'terms'            => $slug,
+                    'include_children' => false, // Exclude products from child categories.
+                ),
+            ),
+        );
+        $products = new WP_Query($args);
+
+        if ($products->have_posts()) :
+            $all_categories[0]->has_products = true;
+            wp_reset_postdata(); // Reset post data.
+        else :
+            $all_categories[0]->has_products = false;
+        endif;
+
         return $all_categories[0];
     }
 
@@ -133,6 +155,29 @@ class Product_Category_Listing {
             } else {
                 $all_categories[$i]->is_product_and_category = false;
             }
+
+            // Check if this category have products
+            // Check if category has products within
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => 1,
+                'tax_query'      => array(
+                    array(
+                        'taxonomy'         => 'product_cat',
+                        'field'            => 'slug',
+                        'terms'            => $all_categories[$i]->slug,
+                        'include_children' => false, // Exclude products from child categories.
+                    ),
+                ),
+            );
+            $products = new WP_Query($args);
+
+            if ($products->have_posts()) :
+                $all_categories[$i]->has_products = true;
+                wp_reset_postdata(); // Reset post data.
+            else :
+                $all_categories[$i]->has_products = false;
+            endif;
 
             // Check for subcategories
             // Use the parent category ID to retrieve its child categories (subcategories).

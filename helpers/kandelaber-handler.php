@@ -28,6 +28,12 @@ if ( ! class_exists('KandelaberHandler') ) {
 
             add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
+            add_action( 'remove_categories_for_products', array($this, 'remove_categories') );
+            add_action( 'init', array($this, 'init') );
+        }
+
+        public function init() {
+            //do_action('remove_categories_for_products', 'led-paneli' );
         }
 
         private function require_files() {
@@ -102,6 +108,59 @@ if ( ! class_exists('KandelaberHandler') ) {
 
             // Always exit to prevent extra output
             wp_die();
+        }
+
+        public function remove_categories($category_slug) {
+
+            $category = get_categories(array(
+                'taxonomy' => 'product_cat',
+                'hide_empty' => 0,
+                'fields' => 'ids',
+                'slug' => $category_slug
+            ));
+            if (empty($category)) {
+                ?>
+                <script type="text/javascript">alert("Nema proizvoda u kategoriji '<?= $category_slug ?>'");</script>
+                <?php
+                return;
+            }
+            $category_id = $category[0];
+
+            // Query products that are in the category you want to remove.
+            $args = array(
+                'post_type' => 'product',
+                'posts_per_page' => -1,
+                'tax_query' => array(
+                    "terms" => $category_slug,
+                    'field' => 'slug',
+                    'taxonomy' => 'product_cat',
+                    'include_children' => false
+                )
+            );
+            $products = new WP_Query($args);
+
+            if ($products->have_posts()) {
+                $count = 0;
+                while ($products->have_posts()) {
+                    $products->the_post();
+                    $product_id = get_the_ID();
+
+                    // Remove the category from the product.
+                    wp_remove_object_terms($product_id, $category_id, 'product_cat');
+                    $count++;
+                }
+
+                // Reset post data.
+                wp_reset_postdata();
+
+                ?>
+                <script type="text/javascript">alert("Uspesno ste obrisali kategoriju '<?= $category_slug ?>' za sve proizvode [obrisano <?= $count ?>]");</script>
+                <?php
+            } else {
+                ?>
+                <script type="text/javascript">alert("Nema proizvoda u kategoriji '<?= $category_slug ?>'");</script>
+                <?php
+            }
         }
 
     }

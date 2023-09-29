@@ -3,7 +3,7 @@ import SubcategoriesOverlay from "./SubcategoriesOverlay";
 import {useCallback, useEffect, useRef, useState} from "react";
 import ProductCategoryPreview from "../../../react/product-category-preview/ProductCategoryPreview";
 
-const SingleCategory = ({category, i}) => {
+const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCategoryPreview, hasProducts}) => {
 
     const [showSubcategoriesContent, setShowSubcategoriesContent] = useState(true);
     const [showSubcategoriesOverlay, setShowSubcategoriesOverlay] = useState(false);
@@ -16,10 +16,15 @@ const SingleCategory = ({category, i}) => {
     const singleCategoryDiv = useRef(null);
 
     const openCategory = useCallback(() => {
+        if (typeof changeSubcategory === 'function' && fromCategoryPreview) {
+            window.openSubcategory(parentCategory, category);
+            changeSubcategory(category);
+            return;
+        }
         window.openCategory(showSubcategoriesOverlay, category, () => {
             window.renderApp('product-category-preview', <ProductCategoryPreview category={category} subcategories={category.subcategories} />);
         });
-    }, [category, showSubcategoriesOverlay]);
+    }, [category, showSubcategoriesOverlay, parentCategory, category, fromCategoryPreview]);
 
     useEffect(() => {
         const onPopStateHandler = (e) => {
@@ -33,7 +38,9 @@ const SingleCategory = ({category, i}) => {
     }, []);
 
     return (
-        <div ref={singleCategoryDiv} className={`col-md-3 ${styles.singleCategory}`} style={{animationDelay: i*250 + "ms"}} onClick={openCategory}>
+        <div ref={singleCategoryDiv}
+             className={`col-md-3 ${styles.singleCategory}${fromCategoryPreview ? ' ' + styles.subcategoryListing : ''}${hasProducts ? ' ' + styles.hasProducts : ''}`}
+             style={{animationDelay: i*250 + "ms"}} onClick={openCategory}>
             <div className={`${styles.content}${!showSubcategoriesContent ? ' ' + styles.noZoom : ''}`}>
                 <div className={styles.imagePlaceholder}>
                     <img src={category.image[0]} />

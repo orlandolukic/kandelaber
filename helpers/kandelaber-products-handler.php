@@ -24,7 +24,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             add_action( 'init',  array($this, 'add_rewrite_rules') );
             add_action( 'product_cat_edit_form_fields', array($this, 'custom_product_cat_fields') );
             add_action( 'product_cat_add_form_fields', array($this, 'add_custom_product_cat_fields') );
-            add_action( 'edited_term_taxonomy', array($this, 'custom_update_product_cat'), 10, 3 );
+            add_action( 'edited_term_taxonomy', array($this, 'custom_update_product_cat'), 10, 2);
             add_action( 'deleted_term_taxonomy', array($this, 'delete_product_cat_taxonomy') );
             add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11 );
 
@@ -171,7 +171,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         }
 
         // Add an action hook to update or modify product category data after it has been edited
-        public function custom_update_product_cat($term_id, $slug, $args) {
+        public function custom_update_product_cat($term_id, $slug) {
             if ($slug === 'product_cat') {
                 if (isset($_POST['is_product_and_category'])) {
                     $custom_field_value = ($_POST['is_product_and_category'] === '1') ? '1' : '0';

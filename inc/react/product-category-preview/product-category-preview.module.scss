@@ -4,6 +4,37 @@
 
   min-height: 850px;
 
+  .categoryInfo {
+    position: relative;
+    .categoryName {
+      text-align: center;
+      font-size: 40px;
+      margin-top: 40px;
+      color: $cl-primary;
+      font-weight: bold;
+    }
+
+    .categoryImage {
+      position: absolute;
+      top: -70px;
+      right: 150px;
+
+      img {
+        max-width: 180px;
+        max-height: 160px;
+      }
+    }
+  }
+
+  .categoryDescription {
+    margin: {
+      top: 30px;
+      bottom: 30px;
+    };
+    text-align: center;
+    color: $cl-normal;
+  }
+
   .breadcrumbs {
     margin-top: 0px;
     padding: 25px 0;
@@ -79,7 +110,7 @@
 
     .title {
       text-transform: uppercase;
-      font-size: 14px;
+      font-size: 16px;
     }
   }
 
