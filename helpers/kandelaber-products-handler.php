@@ -27,6 +27,13 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             add_action( 'edited_term_taxonomy', array($this, 'custom_update_product_cat'), 10, 2);
             add_action( 'deleted_term_taxonomy', array($this, 'delete_product_cat_taxonomy') );
             add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11 );
+            add_action( 'init', function() {
+                //$this->get_products_in_category('unutrasnja-rasveta');
+            });
+
+            // Ajax requests
+            add_action('wp_ajax_fetch_products_for_category', array($this, 'fetch_products_for_category_ajax') );
+            add_action('wp_ajax_nopriv_fetch_products_for_category', array($this, 'fetch_products_for_category_ajax') );
 
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
@@ -113,18 +120,22 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         public function enqueue_scripts() {
 
             $array = array(
+                'ajax_url' => admin_url('admin-ajax.php'),
                 "category" => get_query_var('product_category'),
                 "subcategory" => get_query_var('product_subcategory') !== '' ? get_query_var('product_subcategory') : null,
                 "categories" => null,
-                "subcategories" => null
+                "subcategories" => null,
+                "products" => null
             );
 
             $array["categories"] = Product_Category_Listing::get_root_categories();
             $array["subcategories"] = Product_Category_Listing::fetch_subcategories_for($array["category"]);
 
             if ($this->get_is_only_category()) {
+                $array["products"] = KandelaberProductsHandler::get_products_in_category($array["category"]);
                 $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
             } else if ($this->is_subcategory) {
+                $array["products"] = KandelaberProductsHandler::get_products_in_category($array["subcategory"]);
                 $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
                 $array["subcategory"] = Product_Category_Listing::fetch_data_for_category_by($array["subcategory"]);
             }
@@ -185,6 +196,38 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         public function delete_product_cat_taxonomy($term_id) {
             // Release custom fields
             delete_term_meta($term_id, 'is_product_and_category');
+        }
+
+        public function get_products_in_category($slug) {
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => -1,
+                'tax_query'      => array(
+                    array(
+                        'taxonomy'         => 'product_cat',
+                        'field'            => 'slug',
+                        'terms'            => $slug,
+                        'include_children' => false
+                    ),
+                ),
+            );
+            $products = new WP_Query($args);
+
+            if ($products->have_posts()) :
+                return $products->get_posts();
+            endif;
+
+            return array();
+        }
+
+        public function fetch_products_for_category_ajax() {
+
+            $slug = sanitize_text_field($_POST['slug']);
+
+            echo json_encode($this->get_products_in_category($slug));
+
+            // Always use die() at the end of your callback function
+            die();
         }
 
         public function get_is_category() {

@@ -1,5 +1,6 @@
 import {createRoot} from "react-dom/client";
 import ProductCategoryPreview from "../../inc/react/product-category-preview/ProductCategoryPreview";
+import productListing from "../../inc/react/product-category-preview/ProductListing";
 
 jQuery(document).on("ready", function() {
     (function() {
@@ -31,6 +32,101 @@ jQuery(document).on("ready", function() {
                 window.renderApp(appId, appsToRender[appId]);
             }
         }
+
+        const productsFactory = (function() {
+            const productsLibrary = {};
+
+            let methods = {
+                registerProductsInCategory: function(product, category, subcategory) {
+                    if (product === null || product === undefined) {
+                        return;
+                    }
+
+                    if (subcategory === null || subcategory === undefined) {
+                        productsLibrary[category.slug] = product;
+                    } else {
+                        productsLibrary[subcategory.slug] = product;
+                    }
+                },
+
+                getProductsFromCategory: function(category, subcategory) {
+                    let searchTerm;
+                    if (subcategory === null || subcategory === undefined) {
+                        searchTerm = productsLibrary[category.slug];
+                    } else {
+                        searchTerm = productsLibrary[subcategory.slug];
+                    }
+
+                    return this.getProductsFromCategorySlug(searchTerm);
+                },
+
+                getProductsFromCategorySlug: function(slug) {
+                    return new Promise((resolveOuter, rejectOuter) => {
+                        this.hasProductsInCategoryBySlug(slug)
+                            .then((hasProducts) => {
+                                resolveOuter(productsLibrary[slug]);
+                            })
+                            .catch((error) => {
+                                rejectOuter(error);
+                            })
+                    });
+                },
+
+                getLibrary: function() {
+                    return productsLibrary;
+                },
+
+                hasProductsInCategoryBySlug: function(slug) {
+                    let isFetched = productsLibrary[slug] !== undefined;
+
+                    return new Promise((resolve, reject) => {
+                        if (isFetched) {
+                            resolve(productsLibrary[slug].length > 0);
+                            return;
+                        } else {
+                            jQuery.ajax({
+                                url: react_vars.ajax_url,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    action: 'fetch_products_for_category',
+                                    slug: slug,
+                                },
+                                success: function(data) {
+                                    // Update products for the given category
+                                    productsLibrary[slug] = data;
+                                    resolve(data.length > 0);
+                                },
+                                error: function(xhr, status, error) {
+                                    reject(error);
+                                }
+                            });
+                        }
+                    });
+                },
+
+                hasProductsInCategory: function(category, subcategory) {
+                    let searchTerm;
+                    if (subcategory === null || subcategory === undefined) {
+                        searchTerm = category.slug;
+                    } else {
+                        searchTerm = subcategory.slug;
+                    }
+
+                    return this.hasProductsInCategoryBySlug(searchTerm);
+                }
+            };
+
+            // Register products for current category, subcategory
+            if (react_vars.products) {
+                let category = react_vars.category;
+                let subcategory = react_vars.subcategory;
+                methods.registerProductsInCategory(react_vars.products, category, subcategory);
+            }
+
+            return methods;
+        })();
+        window.productsFactory = productsFactory;
 
         window.renderApp = function(id, component) {
             if (document.getElementById(id)) { //check if element exists before rendering

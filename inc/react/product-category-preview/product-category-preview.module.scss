@@ -2,7 +2,7 @@
 
 .productCategoryPreviewContainer {
 
-  min-height: 850px;
+  //min-height: 850px;
 
   .categoryInfo {
     position: relative;
@@ -111,6 +111,42 @@
     .title {
       text-transform: uppercase;
       font-size: 16px;
+    }
+  }
+
+  .productListing {
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    .noProducts {
+      padding: 40px 0;
+      border: 1px solid $cl-normal;
+      border-radius: 2px;
+      background-color: $cl-2;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .title {
+        font-size: 26px;
+        margin-top: 20px;
+        color: $cl-normal;
+        font-weight: bold;
+      }
+
+      .subtitle {
+        margin-top: 10px;
+      }
+
+      .button {
+        margin-top: 20px;
+      }
+
+      i {
+        color: $cl-normal;
+      }
     }
   }
 

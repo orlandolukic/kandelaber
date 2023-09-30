@@ -4,6 +4,7 @@ import {useCallback, useEffect, useState} from "react";
 import Breadcrumbs from "./Breadcrumbs";
 import SubcategoriesListing from "./SubcategoriesListing";
 import SingleCategory from "../../elementor/product-category-listing/react/SingleCategory";
+import ProductListing from "./ProductListing";
 
 const ProductCategoryPreview = ({category, subcategory, subcategories}) => {
 
@@ -84,6 +85,12 @@ const ProductCategoryPreview = ({category, subcategory, subcategories}) => {
                     subcategories={subcategoriesState}
                     changeSubcategory={setSubcategoryState}
                     fromCategoryPreview={true}
+                />
+
+                <ProductListing
+                    category={categoryState}
+                    subcategory={subcategoryState}
+                    subcategories={subcategoriesState}
                 />
 
             </div>
