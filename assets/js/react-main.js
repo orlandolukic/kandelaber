@@ -35,6 +35,20 @@ jQuery(document).on("ready", function() {
 
         const productsFactory = (function() {
             const productsLibrary = {};
+            const ajaxRequests = {};
+
+            let helpers = {
+                findSearchTerm: function(category, subcategory) {
+                    let searchTerm;
+                    if (subcategory === null || subcategory === undefined) {
+                        searchTerm = category.slug;
+                    } else {
+                        searchTerm = subcategory.slug;
+                    }
+
+                    return searchTerm;
+                }
+            };
 
             let methods = {
                 registerProductsInCategory: function(product, category, subcategory) {
@@ -50,12 +64,7 @@ jQuery(document).on("ready", function() {
                 },
 
                 getProductsFromCategory: function(category, subcategory) {
-                    let searchTerm;
-                    if (subcategory === null || subcategory === undefined) {
-                        searchTerm = productsLibrary[category.slug];
-                    } else {
-                        searchTerm = productsLibrary[subcategory.slug];
-                    }
+                    let searchTerm = helpers.findSearchTerm(category, subcategory);
 
                     return this.getProductsFromCategorySlug(searchTerm);
                 },
@@ -84,7 +93,7 @@ jQuery(document).on("ready", function() {
                             resolve(productsLibrary[slug].length > 0);
                             return;
                         } else {
-                            jQuery.ajax({
+                            let ajax = jQuery.ajax({
                                 url: react_vars.ajax_url,
                                 type: 'POST',
                                 dataType: 'json',
@@ -95,12 +104,15 @@ jQuery(document).on("ready", function() {
                                 success: function(data) {
                                     // Update products for the given category
                                     productsLibrary[slug] = data;
+                                    ajaxRequests[slug] = null;
                                     resolve(data.length > 0);
                                 },
                                 error: function(xhr, status, error) {
+                                    ajaxRequests[slug] = null;
                                     reject(error);
                                 }
                             });
+                            ajaxRequests[slug] = ajax;
                         }
                     });
                 },
@@ -114,6 +126,24 @@ jQuery(document).on("ready", function() {
                     }
 
                     return this.hasProductsInCategoryBySlug(searchTerm);
+                },
+
+                rejectAllPromises: function(category, subcategory) {
+                    let searchTerm = helpers.findSearchTerm(category, subcategory);
+                    if (ajaxRequests[searchTerm]) {
+                        ajaxRequests[searchTerm].abort();
+                    }
+                },
+
+                areProductsFetched: function(category, subcategory) {
+                    let searchTerm = helpers.findSearchTerm(category, subcategory);
+
+                    return productsLibrary[searchTerm] !== undefined;
+                },
+
+                retrieveProductsSync: function(category, subcategory) {
+                    let searchTerm = helpers.findSearchTerm(category, subcategory);
+                    return productsLibrary[searchTerm];
                 }
             };
 

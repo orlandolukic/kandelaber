@@ -214,7 +214,21 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             $products = new WP_Query($args);
 
             if ($products->have_posts()) :
-                return $products->get_posts();
+                $products_arr = $products->get_posts();
+                for($i=0; $i<count($products_arr); $i++) {
+                    // Get the product thumbnail (featured image) ID
+                    $product_thumbnail_id = get_post_thumbnail_id($products_arr[$i]->ID);
+                    // Get the product thumbnail (featured image) URL
+                    $thumbnail_url = wp_get_attachment_image_src($product_thumbnail_id, 'full');
+
+                    // Check if there is no featured image
+                    if (empty($thumbnail_url)) {
+                        $thumbnail_url = array(get_template_directory_uri() . "/assets/img/no-image.png");
+                    }
+
+                    $products_arr[$i]->featured_image = $thumbnail_url;
+                }
+                return $products_arr;
             endif;
 
             return array();
