@@ -87,6 +87,11 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         }
 
         public function custom_modify_page_title($title) {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return $title;
+            }
+
             if (!$this->is_category && !$this->is_subcategory) {
                 return $title;
             }
@@ -119,13 +124,18 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
 
         public function enqueue_scripts() {
 
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return;
+            }
+
             $array = array(
                 'ajax_url' => admin_url('admin-ajax.php'),
                 "category" => get_query_var('product_category'),
                 "subcategory" => get_query_var('product_subcategory') !== '' ? get_query_var('product_subcategory') : null,
                 "categories" => null,
                 "subcategories" => null,
-                "products" => null
+                "products" => null,
+                "page" => "opened-category"
             );
 
             $array["categories"] = Product_Category_Listing::get_root_categories();
@@ -145,6 +155,11 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         }
 
         public function custom_product_cat_fields($term) {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return;
+            }
+
             $term_id = $term->term_id;
             $is_product = get_term_meta($term_id, 'is_product_and_category', true);
             ?>
@@ -172,6 +187,11 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         }
 
         public function add_custom_product_cat_fields() {
+
+            if (!$this->is_products_page()) {
+                return;
+            }
+
             ?>
             <div class="form-field">
                 <label for="is_product_and_category">Is product?</label>
@@ -183,6 +203,11 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
 
         // Add an action hook to update or modify product category data after it has been edited
         public function custom_update_product_cat($term_id, $slug) {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return;
+            }
+
             if ($slug === 'product_cat') {
                 if (isset($_POST['is_product_and_category'])) {
                     $custom_field_value = ($_POST['is_product_and_category'] === '1') ? '1' : '0';
@@ -194,11 +219,21 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         }
 
         public function delete_product_cat_taxonomy($term_id) {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return;
+            }
+
             // Release custom fields
             delete_term_meta($term_id, 'is_product_and_category');
         }
 
         public function get_products_in_category($slug) {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return array();
+            }
+
             $args = array(
                 'post_type'      => 'product',
                 'posts_per_page' => -1,
@@ -262,6 +297,10 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
 
         public function get_is_only_category() {
             return $this->is_category && !$this->is_subcategory;
+        }
+
+        public function is_products_page() {
+            return $this->is_category && !$this->is_subcategory || $this->is_category && $this->is_subcategory;
         }
     }
 

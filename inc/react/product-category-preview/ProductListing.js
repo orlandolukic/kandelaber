@@ -2,6 +2,8 @@ import styles from './product-category-preview.module.scss';
 import Button from "../button/Button";
 import {useCallback, useEffect, useRef, useState} from "react";
 import stylesApp from '../../elementor/product-category-listing/react/app.module.scss';
+import ProductCategoryPreview from "./ProductCategoryPreview";
+import SingleProductPreview from "../single-product-preview/SingleProductPreview";
 
 const PAGE_SIZE = 8;
 
@@ -29,6 +31,12 @@ const ProductListing = ({category, subcategory, subcategories}) => {
     const [loadingMoreProducts, setLoadingMoreProducts] = useState(false);
     const productElementsPlaceholder = useRef(null);
     const showMoreButtonRef = useRef(null);
+
+    const openProduct = useCallback((product) => {
+        window.openProduct(product, () => {
+            window.renderApp("single-product-preview", <SingleProductPreview product={product} />, true);
+        });
+    }, []);
 
     const showMoreProducts = useCallback(() => {
         if (loadingMoreProducts || !productElementsPlaceholder || !productElementsPlaceholder.current || productsToDisplay.length === products.length) {
@@ -107,7 +115,7 @@ const ProductListing = ({category, subcategory, subcategories}) => {
     const createProductElement = useCallback((product, i) => {
         let delay = 300*(i % PAGE_SIZE);
         return (
-            <div className={`col-md-3 ${styles.singleProduct}`} key={i} style={{animationDelay: delay + "ms"}}>
+            <div className={`col-md-3 ${styles.singleProduct}`} key={i} style={{animationDelay: delay + "ms"}} onClick={openProduct.bind(null, product)}>
                 <div className={styles.content}>
                     <div className={styles.image}>
                         <img src={product.featured_image[0]} />

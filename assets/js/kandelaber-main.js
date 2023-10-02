@@ -115,14 +115,21 @@
             clearTimeout(timeout2);
             jQuery(".overlay-loader-container").css('display', 'flex');
             timeout1 = setTimeout(() => {
-                jQuery("#heading-section").parents("#qodef-page-outer").fadeOut(function() {
-                    timeout2 = setTimeout(() => {
-                        jQuery(".overlay-loader-container").hide();
-                        if (typeof whenFinishedCallback === 'function') {
-                            whenFinishedCallback();
-                        }
-                    }, 500);
-                });
+                if (jQuery("#heading-section").parents("#qodef-page-outer").length > 0) {
+                    jQuery("#heading-section").parents("#qodef-page-outer").fadeOut(function () {
+                        timeout2 = setTimeout(() => {
+                            jQuery(".overlay-loader-container").hide();
+                            if (typeof whenFinishedCallback === 'function') {
+                                whenFinishedCallback();
+                            }
+                        }, 500);
+                    });
+                } else {
+                    jQuery(".overlay-loader-container").hide();
+                    if (typeof whenFinishedCallback === 'function') {
+                        whenFinishedCallback();
+                    }
+                }
             }, 500);
         };
 
@@ -162,6 +169,9 @@
             const newTitle = category.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + category.slug + "/";
 
+            // Push initial state if it's already pushed
+            window.reactMain.pushStartHistoryState();
+
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
         };
@@ -191,8 +201,27 @@
         };
 
         window.hideLoader = function () {
-            console.log("here");
             jQuery(".overlay-loader-container").hide();
+        };
+
+        window.openProduct = function(product, callback) {
+            console.log(product, callback);
+            transitionOverlayLoader(() => {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            });
+
+            // Push a new state to the history
+            const newState = {
+                page: "single-product",
+                product: product
+            };
+            const newTitle = product.post_title + " — Kandelaber";
+            const newUrl = '/proizvod/' + product.post_name + "/";
+
+            history.pushState(newState, null, newUrl);
+            document.title = newTitle;
         };
 
     });

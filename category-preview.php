@@ -11,6 +11,39 @@
 
     <script type="text/javascript">
         window.currentPage = "opened-category";
+        window.category = "<?= KandelaberProductsHandler::get_instance()->get_category() ?>";
+        window.subcategory = "<?= KandelaberProductsHandler::get_instance()->get_subcategory() ?>";
+
+        window.initializeFunction = function() {
+            // Find category from react_vars
+            let category = null, subcategory = null;
+
+            let categories = react_vars.categories;
+            for (let i=0; i<categories.length; i++) {
+                if (categories[i].slug === window.category) {
+                    category = categories[i];
+                }
+            }
+
+            if (window.subcategory !== "") {
+                let subcategories = react_vars.subcategories;
+                for (let i=0; i<subcategories.length; i++) {
+                    if (subcategories[i].slug === window.subcategory) {
+                        subcategory = subcategories[i];
+                    }
+                }
+            }
+
+            const newState = {
+                page: "opened-category",
+                category: category,
+                subcategory: subcategory
+            };
+
+            return {
+                firstStateObject: newState
+            }
+        }
     </script>
 
     <?php wp_head(); ?>

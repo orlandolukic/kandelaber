@@ -1,12 +1,15 @@
 import {createRoot} from "react-dom/client";
 import ProductCategoryPreview from "../../inc/react/product-category-preview/ProductCategoryPreview";
 import productListing from "../../inc/react/product-category-preview/ProductListing";
+import SingleProductPreview from "../../inc/react/single-product-preview/SingleProductPreview";
 
 jQuery(document).on("ready", function() {
     (function() {
 
         const renderedApps = {};
         const whitelistedApps = {};
+        let firstStateObject = {};
+        let isPushedFirstTime = false;
 
         let whitelistApp = function(pageId, appId, component) {
             let obj = whitelistedApps[pageId];
@@ -14,7 +17,7 @@ jQuery(document).on("ready", function() {
                 whitelistedApps[pageId] = {};
                 obj = whitelistedApps[pageId];
             }
-            if (!obj.hasOwnProperty('appId')) {
+            if (!obj.hasOwnProperty(appId)) {
                 obj[appId] = component;
             }
         }
@@ -31,14 +34,26 @@ jQuery(document).on("ready", function() {
             for (const appId in appsToRender) {
                 window.renderApp(appId, appsToRender[appId]);
             }
+
+            if (typeof window.initializeFunction === 'function') {
+                let returnedObject = window.initializeFunction();
+                if (typeof returnedObject === 'object') {
+                    for (let key in returnedObject) {
+                        if (key === "firstStateObject") {
+                            firstStateObject = returnedObject[key];
+                        }
+                    }
+                }
+                window.initializeFunction = undefined;
+            }
         }
 
-        const productsFactory = (function() {
+        const productsFactory = (function () {
             const productsLibrary = {};
             const ajaxRequests = {};
 
             let helpers = {
-                findSearchTerm: function(category, subcategory) {
+                findSearchTerm: function (category, subcategory) {
                     let searchTerm;
                     if (subcategory === null || subcategory === undefined) {
                         searchTerm = category.slug;
@@ -51,7 +66,7 @@ jQuery(document).on("ready", function() {
             };
 
             let methods = {
-                registerProductsInCategory: function(product, category, subcategory) {
+                registerProductsInCategory: function (product, category, subcategory) {
                     if (product === null || product === undefined) {
                         return;
                     }
@@ -63,13 +78,13 @@ jQuery(document).on("ready", function() {
                     }
                 },
 
-                getProductsFromCategory: function(category, subcategory) {
+                getProductsFromCategory: function (category, subcategory) {
                     let searchTerm = helpers.findSearchTerm(category, subcategory);
 
                     return this.getProductsFromCategorySlug(searchTerm);
                 },
 
-                getProductsFromCategorySlug: function(slug) {
+                getProductsFromCategorySlug: function (slug) {
                     return new Promise((resolveOuter, rejectOuter) => {
                         this.hasProductsInCategoryBySlug(slug)
                             .then((hasProducts) => {
@@ -81,11 +96,11 @@ jQuery(document).on("ready", function() {
                     });
                 },
 
-                getLibrary: function() {
+                getLibrary: function () {
                     return productsLibrary;
                 },
 
-                hasProductsInCategoryBySlug: function(slug) {
+                hasProductsInCategoryBySlug: function (slug) {
                     let isFetched = productsLibrary[slug] !== undefined;
 
                     return new Promise((resolve, reject) => {
@@ -101,13 +116,13 @@ jQuery(document).on("ready", function() {
                                     action: 'fetch_products_for_category',
                                     slug: slug,
                                 },
-                                success: function(data) {
+                                success: function (data) {
                                     // Update products for the given category
                                     productsLibrary[slug] = data;
                                     ajaxRequests[slug] = null;
                                     resolve(data.length > 0);
                                 },
-                                error: function(xhr, status, error) {
+                                error: function (xhr, status, error) {
                                     ajaxRequests[slug] = null;
                                     reject(error);
                                 }
@@ -117,7 +132,7 @@ jQuery(document).on("ready", function() {
                     });
                 },
 
-                hasProductsInCategory: function(category, subcategory) {
+                hasProductsInCategory: function (category, subcategory) {
                     let searchTerm;
                     if (subcategory === null || subcategory === undefined) {
                         searchTerm = category.slug;
@@ -128,44 +143,59 @@ jQuery(document).on("ready", function() {
                     return this.hasProductsInCategoryBySlug(searchTerm);
                 },
 
-                rejectAllPromises: function(category, subcategory) {
+                rejectAllPromises: function (category, subcategory) {
                     let searchTerm = helpers.findSearchTerm(category, subcategory);
                     if (ajaxRequests[searchTerm]) {
                         ajaxRequests[searchTerm].abort();
                     }
                 },
 
-                areProductsFetched: function(category, subcategory) {
+                areProductsFetched: function (category, subcategory) {
                     let searchTerm = helpers.findSearchTerm(category, subcategory);
 
                     return productsLibrary[searchTerm] !== undefined;
                 },
 
-                retrieveProductsSync: function(category, subcategory) {
+                retrieveProductsSync: function (category, subcategory) {
                     let searchTerm = helpers.findSearchTerm(category, subcategory);
                     return productsLibrary[searchTerm];
                 }
             };
 
-            // Register products for current category, subcategory
-            if (react_vars.products) {
-                let category = react_vars.category;
-                let subcategory = react_vars.subcategory;
-                methods.registerProductsInCategory(react_vars.products, category, subcategory);
+            if (react_vars.page === "opened-category") {
+                // Register products for current category, subcategory
+                if (react_vars.products) {
+                    let category = react_vars.category;
+                    let subcategory = react_vars.subcategory;
+                    methods.registerProductsInCategory(react_vars.products, category, subcategory);
+                }
             }
 
             return methods;
         })();
         window.productsFactory = productsFactory;
 
-        window.renderApp = function(id, component) {
+
+        window.renderApp = function(id, component, unmountAll) {
             if (document.getElementById(id)) { //check if element exists before rendering
+
+                if (unmountAll) {
+                    for (const pageId in renderedApps) {
+                        if (pageId !== id) {
+                            console.log(renderedApps[pageId]);
+                            renderedApps[pageId].root.unmount();
+                            delete renderedApps[pageId];
+                        }
+                    }
+                }
+
                 const root = createRoot(document.getElementById(id));
                 root.render(component);
                 renderedApps[id] = {
                     component: component,
                     root: root
                 };
+
             } else {
                 console.warn("No element present with id '" + id + "'");
             }
@@ -188,15 +218,28 @@ jQuery(document).on("ready", function() {
 
         // Whitelist all components on other pages
         whitelistApp("opened-category", "product-category-preview",
-            <ProductCategoryPreview
-                category={react_vars.category}
-                subcategory={react_vars.subcategory}
-                subcategories={react_vars.subcategories}
-            />
+                <ProductCategoryPreview
+                    category={react_vars.category}
+                    subcategory={react_vars.subcategory}
+                    subcategories={react_vars.subcategories}
+                />
+        );
+
+        whitelistApp("single-product", "single-product-preview",
+            <SingleProductPreview />
         );
 
         // Initialize all react apps
         initializeApps();
+
+        window.reactMain = {
+            pushStartHistoryState: function() {
+                if (isPushedFirstTime || firstStateObject === null) {
+                    return;
+                }
+                history.pushState(firstStateObject, null);
+            }
+        };
 
     })();
 });
