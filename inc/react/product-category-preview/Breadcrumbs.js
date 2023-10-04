@@ -24,7 +24,8 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
             const newState = {
                 page: "opened-category",
                 category: category,
-                subcategory: null
+                subcategory: null,
+                subcategories: subcategories
             };
             const newTitle = category.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + category.slug + '/';

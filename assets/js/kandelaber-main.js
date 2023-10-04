@@ -1,3 +1,4 @@
+
 (function($) {
 
     $(document).on("ready", function () {
@@ -107,77 +108,37 @@
         };
         aboutStarsAppender();
 
-        let timeout1 = null;
-        let timeout2 = null;
-
-        const transitionOverlayLoader = (whenFinishedCallback) => {
-            clearTimeout(timeout1);
-            clearTimeout(timeout2);
-            jQuery(".overlay-loader-container").css('display', 'flex');
-            timeout1 = setTimeout(() => {
-                if (jQuery("#heading-section").parents("#qodef-page-outer").length > 0) {
-                    jQuery("#heading-section").parents("#qodef-page-outer").fadeOut(function () {
-                        timeout2 = setTimeout(() => {
-                            jQuery(".overlay-loader-container").hide();
-                            if (typeof whenFinishedCallback === 'function') {
-                                whenFinishedCallback();
-                            }
-                        }, 500);
-                    });
-                } else {
-                    jQuery(".overlay-loader-container").hide();
-                    if (typeof whenFinishedCallback === 'function') {
-                        whenFinishedCallback();
-                    }
-                }
-            }, 500);
-        };
-
-        const onPopStateHandler=  (e) => {
-            if (e.state === null) {
-                window.location.reload();
-            } else if (e.state.page === "products-page") {
-                if (jQuery("#heading-section").parents("#qodef-page-outer").length === 0) {
-                    jQuery(".overlay-loader-container").css('display', 'flex');
-                    window.location.reload();
-                } else {
-                    jQuery("#heading-section").parents("#qodef-page-outer").fadeIn();
-                }
-            } else if (e.state.page === "opened-category") {
-                transitionOverlayLoader();
-            }
-        };
-        window.addEventListener('popstate', onPopStateHandler);
-
-        window.openCategory = (showSubcategoriesOverlay, category, callback) => {
+        window.openCategory = (showSubcategoriesOverlay, category, subcategories, callback) => {
             if (showSubcategoriesOverlay) {
                 return;
             }
 
-            transitionOverlayLoader(function() {
+            window.reactMain.transitionOverlayLoader(function() {
                 if (typeof callback === 'function') {
                     callback();
                 }
             });
 
             // Push a new state to the history
+            console.log("SUBCATEGORIES BEFORE PUSH", subcategories);
             const newState = {
                 page: "opened-category",
                 category: category,
-                subcategory: null
+                subcategory: null,
+                subcategories: subcategories
             };
             const newTitle = category.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + category.slug + "/";
 
             // Push initial state if it's already pushed
-            window.reactMain.pushStartHistoryState();
+            //window.reactMain.pushStartHistoryState();
 
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
         };
 
-        window.openSubcategory = (parentCategory, subcategory, callback) => {
-            transitionOverlayLoader(() => {
+        window.openSubcategory = (props, callback) => {
+            window.reactMain.transitionOverlayLoader(() => {
                 if (typeof callback === 'function') {
                     callback();
                 }
@@ -185,15 +146,16 @@
 
             // Push a new state to the history
             const newState = {
-                page: "opened-category",
-                category: parentCategory,
-                subcategory: subcategory
+                ...props,
+                page: "opened-category"
             };
-            const newTitle = subcategory.name + " — Kandelaber";
-            const newUrl = '/proizvodi/' + parentCategory.slug + '/' + subcategory.slug + "/";
+            console.log("new state", newState);
+            const newTitle = props.subcategory.name + " — Kandelaber";
+            const newUrl = '/proizvodi/' + props.category.slug + '/' + props.subcategory.slug + "/";
 
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
+            console.log("PUSHED");
         };
 
         window.showLoader = function () {
@@ -202,26 +164,6 @@
 
         window.hideLoader = function () {
             jQuery(".overlay-loader-container").hide();
-        };
-
-        window.openProduct = function(product, callback) {
-            console.log(product, callback);
-            transitionOverlayLoader(() => {
-                if (typeof callback === 'function') {
-                    callback();
-                }
-            });
-
-            // Push a new state to the history
-            const newState = {
-                page: "single-product",
-                product: product
-            };
-            const newTitle = product.post_title + " — Kandelaber";
-            const newUrl = '/proizvod/' + product.post_name + "/";
-
-            history.pushState(newState, null, newUrl);
-            document.title = newTitle;
         };
 
     });

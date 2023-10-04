@@ -33,10 +33,14 @@ const ProductListing = ({category, subcategory, subcategories}) => {
     const showMoreButtonRef = useRef(null);
 
     const openProduct = useCallback((product) => {
-        window.openProduct(product, () => {
+        window.reactMain.openProduct({
+            category: category,
+            subcategories: subcategories,
+            subcategory: subcategory
+        }, product,() => {
             window.renderApp("single-product-preview", <SingleProductPreview product={product} />, true);
         });
-    }, []);
+    }, [category, subcategory, subcategories]);
 
     const showMoreProducts = useCallback(() => {
         if (loadingMoreProducts || !productElementsPlaceholder || !productElementsPlaceholder.current || productsToDisplay.length === products.length) {

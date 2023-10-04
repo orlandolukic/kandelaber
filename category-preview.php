@@ -37,7 +37,8 @@
             const newState = {
                 page: "opened-category",
                 category: category,
-                subcategory: subcategory
+                subcategory: subcategory,
+                subcategories: subcategory !== "" ? null : category.subcategories
             };
 
             return {

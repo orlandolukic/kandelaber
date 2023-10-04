@@ -65,7 +65,8 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             }
 
             $array = array(
-                "page" => "single-product"
+                "page" => "single-product",
+                "ajax_url" => admin_url('admin-ajax.php')
             );
             // Add variable for react rendered script
             wp_localize_script('react-rendered', 'react_vars', $array);

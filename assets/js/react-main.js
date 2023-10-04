@@ -10,6 +10,7 @@ jQuery(document).on("ready", function() {
         const whitelistedApps = {};
         let firstStateObject = {};
         let isPushedFirstTime = false;
+        let categoriesMap = {};
 
         let whitelistApp = function(pageId, appId, component) {
             let obj = whitelistedApps[pageId];
@@ -184,7 +185,7 @@ jQuery(document).on("ready", function() {
                         if (pageId !== id) {
                             console.log(renderedApps[pageId]);
                             renderedApps[pageId].root.unmount();
-                            delete renderedApps[pageId];
+                            delete renderedApps[pageId].root;
                         }
                     }
                 }
@@ -210,15 +211,75 @@ jQuery(document).on("ready", function() {
                 const appsToRemove = whitelistedApps[pageId];
 
                 for (const appId in appsToRemove) {
-                    renderedApps[appId].root.unmount();
-                    delete renderedApps[appId];
+                    if (renderedApps[appId] === undefined) {
+                        continue;
+                    }
+                    try {
+                        renderedApps[appId].root.unmount();
+                        delete renderedApps[appId].root;
+                    } catch(e) {}
                 }
             }
         } );
 
+        let timeout1 = null;
+        let timeout2 = null;
+
+        const transitionOverlayLoader = (whenFinishedCallback) => {
+            clearTimeout(timeout1);
+            clearTimeout(timeout2);
+            jQuery(".overlay-loader-container").css('display', 'flex');
+            timeout1 = setTimeout(() => {
+                if (jQuery("#heading-section").parents("#qodef-page-outer").length > 0) {
+                    jQuery("#heading-section").parents("#qodef-page-outer").fadeOut(function () {
+                        timeout2 = setTimeout(() => {
+                            jQuery(".overlay-loader-container").hide();
+                            if (typeof whenFinishedCallback === 'function') {
+                                whenFinishedCallback();
+                            }
+                        }, 500);
+                    });
+                } else {
+                    jQuery(".overlay-loader-container").hide();
+                    if (typeof whenFinishedCallback === 'function') {
+                        whenFinishedCallback();
+                    }
+                }
+            }, 500);
+        };
+
+        const onPopStateHandler=  (e) => {
+            console.log("OVDEEEE", e);
+            if (e.state === null) {
+                window.location.reload();
+            } else if (e.state.page === "products-page") {
+                console.log("here1");
+                if (jQuery("#heading-section").parents("#qodef-page-outer").length === 0) {
+                    jQuery(".overlay-loader-container").css('display', 'flex');
+                    window.location.reload();
+                } else {
+                    console.log("here");
+                    jQuery("#heading-section").parents("#qodef-page-outer").fadeIn();
+                }
+            } else if (e.state.page === "opened-category") {
+                transitionOverlayLoader();
+                let props = {...e.state};
+                delete props.page;
+                console.log("AFTER", e.state);
+                window.renderApp('product-category-preview', <ProductCategoryPreview data={true} {...props} />);
+            } else if (e.state.page === "single-product") {
+                transitionOverlayLoader();
+                let props = {...e.state};
+                delete props.page;
+                window.renderApp('single-product-preview', <SingleProductPreview {...props} />);
+            }
+        };
+        window.addEventListener('popstate', onPopStateHandler);
+
         // Whitelist all components on other pages
         whitelistApp("opened-category", "product-category-preview",
                 <ProductCategoryPreview
+                    data={true}
                     category={react_vars.category}
                     subcategory={react_vars.subcategory}
                     subcategories={react_vars.subcategories}
@@ -238,6 +299,37 @@ jQuery(document).on("ready", function() {
                     return;
                 }
                 history.pushState(firstStateObject, null);
+            },
+
+            transitionOverlayLoader: transitionOverlayLoader,
+
+            openProduct: function(prevProps, product, callback) {
+                console.log(product, callback);
+                transitionOverlayLoader(() => {
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                });
+
+                // Push a new state to the history
+                const newState = {
+                    ...prevProps,
+                    page: "single-product"
+                };
+                const newTitle = product.post_title + " — Kandelaber";
+                const newUrl = '/proizvod/' + product.post_name + "/";
+
+                history.pushState(newState, null, newUrl);
+                document.title = newTitle;
+
+                const appsToRemove = whitelistedApps["single-product"];
+                for (const appId in appsToRemove) {
+                    if (renderedApps[appId] === undefined) {
+                        continue;
+                    }
+                    renderedApps[appId].root.unmount();
+                    delete renderedApps[appId].root;
+                }
             }
         };
 

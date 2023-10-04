@@ -3,7 +3,7 @@ import SubcategoriesOverlay from "./SubcategoriesOverlay";
 import {useCallback, useEffect, useRef, useState} from "react";
 import ProductCategoryPreview from "../../../react/product-category-preview/ProductCategoryPreview";
 
-const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCategoryPreview, hasProducts}) => {
+const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCategoryPreview, hasProducts, subcategories}) => {
 
     const [showSubcategoriesContent, setShowSubcategoriesContent] = useState(true);
     const [showSubcategoriesOverlay, setShowSubcategoriesOverlay] = useState(false);
@@ -17,14 +17,19 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
 
     const openCategory = useCallback(() => {
         if (typeof changeSubcategory === 'function' && fromCategoryPreview) {
-            window.openSubcategory(parentCategory, category);
+            console.log("BEFORE OPEN", subcategories);
+            window.openSubcategory({
+                category: parentCategory,
+                subcategory: category,
+                subcategories: null
+            });
             changeSubcategory(category);
             return;
         }
-        window.openCategory(showSubcategoriesOverlay, category, () => {
-            window.renderApp('product-category-preview', <ProductCategoryPreview category={category} subcategories={category.subcategories} />);
+        window.openCategory(showSubcategoriesOverlay, category, subcategories, () => {
+            window.renderApp('product-category-preview', <ProductCategoryPreview data={true} category={category} subcategories={category.subcategories} />);
         });
-    }, [category, showSubcategoriesOverlay, parentCategory, category, fromCategoryPreview]);
+    }, [category, showSubcategoriesOverlay, parentCategory, category, fromCategoryPreview, subcategories]);
 
     useEffect(() => {
         const onPopStateHandler = (e) => {

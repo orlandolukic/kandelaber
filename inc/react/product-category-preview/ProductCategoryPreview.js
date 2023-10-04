@@ -6,7 +6,7 @@ import SubcategoriesListing from "./SubcategoriesListing";
 import SingleCategory from "../../elementor/product-category-listing/react/SingleCategory";
 import ProductListing from "./ProductListing";
 
-const ProductCategoryPreview = ({category, subcategory, subcategories}) => {
+const ProductCategoryPreviewComp = ({category, subcategory, subcategories}) => {
 
     const [categoryState, setCategoryState] = useState(category);
     const [subcategoryState, setSubcategoryState] = useState(subcategory);
@@ -15,12 +15,18 @@ const ProductCategoryPreview = ({category, subcategory, subcategories}) => {
     const [imageSrc, setImageSrc] = useState("");
 
     useEffect(() => {
+
+    }, []);
+
+    useEffect(() => {
         const handler = (e) => {
             console.log(e);
             if (e.state.page === "opened-category") {
                 setTimeout(() => {
+                    console.log(e.state);
                     setCategoryState(e.state.category);
                     setSubcategoryState(e.state.subcategory);
+                    setSubcategoriesState(e.state.subcategories);
                     window.hideLoader();
                 }, 200);
             }
@@ -96,6 +102,26 @@ const ProductCategoryPreview = ({category, subcategory, subcategories}) => {
             </div>
         </>
     );
+};
+
+const ProductCategoryPreview = (props) => {
+
+    const [data, setData] = useState(props.data);
+
+    useEffect(() => {
+        if (data === undefined) {
+            // Fetch data
+            setTimeout(() => {
+                console.log("fetching data...");
+            }, 500);
+        }
+    }, [data]);
+
+    if (data === undefined) {
+        return;
+    }
+
+    return <ProductCategoryPreviewComp {...props} />;
 };
 
 export default ProductCategoryPreview;

@@ -6,7 +6,7 @@ import SingleCategory from "./SingleCategory";
 const Categories = ({categories}) => {
 
     const categoriesElements = categories.map((category, i) => (
-        <SingleCategory category={category} i={i} key={category.term_id} />
+        <SingleCategory category={category} i={i} key={category.term_id} subcategories={category.subcategories} />
     ));
 
     return (

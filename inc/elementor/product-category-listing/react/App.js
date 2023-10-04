@@ -20,19 +20,6 @@ const App = () => {
         }, 200)
     }, []);
 
-    // useEffect(() => {
-    //     const onPopStateHandler=  (e) => {
-    //         console.log(e);
-    //         if (e.state === null) {
-    //             jQuery("#heading-section").parent().fadeIn();
-    //         }
-    //     };
-    //     window.addEventListener('popstate', onPopStateHandler);
-    //     return () => {
-    //         window.removeEventListener('popstate', onPopStateHandler);
-    //     };
-    // }, []);
-
     return (
         <div className={styles.mainContainer}>
             <Loader loading={loading} visible={visible} setVisible={setVisible} />
