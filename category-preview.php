@@ -38,7 +38,8 @@
                 page: "opened-category",
                 category: category,
                 subcategory: subcategory,
-                subcategories: subcategory !== "" ? null : category.subcategories
+                subcategories: subcategory !== "" ? null : category.subcategories,
+                isSingleProduct: false
             };
 
             return {

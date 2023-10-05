@@ -11,6 +11,7 @@ jQuery(document).on("ready", function() {
         let firstStateObject = {};
         let isPushedFirstTime = false;
         let categoriesMap = {};
+        let currentComponentId = null;
 
         let whitelistApp = function(pageId, appId, component) {
             let obj = whitelistedApps[pageId];
@@ -22,6 +23,11 @@ jQuery(document).on("ready", function() {
                 obj[appId] = component;
             }
         }
+
+        let scrollToTop = function() {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        };
 
         let initializeApps = function() {
             if (typeof window.currentPage === typeof undefined) {
@@ -196,6 +202,10 @@ jQuery(document).on("ready", function() {
                     component: component,
                     root: root
                 };
+                currentComponentId = id;
+
+                // Scroll to top
+                scrollToTop();
 
             } else {
                 console.warn("No element present with id '" + id + "'");
@@ -249,29 +259,41 @@ jQuery(document).on("ready", function() {
         };
 
         const onPopStateHandler=  (e) => {
-            console.log("OVDEEEE", e);
             if (e.state === null) {
                 window.location.reload();
             } else if (e.state.page === "products-page") {
-                console.log("here1");
                 if (jQuery("#heading-section").parents("#qodef-page-outer").length === 0) {
                     jQuery(".overlay-loader-container").css('display', 'flex');
                     window.location.reload();
                 } else {
-                    console.log("here");
                     jQuery("#heading-section").parents("#qodef-page-outer").fadeIn();
                 }
+                // Scroll to top
+                scrollToTop();
             } else if (e.state.page === "opened-category") {
                 transitionOverlayLoader();
+                if (e.state.isSingleProduct) {
+                    let props = {...e.state};
+                    delete props.page;
+                    delete props.isSingleProduct;
+                    window.renderApp('single-product-preview', <SingleProductPreview {...props} />);
+                    return;
+                }
+
                 let props = {...e.state};
                 delete props.page;
-                console.log("AFTER", e.state);
+                console.log(props);
                 window.renderApp('product-category-preview', <ProductCategoryPreview data={true} {...props} />);
+
             } else if (e.state.page === "single-product") {
                 transitionOverlayLoader();
                 let props = {...e.state};
                 delete props.page;
                 window.renderApp('single-product-preview', <SingleProductPreview {...props} />);
+                history.replaceState({
+                    page: 'single-product',
+                    ...props
+                }, null);
             }
         };
         window.addEventListener('popstate', onPopStateHandler);
@@ -303,6 +325,8 @@ jQuery(document).on("ready", function() {
 
             transitionOverlayLoader: transitionOverlayLoader,
 
+            scrollToTop: scrollToTop,
+
             openProduct: function(prevProps, product, callback) {
                 console.log(product, callback);
                 transitionOverlayLoader(() => {
@@ -313,8 +337,7 @@ jQuery(document).on("ready", function() {
 
                 // Push a new state to the history
                 const newState = {
-                    ...prevProps,
-                    page: "single-product"
+                    ...prevProps
                 };
                 const newTitle = product.post_title + " — Kandelaber";
                 const newUrl = '/proizvod/' + product.post_name + "/";
@@ -327,9 +350,16 @@ jQuery(document).on("ready", function() {
                     if (renderedApps[appId] === undefined) {
                         continue;
                     }
-                    renderedApps[appId].root.unmount();
+                    try {
+                        renderedApps[appId].root.unmount();
+                    } catch(e) {}
                     delete renderedApps[appId].root;
                 }
+
+                history.replaceState({
+                    page: 'single-product',
+                    product: product
+                }, null);
             }
         };
 

@@ -25,7 +25,8 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
                 page: "opened-category",
                 category: category,
                 subcategory: null,
-                subcategories: subcategories
+                subcategories: subcategories,
+                isSingleProduct: false
             };
             const newTitle = category.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + category.slug + '/';
@@ -35,7 +36,7 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
             changeSubcategory(null);
             window.showLoader();
         }
-    }, [subcategory, category]);
+    }, [subcategory, category, subcategories]);
 
     return (
         <div className={styles.breadcrumbs}>

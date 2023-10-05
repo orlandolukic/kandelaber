@@ -36,7 +36,9 @@ const ProductListing = ({category, subcategory, subcategories}) => {
         window.reactMain.openProduct({
             category: category,
             subcategories: subcategories,
-            subcategory: subcategory
+            subcategory: subcategory,
+            page: "opened-category",
+            isSingleProduct: false
         }, product,() => {
             window.renderApp("single-product-preview", <SingleProductPreview product={product} />, true);
         });
@@ -137,7 +139,7 @@ const ProductListing = ({category, subcategory, subcategories}) => {
         window.location.href = "/proizvodi";
     }, []);
 
-    if (subcategory === null && !category.has_products && subcategories && subcategories.length > 0) {
+    if ((subcategory === null || subcategory === undefined) && !category.has_products && subcategories && subcategories.length > 0) {
         return;
     }
 

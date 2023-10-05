@@ -13,6 +13,7 @@ const SubcategoriesListing = ({category, subcategory, subcategories, changeSubca
     const subcategoriesElements = subcategories.map((subcategory, i) => (
         <SingleCategory
             category={subcategory}
+            isLeaf
             subcategories={subcategories}
             i={i}
             key={category.term_id}

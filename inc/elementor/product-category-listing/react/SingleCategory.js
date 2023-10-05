@@ -2,8 +2,9 @@ import styles from "./app.module.scss";
 import SubcategoriesOverlay from "./SubcategoriesOverlay";
 import {useCallback, useEffect, useRef, useState} from "react";
 import ProductCategoryPreview from "../../../react/product-category-preview/ProductCategoryPreview";
+import SingleProductPreview from "../../../react/single-product-preview/SingleProductPreview";
 
-const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCategoryPreview, hasProducts, subcategories}) => {
+const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCategoryPreview, hasProducts, subcategories, isSingleProduct, isLeaf}) => {
 
     const [showSubcategoriesContent, setShowSubcategoriesContent] = useState(true);
     const [showSubcategoriesOverlay, setShowSubcategoriesOverlay] = useState(false);
@@ -16,8 +17,36 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
     const singleCategoryDiv = useRef(null);
 
     const openCategory = useCallback(() => {
+
+        if (isSingleProduct) {
+            let previousHistoryState;
+            if (isLeaf) {
+                previousHistoryState = {
+                    category: parentCategory,
+                    subcategories: subcategories,
+                    subcategory: category,
+                    page: "opened-category",
+                    isSingleProduct: isSingleProduct
+                };
+            } else {
+                previousHistoryState = {
+                    category: category,
+                    subcategories: subcategories,
+                    subcategory: null,
+                    page: "opened-category",
+                    isSingleProduct: isSingleProduct
+                };
+            }
+            window.reactMain.openProduct(previousHistoryState, {
+                post_title: category.name,
+                post_name: category.slug
+            }, () => {
+                window.renderApp("single-product-preview", <SingleProductPreview product={category} isCategory />)
+            });
+            return;
+        }
+
         if (typeof changeSubcategory === 'function' && fromCategoryPreview) {
-            console.log("BEFORE OPEN", subcategories);
             window.openSubcategory({
                 category: parentCategory,
                 subcategory: category,
@@ -29,7 +58,7 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
         window.openCategory(showSubcategoriesOverlay, category, subcategories, () => {
             window.renderApp('product-category-preview', <ProductCategoryPreview data={true} category={category} subcategories={category.subcategories} />);
         });
-    }, [category, showSubcategoriesOverlay, parentCategory, category, fromCategoryPreview, subcategories]);
+    }, [category, showSubcategoriesOverlay, parentCategory, category, fromCategoryPreview, subcategories, isSingleProduct, isLeaf]);
 
     useEffect(() => {
         const onPopStateHandler = (e) => {

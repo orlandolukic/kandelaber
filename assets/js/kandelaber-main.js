@@ -120,21 +120,21 @@
             });
 
             // Push a new state to the history
-            console.log("SUBCATEGORIES BEFORE PUSH", subcategories);
             const newState = {
                 page: "opened-category",
                 category: category,
                 subcategory: null,
-                subcategories: subcategories
+                subcategories: subcategories,
+                isSingleProduct: false
             };
             const newTitle = category.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + category.slug + "/";
 
-            // Push initial state if it's already pushed
-            //window.reactMain.pushStartHistoryState();
-
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
+
+            // Scroll to top of the document
+            window.reactMain.scrollToTop();
         };
 
         window.openSubcategory = (props, callback) => {
@@ -149,13 +149,14 @@
                 ...props,
                 page: "opened-category"
             };
-            console.log("new state", newState);
             const newTitle = props.subcategory.name + " — Kandelaber";
             const newUrl = '/proizvodi/' + props.category.slug + '/' + props.subcategory.slug + "/";
 
             history.pushState(newState, null, newUrl);
             document.title = newTitle;
-            console.log("PUSHED");
+
+            // Scroll to top of the document
+            window.reactMain.scrollToTop();
         };
 
         window.showLoader = function () {

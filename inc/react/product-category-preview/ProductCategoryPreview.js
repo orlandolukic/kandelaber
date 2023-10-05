@@ -6,7 +6,7 @@ import SubcategoriesListing from "./SubcategoriesListing";
 import SingleCategory from "../../elementor/product-category-listing/react/SingleCategory";
 import ProductListing from "./ProductListing";
 
-const ProductCategoryPreviewComp = ({category, subcategory, subcategories}) => {
+const ProductCategoryPreviewComp = ({category, subcategory, subcategories, renderedAgain}) => {
 
     const [categoryState, setCategoryState] = useState(category);
     const [subcategoryState, setSubcategoryState] = useState(subcategory);
@@ -15,27 +15,24 @@ const ProductCategoryPreviewComp = ({category, subcategory, subcategories}) => {
     const [imageSrc, setImageSrc] = useState("");
 
     useEffect(() => {
-
+        setSubcategoriesState(subcategories);
     }, []);
 
     useEffect(() => {
+        let timeout;
         const handler = (e) => {
-            console.log(e);
             if (e.state.page === "opened-category") {
-                setTimeout(() => {
-                    console.log(e.state);
-                    setCategoryState(e.state.category);
-                    setSubcategoryState(e.state.subcategory);
-                    setSubcategoriesState(e.state.subcategories);
+                timeout = setTimeout(() => {
                     window.hideLoader();
-                }, 200);
+                }, 500);
             }
         };
         window.addEventListener('popstate', handler);
         return () => {
             window.removeEventListener('popstate', handler);
+            clearTimeout(timeout);
         };
-    }, []);
+    }, [renderedAgain]);
 
     // Handle category change
     useEffect(() => {
