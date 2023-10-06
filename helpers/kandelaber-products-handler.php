@@ -260,6 +260,32 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             );
             $products = new WP_Query($args);
 
+            return $this->get_all_data_for_products($products);
+        }
+
+        public function fetch_products_for_category_ajax() {
+
+            $slug = sanitize_text_field($_POST['slug']);
+
+            echo json_encode($this->get_products_in_category($slug));
+
+            // Always use die() at the end of your callback function
+            die();
+        }
+
+        public function get_product_by_slug($slug) {
+
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => -1,
+                'name'           => $slug,
+            );
+            $products = new WP_Query($args);
+
+            return $this->get_all_data_for_products($products);
+        }
+
+        private function get_all_data_for_products($products) {
             if ($products->have_posts()) :
                 $products_arr = $products->get_posts();
                 for($i=0; $i<count($products_arr); $i++) {
@@ -274,21 +300,21 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
                     }
 
                     $products_arr[$i]->featured_image = $thumbnail_url;
+
+                    // Get the product object
+                    $product = wc_get_product($products_arr[$i]->ID);
+
+                    if ($product) {
+                        $products_arr[$i]->title = $product->get_title();
+                        $products_arr[$i]->tags = $product->get_tags();
+                        $products_arr[$i]->gallery = ProductHelper::get_gallery_for_product($product);
+                        $products_arr[$i]->attributes = ProductHelper::get_attributes_for_product($product);
+                        $products_arr[$i]->variations = ProductHelper::get_variations_for_product($product);
+                    }
                 }
                 return $products_arr;
             endif;
-
             return array();
-        }
-
-        public function fetch_products_for_category_ajax() {
-
-            $slug = sanitize_text_field($_POST['slug']);
-
-            echo json_encode($this->get_products_in_category($slug));
-
-            // Always use die() at the end of your callback function
-            die();
         }
 
         public function get_is_category() {

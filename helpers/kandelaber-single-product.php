@@ -12,6 +12,8 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
 
         private $is_single_product;
 
+        private $single_product_slug;
+
         public function __construct() {
             $this->is_single_product = false;
 
@@ -46,6 +48,7 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
                 return $template;
             }
             $this->is_single_product = true;
+            $this->single_product_slug = $single_product;
             return get_template_directory() . '/product-preview.php';
         }
 
@@ -65,11 +68,19 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             }
 
             $array = array(
-                "page" => "single-product",
-                "ajax_url" => admin_url('admin-ajax.php')
+                "page"      => "single-product",
+                "ajax_url"  => admin_url('admin-ajax.php'),
+                "product"   => KandelaberProductsHandler::get_instance()->get_product_by_slug($this->single_product_slug)
             );
             // Add variable for react rendered script
             wp_localize_script('react-rendered', 'react_vars', $array);
+
+
+            // Send data for product
+            $array = array(
+                "product"   => KandelaberProductsHandler::get_instance()->get_product_by_slug($this->single_product_slug)
+            );
+            wp_localize_script('react-rendered', 'product_vars', $array);
         }
 
         public function is_single_product_page() {

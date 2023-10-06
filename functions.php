@@ -10,6 +10,7 @@ if ( ! class_exists( 'LucentHandler' ) ) {
 		public function __construct() {
 			// Include required files
 			require_once get_template_directory() . '/constants.php';
+            require_once LUCENT_ROOT_DIR . '/helpers/product-helper.php';
 			require_once LUCENT_ROOT_DIR . '/helpers/helper.php';
             require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-handler.php';
             require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-products-handler.php';
