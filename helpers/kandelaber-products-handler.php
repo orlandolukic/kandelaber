@@ -124,6 +124,8 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
 
         public function enqueue_scripts() {
 
+            $this->enqueue_mutual();
+
             if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
                 return;
             }
@@ -132,13 +134,11 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
                 'ajax_url' => admin_url('admin-ajax.php'),
                 "category" => get_query_var('product_category'),
                 "subcategory" => get_query_var('product_subcategory') !== '' ? get_query_var('product_subcategory') : null,
-                "categories" => null,
                 "subcategories" => null,
                 "products" => null,
                 "page" => "opened-category"
             );
 
-            $array["categories"] = Product_Category_Listing::get_root_categories();
             $array["subcategories"] = Product_Category_Listing::fetch_subcategories_for($array["category"]);
 
             if ($this->get_is_only_category()) {
@@ -152,6 +152,18 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
 
             // Add variable for react rendered script
             wp_localize_script('react-rendered', 'react_vars', $array);
+        }
+
+        private function enqueue_mutual() {
+
+            $array = array(
+                "categories" => null
+            );
+
+            $array["categories"] = Product_Category_Listing::get_root_categories();
+
+            // Add variable for react rendered script
+            wp_localize_script('react-rendered', 'react_top', $array);
         }
 
         public function custom_product_cat_fields($term) {

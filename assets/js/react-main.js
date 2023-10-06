@@ -282,7 +282,7 @@ jQuery(document).on("ready", function() {
 
                 let props = {...e.state};
                 delete props.page;
-                console.log(props);
+                console.log("11", props);
                 window.renderApp('product-category-preview', <ProductCategoryPreview data={true} {...props} />);
 
             } else if (e.state.page === "single-product") {
@@ -315,6 +315,26 @@ jQuery(document).on("ready", function() {
         // Initialize all react apps
         initializeApps();
 
+        // Categories & subcategories data
+        const CategoriesManager = function() {
+            let allCategories = react_top.categories;
+
+            delete react_top.categories;
+            return {
+                getAllCategories: function() {
+                  return allCategories;
+                },
+                getSubcategoriesForCategoryBySlug: function(slug) {
+                    for (let i=0; i<allCategories.length; i++) {
+                        if (allCategories[i].slug === slug) {
+                            return allCategories[i].subcategories;
+                        }
+                    }
+                }
+            };
+        };
+
+
         window.reactMain = {
             pushStartHistoryState: function() {
                 if (isPushedFirstTime || firstStateObject === null) {
@@ -324,6 +344,8 @@ jQuery(document).on("ready", function() {
             },
 
             transitionOverlayLoader: transitionOverlayLoader,
+
+            categoriesManager: CategoriesManager(),
 
             scrollToTop: scrollToTop,
 

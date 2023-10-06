@@ -15,7 +15,8 @@ const App = () => {
         }, null);
 
         setTimeout(() => {
-            setCategories(react_vars.categories);
+            let categories = window.reactMain.categoriesManager.getAllCategories();
+            setCategories(categories);
             setLoading(false);
         }, 200)
     }, []);

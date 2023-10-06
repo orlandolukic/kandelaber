@@ -15,6 +15,8 @@ const ProductCategoryPreviewComp = ({category, subcategory, subcategories, rende
     const [imageSrc, setImageSrc] = useState("");
 
     useEffect(() => {
+        let subcategories = window.reactMain.categoriesManager.getSubcategoriesForCategoryBySlug(category.slug);
+        console.log(subcategories);
         setSubcategoriesState(subcategories);
     }, []);
 
@@ -64,6 +66,8 @@ const ProductCategoryPreviewComp = ({category, subcategory, subcategories, rende
                     changeCategory={setCategoryState}
                     subcategory={subcategoryState}
                     changeSubcategory={setSubcategoryState}
+                    subcategories={subcategoriesState}
+                    changeSubcategories={setSubcategoriesState}
                 />
 
                 <div className={'container'}>

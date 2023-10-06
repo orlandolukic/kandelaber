@@ -2,7 +2,7 @@ import styles from "./product-category-preview.module.scss";
 import {useCallback, useEffect} from "react";
 import SubcategoriesListing from "./SubcategoriesListing";
 
-const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories}) => {
+const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories, changeSubcategories}) => {
 
     useEffect(() => {
         tippy('#tooltipAllProducts', {
@@ -20,6 +20,7 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
     const openCategory = useCallback(() => {
         if (subcategory !== undefined && subcategory !== null) {
 
+            console.log("subcategories", subcategories);
             // Push a new state to the history
             const newState = {
                 page: "opened-category",

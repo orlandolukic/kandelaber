@@ -18,7 +18,7 @@
             // Find category from react_vars
             let category = null, subcategory = null;
 
-            let categories = react_vars.categories;
+            let categories = react_top.categories;
             for (let i=0; i<categories.length; i++) {
                 if (categories[i].slug === window.category) {
                     category = categories[i];
