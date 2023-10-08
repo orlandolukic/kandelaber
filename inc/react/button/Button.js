@@ -1,7 +1,9 @@
 import styles from './button.module.scss';
 import {useCallback} from "react";
 
-const Button = ({children, onClick}) => {
+export const BUTTON_PRIMARY = "primary";
+
+const Button = ({children, onClick, theme, isFull}) => {
 
     const onClickHandler = useCallback((e) => {
         if (onClick !== undefined && typeof onClick === 'function') {
@@ -9,8 +11,11 @@ const Button = ({children, onClick}) => {
         }
     }, [onClick]);
 
+    const themeClass = theme !== undefined && theme ? " " + styles[theme] : "";
+    const isFullClass = isFull !== undefined && isFull ? " " + styles.isFull : "";
+
     return (
-        <div className={styles.buttonPlaceholder} onClick={onClickHandler}>
+        <div className={`${styles.buttonPlaceholder}${themeClass}${isFullClass}`} onClick={onClickHandler}>
             {children}
         </div>
     )

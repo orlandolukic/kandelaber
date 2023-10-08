@@ -310,6 +310,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
                         $products_arr[$i]->gallery = ProductHelper::get_gallery_for_product($product);
                         $products_arr[$i]->attributes = ProductHelper::get_attributes_for_product($product);
                         $products_arr[$i]->variations = ProductHelper::get_variations_for_product($product);
+                        $products_arr[$i]->categories = ProductHelper::get_categories_for_product($product);
                     }
                 }
                 return $products_arr;

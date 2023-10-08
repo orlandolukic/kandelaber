@@ -1,6 +1,7 @@
 @import "../../../assets/scss/global";
 
 .buttonPlaceholder {
+  display: inline-block;
   padding: 10px 25px;
   background-color: transparent;
   color: $cl-normal;
@@ -16,5 +17,24 @@
 
   &:active {
     opacity: 0.8;
+  }
+
+  &.primary {
+    border: 2px solid $cl-primary;
+    color: $cl-primary;
+
+    &:hover {
+      background-color: $cl-primary;
+      color: $cl-2;
+    }
+
+    &.isFull {
+      background-color: $cl-primary;
+      color: $cl-2;
+
+      &:hover {
+        background-color: lighten($cl-primary, 5%);
+      }
+    }
   }
 }

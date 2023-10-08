@@ -46,6 +46,7 @@ if ( ! class_exists('KandelaberHandler') ) {
             wp_enqueue_style( 'fontawesome', LUCENT_ASSETS_ROOT . '/fonts/fontawesome/css/fontawesome.css', [], '6.4.2' );
             wp_enqueue_style( 'fontawesome-brands', LUCENT_ASSETS_ROOT . '/fonts/fontawesome/css/brands.css', [], '6.4.2' );
             wp_enqueue_style( 'fontawesome-solid', LUCENT_ASSETS_ROOT . '/fonts/fontawesome/css/solid.css', [], '6.4.2' );
+            wp_enqueue_style( 'splide', LUCENT_ASSETS_ROOT . '/css/splide.min.css', [], KandelaberHandler::$CSS_VERSION );
         }
 
         public function set_loading_screen() {
@@ -62,6 +63,7 @@ if ( ! class_exists('KandelaberHandler') ) {
             wp_enqueue_script( 'kandelaber-main', LUCENT_ASSETS_JS_ROOT . '/kandelaber-main.js', [], KandelaberHandler::$JS_VERSION );
             wp_enqueue_script( 'popperjs', LUCENT_ASSETS_JS_ROOT . '/popper.min.js', [], '2.11.8' );
             wp_enqueue_script( 'tippy-bundle', LUCENT_ASSETS_JS_ROOT . '/tippy-bundle.umd.min.js', ['popperjs'], '6.3.7' );
+            wp_enqueue_script( 'splide', LUCENT_ASSETS_JS_ROOT . '/splide.min.js', [], KandelaberHandler::$JS_VERSION );
 
             //wp_register_script('react', LUCENT_ASSETS_JS_ROOT . "/react.production.min.js", [], '18');
            //wp_register_script('react-dom', LUCENT_ASSETS_JS_ROOT . "/react-dom.production.min.js", ['react'], '18');

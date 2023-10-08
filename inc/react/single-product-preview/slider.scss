@@ -1,0 +1,19 @@
+@import '../../../assets/scss/global';
+
+.splide.splide-thumbnail
+{
+  .splide__slide.is-active {
+    border: 3px solid $cl-normal;
+    opacity: 1;
+  }
+
+  &.splide-thumbnail-vertical {
+    .splide__arrow.splide__arrow--prev {
+      top: -20px;
+    }
+
+    .splide__arrow.splide__arrow--next {
+      bottom: 0;
+    }
+  }
+}

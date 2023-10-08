@@ -1,0 +1,118 @@
+@import '../../../assets/scss/global';
+
+.sliderPlaceholder {
+  position: relative;
+
+  .splideSlider {
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+
+    &.hasShadow {
+      -webkit-box-shadow: 4px 6px 22px -13px rgba(0,0,0,0.75);
+      -moz-box-shadow: 4px 6px 22px -13px rgba(0,0,0,0.75);
+      box-shadow: 4px 6px 22px -13px rgba(0,0,0,0.75);
+    }
+
+    .singleSlideContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    ul.__list {
+
+      li {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    .arrows {
+      .arrow {
+        background-color: $cl-normal;
+        color: $cl-2;
+        padding: 15px;
+        border-radius: 3px;
+        transition: 0.2s;
+
+        &.arrowLeft {
+          transform: translateX(-70px);
+        }
+
+        &.arrowRight {
+          transform: translateX(70px);
+        }
+      }
+    }
+
+    &:hover {
+      .arrows {
+        .arrow {
+          transform: translateX(0);
+        }
+      }
+    }
+  }
+
+  .loaderPlaceholder {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .loader {
+      width: 60px;
+      --b: 8px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: $cl-normal;
+      -webkit-mask:
+              repeating-conic-gradient(#0000 0deg,#000 1deg 70deg,#0000 71deg 90deg),
+              radial-gradient(farthest-side,#0000 calc(100% - var(--b) - 1px),#000 calc(100% - var(--b)));
+      -webkit-mask-composite: destination-in;
+      mask-composite: intersect;
+      animation: l5 1s infinite;
+    }
+
+    @keyframes l5 {to{transform: rotate(.5turn)}}
+  }
+
+  section.thumbnail {
+    margin-top: 20px;
+    .singleSlideContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.6;
+      transition: 0.2s;
+
+      img {
+        max-height: 80%;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.isLoading {
+    max-height: 650px;
+  }
+
+  &.verticalThumbnail {
+    display: flex;
+    flex-direction: row;
+
+    .thumbnail {
+      max-width: 100px;
+      margin-right: 15px;
+    }
+  }
+}

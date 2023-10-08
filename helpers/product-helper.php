@@ -65,6 +65,24 @@ if ( ! class_exists('ProductHelper') ) {
 
             return $array;
         }
+
+        public static function get_categories_for_product($product) {
+
+            $array = array();
+            $terms = get_the_terms( $product->get_id(), 'product_cat' );
+            foreach ($terms as $term) {
+                $array[] = $term;
+
+                $termsParent = get_term( $term->parent, 'product_cat' );
+                if ($termsParent instanceof WP_Error) {
+                    continue;
+                }
+                $array[] = $termsParent;
+                break;
+            }
+
+            return $array;
+        }
     }
 
 }
