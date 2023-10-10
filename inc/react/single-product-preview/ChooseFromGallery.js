@@ -2,7 +2,9 @@ import styles from './single-product-preview.module.scss';
 import Slider from "./Slider";
 import {useCallback} from "react";
 
-const ChooseFromGallery = ({variations}) => {
+const ChooseFromGallery = ({variations, pauseSlideshow}) => {
+
+    pauseSlideshow = pauseSlideshow !== undefined ? pauseSlideshow : false;
 
     const getImageSource = useCallback((element) => {
         return element.image.src;

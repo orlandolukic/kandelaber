@@ -49,6 +49,14 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             }
             $this->is_single_product = true;
             $this->single_product_slug = $single_product;
+
+            // Check if product exists
+            $exists = ProductHelper::check_if_product_exists($single_product);
+            if (!$exists) {
+                header("location: /proizvodi");
+                return $template;
+            }
+
             return get_template_directory() . '/product-preview.php';
         }
 
@@ -57,7 +65,9 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             if (!$single_product || $single_product == "") {
                 return $title;
             }
-            $title["title"] = "asds";
+
+            $product = KandelaberProductsHandler::get_instance()->get_product_by_slug($this->single_product_slug);
+            $title["title"] = $product[0]->post_title;
             return $title;
         }
 
@@ -67,18 +77,20 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
                 return;
             }
 
+            $product = KandelaberProductsHandler::get_instance()->get_product_by_slug($this->single_product_slug);
+
             $array = array(
                 "page"      => "single-product",
                 "ajax_url"  => admin_url('admin-ajax.php'),
-                "product"   => KandelaberProductsHandler::get_instance()->get_product_by_slug($this->single_product_slug)
+                "product"   => $product
             );
             // Add variable for react rendered script
             wp_localize_script('react-rendered', 'react_vars', $array);
 
-
             // Send data for product
             $array = array(
-                "product"   => KandelaberProductsHandler::get_instance()->get_product_by_slug($this->single_product_slug)
+                "product"   => $product,
+                "recommended_products" => ProductHelper::get_random_products_in_category(ProductHelper::get_leaf_category_for_product($product[0]))
             );
             wp_localize_script('react-rendered', 'product_vars', $array);
         }

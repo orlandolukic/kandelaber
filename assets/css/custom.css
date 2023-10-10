@@ -288,6 +288,7 @@ div.wpforms-container-full .wpforms-confirmation-container-full {
   height: 100%;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 .overlay-loader-container .loader-placeholder {
   position: absolute;

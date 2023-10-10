@@ -75,9 +75,7 @@ const ProductCategoryPreviewComp = ({category, subcategory, subcategories, rende
                         <div className={`col-md-12 ${styles.categoryInfo}`}>
                             <div className={styles.categoryName}>{title}</div>
                             <div className={styles.categoryDescription}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sit amet dui eu magna dignissim euismod.
-                                Vivamus consectetur arcu vel erat pharetra, et imperdiet arcu pretium.
-                                Nam placerat, enim in porta feugiat, dolor erat lobortis augue, quis dapibus est diam vitae felis.
+                                {categoryState.category_description}
                             </div>
                             <div className={styles.categoryImage}>
                                 <img src={imageSrc} />

@@ -83,6 +83,59 @@ if ( ! class_exists('ProductHelper') ) {
 
             return $array;
         }
+
+        public static function get_random_products_in_category($category) {
+
+            if ($category == NULL) {
+                return array();
+            } else if ($category->slug == "led-trake") {
+                $category->slug = "rozetne";
+            }
+
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => 4,
+                'orderby'        => 'rand',
+                'tax_query'      => array(
+                    array(
+                        'taxonomy' => 'product_cat',
+                        'field'    => 'slug',
+                        'terms'    => $category->slug,
+                    ),
+                ),
+            );
+
+            $products = new WP_Query($args);
+            $array = array();
+
+            if ($products->have_posts()) {
+                return KandelaberProductsHandler::get_instance()->get_all_data_for_products($products);
+            }
+
+            return $array;
+        }
+
+        public static function get_leaf_category_for_product($product) {
+            if (!empty($product->categories)) {
+                return $product->categories[count($product->categories)-1];
+            }
+
+            return NULL;
+        }
+
+        public static function check_if_product_exists($slug) {
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => -1,
+                'name'           => $slug,
+                "post_status"    => 'publish'
+            );
+
+            $products = new WP_Query($args);
+
+            return $products->have_posts();
+        }
+
     }
 
 }

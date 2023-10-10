@@ -8,13 +8,12 @@ import Slider from "./Slider";
 
 const SingleProductPreviewComp = ({product}) => {
 
-    const splide = useRef(null);
-    const [slideIndex, setSlideIndex] = useState(0);
     const [hasAttributes, setHasAttributes] = useState(false);
     const [attributes, setAttributes] = useState([]);
     const [gallery, setGallery] = useState([]);
     const [isOpenedModal, setIsOpenedModal] = useState(false);
     const [allowCableChoose, setAllowCableChoose] = useState(false);
+    const [pauseMainSlideshow, setPauseMainSlideshow] = useState(false);
 
     useEffect(() => {
         console.log(product);
@@ -31,7 +30,7 @@ const SingleProductPreviewComp = ({product}) => {
             setGallery(gallery);
         }
 
-        if (product.attributes.length > 1) {
+        if (product.attributes.length > 0) {
             let count = 0;
             let arr = [];
             for (let i=0; i<product.attributes.length; i++) {
@@ -50,29 +49,6 @@ const SingleProductPreviewComp = ({product}) => {
         }
     }, []);
 
-    useEffect(() => {
-        if (!gallery) {
-            return;
-        }
-        setTimeout(() => {
-            splide.current = new Splide('.splide', {
-                autoplay: true,
-                interval: 3000,
-                rewind: true,
-                pagination: false
-            });
-            splide.current.mount();
-        }, 150);
-    }, [gallery]);
-
-    const slideChanged = useCallback((newIndex, prevIndex, destIndex) => {
-        setSlideIndex(newIndex);
-    }, []);
-
-    const changeImage = useCallback((index) => {
-        splide.current.go(index);
-    }, [slideIndex]);
-
     const goToContact = useCallback((e) => {
         window.showLoader();
         window.reactMain.scrollToTop();
@@ -80,10 +56,12 @@ const SingleProductPreviewComp = ({product}) => {
 
     const openModal = useCallback(() => {
         setIsOpenedModal(true);
+        setPauseMainSlideshow(true);
     }, []);
 
     const onClose = useCallback(() => {
         setIsOpenedModal(false);
+        setPauseMainSlideshow(false);
     }, []);
 
     const imageSlider = <>
@@ -93,8 +71,8 @@ const SingleProductPreviewComp = ({product}) => {
             getImageSource={(item) => item}
             id={"splide-main"}
             hasShadow={true}
-            slideChanged={slideChanged}
             thumbnail={'vertical'}
+            pauseSlideshow={pauseMainSlideshow}
         />
     </>
 
@@ -137,7 +115,7 @@ const SingleProductPreviewComp = ({product}) => {
                         </h3>
 
                         <div className={styles.excerpt}>
-                            {product.post_excerpt}
+                            {product.post_content}
                         </div>
 
                         {allowCableChoose &&
@@ -183,11 +161,24 @@ const SingleProductPreviewComp = ({product}) => {
                                             let value = "";
                                             if (row.attribute_values.length === 1) {
                                                 value = row.attribute_values[0];
+                                            } else {
+                                                value = row.attribute_values.map((attribute, i) => {
+                                                    return (
+                                                        <div key={i} className={styles.attributeValue}>{attribute}</div>
+                                                    );
+                                                });
+                                                value = (
+                                                    <div className={styles.hasAttributesPlaceholder}>
+                                                        <div className={styles.hasAttributes}>
+                                                            {value}
+                                                        </div>
+                                                    </div>
+                                                );
                                             }
                                             return (
                                                 <tr key={i}>
                                                     <td className={styles.firstColumn}>{row.attribute_name}:</td>
-                                                    <td className={styles.secondColumn}>{value}</td>
+                                                    <td className={`${styles.secondColumn}`}>{value}</td>
                                                 </tr>
                                             )
                                         })}

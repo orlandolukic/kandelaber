@@ -1,7 +1,7 @@
 import './modal.scss';
 import {useCallback, useEffect} from "react";
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modal = ({ isOpen, onClose, children, onOpen }) => {
     if (!isOpen) return null;
 
     const onCloseHandler = useCallback((e) => {
@@ -32,6 +32,10 @@ const Modal = ({ isOpen, onClose, children }) => {
         return () => {
             window.removeEventListener('keyup', handler);
         };
+
+        if (typeof onOpen === 'function') {
+            onOpen();
+        }
     }, [isOpen]);
 
     return ReactDOM.createPortal(

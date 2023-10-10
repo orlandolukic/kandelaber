@@ -285,7 +285,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             return $this->get_all_data_for_products($products);
         }
 
-        private function get_all_data_for_products($products) {
+        public function get_all_data_for_products($products) {
             if ($products->have_posts()) :
                 $products_arr = $products->get_posts();
                 for($i=0; $i<count($products_arr); $i++) {
@@ -311,6 +311,8 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
                         $products_arr[$i]->attributes = ProductHelper::get_attributes_for_product($product);
                         $products_arr[$i]->variations = ProductHelper::get_variations_for_product($product);
                         $products_arr[$i]->categories = ProductHelper::get_categories_for_product($product);
+                        $products_arr[$i]->cross_sells = $product->get_cross_sells();
+                        $products_arr[$i]->upsells = $product->get_upsells();
                     }
                 }
                 return $products_arr;

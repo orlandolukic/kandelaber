@@ -2,7 +2,7 @@ import styles from "./slider.module.scss";
 import './slider.scss';
 import {useEffect, useRef, useState} from "react";
 
-const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, thumbnail, timeout}) => {
+const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, thumbnail, timeout, pauseSlideshow}) => {
 
     const splideRef = useRef(null);
     const splideThumbnailRef = useRef(null);
@@ -10,8 +10,14 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
     const timeoutInterval = timeout === undefined ? 3000 : timeout;
 
     useEffect(() => {
+
+        setTimeout(() => {
+            setLoaded(true);
+        }, 600);
+
         setTimeout(() => {
             splideRef.current = new Splide("#" + id, {
+                pauseOnHover: true,
                 autoplay: true,
                 interval: timeoutInterval,
                 rewind: true,
@@ -25,6 +31,7 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
 
             if (typeof thumbnail !== 'undefined') {
                 splideThumbnailRef.current = new Splide("#" + id + "-thumbnail", {
+                    autoplay: false,
                     isNavigation: true,
                     fixedWidth: 100,
                     fixedHeight: 60,
@@ -39,11 +46,25 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
             } else {
                 splideRef.current.mount();
             }
-
-
-            setLoaded(true);
         }, 500);
     }, []);
+
+    useEffect(() => {
+        if (splideRef.current === null || pauseSlideshow === undefined) {
+            return;
+        }
+        if (pauseSlideshow) {
+            splideRef.current.Components.Autoplay.pause();
+            if (splideThumbnailRef.current !== null) {
+                splideThumbnailRef.current.Components.Autoplay.pause();
+            }
+        } else {
+            splideRef.current.Components.Autoplay.play();
+            if (splideThumbnailRef.current !== null) {
+                splideThumbnailRef.current.Components.Autoplay.play();
+            }
+        }
+    }, [pauseSlideshow, splideRef.current, splideThumbnailRef.current]);
 
     return <>
         <div className={`${styles.sliderPlaceholder}${!loaded ? " " + styles.isLoading : ""}${thumbnail !== undefined ? " " + styles[thumbnail + "Thumbnail"] : ""}`}>
@@ -109,6 +130,7 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
                     <div className={styles.loader}></div>
                 </div>
             }
+
         </div>
     </>
 };
