@@ -309,8 +309,9 @@ jQuery(document).on("ready", function() {
         );
 
         const product = typeof product_vars !== 'undefined' ? product_vars.product[0] : null;
+        const recommendations = typeof product_vars !== 'undefined' ? product_vars.recommended_products : null;
         whitelistApp("single-product", "single-product-preview",
-            <SingleProductPreview product={product} />
+            <SingleProductPreview product={product} recommendations={recommendations} />
         );
 
         // Initialize all react apps

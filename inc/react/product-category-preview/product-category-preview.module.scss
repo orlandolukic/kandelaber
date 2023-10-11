@@ -139,66 +139,6 @@
       }
     }
 
-    // Styling of the single product preview
-    .singleProduct {
-      display: flex;
-      flex-direction: column;
-      opacity: 0;
-      animation: {
-        name: fadeIn;
-        duration: 300ms;
-        fill-mode: forwards;
-      }
-
-      &:nth-child(n+5) {
-        margin-top: 80px;
-      }
-
-      .content {
-        background-color: lighten($cl-2, 15%);
-        padding: 20px 25px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100%;
-        border: 2px dashed lighten($cl-normal, 50%);
-        border-radius: 2px;
-        transition: 0.2s;
-        cursor: pointer;
-
-        &:hover {
-          background-color: $cl-2;
-          border-color: $cl-normal;
-        }
-
-        &:active {
-          opacity: 0.8;
-          transform: scale3d(0.9,0.9,0.9);
-        }
-
-        &:not(:first-child) {
-          margin-left: 10px;
-        }
-
-        .image {
-          display: flex;
-          align-items: center;
-          height: 100%;
-
-          img {
-            max-height: 350px;
-          }
-        }
-
-        .title {
-          margin-top: 20px;
-          font-weight: bold;
-          font-size: 22px;
-          color: $cl-normal;
-        }
-      }
-    }
-
     .showMoreButtonPlaceholder {
       display: flex;
       align-items: center;

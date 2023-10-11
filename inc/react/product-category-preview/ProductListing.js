@@ -4,8 +4,9 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import stylesApp from '../../elementor/product-category-listing/react/app.module.scss';
 import ProductCategoryPreview from "./ProductCategoryPreview";
 import SingleProductPreview from "../single-product-preview/SingleProductPreview";
+import SingleProductElement from "./SingleProductElement";
 
-const PAGE_SIZE = 8;
+export const PAGE_SIZE = 8;
 
 const getProductsOnPage = (products, page, pageSize) => {
     return products.slice(page*PAGE_SIZE, page*PAGE_SIZE + pageSize);
@@ -118,22 +119,6 @@ const ProductListing = ({category, subcategory, subcategories}) => {
         }
     }, [category, subcategory, subcategories]);
 
-    const createProductElement = useCallback((product, i) => {
-        let delay = 300*(i % PAGE_SIZE);
-        return (
-            <div className={`col-md-3 ${styles.singleProduct}`} key={i} style={{animationDelay: delay + "ms"}} onClick={openProduct.bind(null, product)}>
-                <div className={styles.content}>
-                    <div className={styles.image}>
-                        <img src={product.featured_image[0]} />
-                    </div>
-                    <div className={styles.title}>
-                        {product.post_title}
-                    </div>
-                </div>
-            </div>
-        );
-    }, []);
-
     const showAllProducts = useCallback(() => {
         window.showLoader();
         window.location.href = "/proizvodi";
@@ -190,7 +175,7 @@ const ProductListing = ({category, subcategory, subcategories}) => {
     }
 
     const productElements = productsToDisplay.map((product, i) => {
-        return createProductElement(product, i);
+        return <SingleProductElement product={product} i={i} delayIndex={i} onClick={openProduct.bind(null, product)} />
     });
 
     return (

@@ -5,8 +5,9 @@ import Button, {BUTTON_PRIMARY} from "../button/Button";
 import Modal from "../modal/Modal";
 import ChooseFromGallery from "./ChooseFromGallery";
 import Slider from "./Slider";
+import ProductRecommendations from "../product-recommendations/ProductRecommendations";
 
-const SingleProductPreviewComp = ({product}) => {
+const SingleProductPreviewComp = ({product, recommendations}) => {
 
     const [hasAttributes, setHasAttributes] = useState(false);
     const [attributes, setAttributes] = useState([]);
@@ -198,11 +199,13 @@ const SingleProductPreviewComp = ({product}) => {
                     </div>
                 </div>
             </div>
+
+            <ProductRecommendations recommendations={recommendations} />
         </>
     )
 };
 
-const SingleProductPreview = ({product}) => {
+const SingleProductPreview = ({product, recommendations}) => {
 
     const [loaded, setLoaded] = useState(false);
 
@@ -214,7 +217,7 @@ const SingleProductPreview = ({product}) => {
         return;
     }
 
-    return <SingleProductPreviewComp product={product} />;
+    return <SingleProductPreviewComp product={product} recommendations={recommendations} />;
 };
 
 export default SingleProductPreview;
