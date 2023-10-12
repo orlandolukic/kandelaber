@@ -84,7 +84,7 @@ if ( ! class_exists('ProductHelper') ) {
             return $array;
         }
 
-        public static function get_random_products_in_category($category) {
+        public static function get_random_products_in_category($category, $product) {
 
             if ($category == NULL) {
                 return array();
@@ -96,6 +96,7 @@ if ( ! class_exists('ProductHelper') ) {
                 'post_type'      => 'product',
                 'posts_per_page' => 4,
                 'orderby'        => 'rand',
+                'post__not_in'    => array($product->ID),
                 'tax_query'      => array(
                     array(
                         'taxonomy' => 'product_cat',

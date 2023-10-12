@@ -164,6 +164,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
 
             // Add variable for react rendered script
             wp_localize_script('react-rendered', 'react_top', $array);
+
         }
 
         public function custom_product_cat_fields($term) {

@@ -47,6 +47,12 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
                 splideRef.current.mount();
             }
         }, 500);
+        return () => {
+            splideRef.current.destroy();
+            if (splideThumbnailRef.current !== null) {
+                splideThumbnailRef.current.destroy();
+            }
+        };
     }, []);
 
     useEffect(() => {

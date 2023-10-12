@@ -2,6 +2,7 @@ import {createRoot} from "react-dom/client";
 import ProductCategoryPreview from "../../inc/react/product-category-preview/ProductCategoryPreview";
 import productListing from "../../inc/react/product-category-preview/ProductListing";
 import SingleProductPreview from "../../inc/react/single-product-preview/SingleProductPreview";
+import {jsx} from "react/jsx-runtime";
 
 jQuery(document).on("ready", function() {
     (function() {
@@ -12,6 +13,11 @@ jQuery(document).on("ready", function() {
         let isPushedFirstTime = false;
         let categoriesMap = {};
         let currentComponentId = null;
+
+        const consts = {
+            PRODUCT_CATEGORY_PREVIEW: 'product-category-preview',
+            SINGLE_PRODUCT_PREVIEW: 'single-product-preview'
+        };
 
         let whitelistApp = function(pageId, appId, component) {
             let obj = whitelistedApps[pageId];
@@ -55,9 +61,10 @@ jQuery(document).on("ready", function() {
             }
         }
 
-        const productsFactory = (function () {
+        const ProductsManager = (function () {
             const productsLibrary = {};
             const ajaxRequests = {};
+            const visitedProducts = {};
 
             let helpers = {
                 findSearchTerm: function (category, subcategory) {
@@ -71,6 +78,55 @@ jQuery(document).on("ready", function() {
                     return searchTerm;
                 }
             };
+
+            // Methods for visited products
+            let visitedProductsMethods = {
+                saveVisitedProduct: (slug, product, recommendations, recommendedProductsCategory) => {
+                    visitedProducts[slug] = {
+                        product: product,
+                        recommended_products: recommendations,
+                        recommended_products_category: recommendedProductsCategory
+                    };
+                },
+
+                isProductAlreadyVisited: (slug) => {
+                    return visitedProducts[slug] !== undefined;
+                },
+
+                getProduct: function (slug) {
+                    return new Promise((resolve, reject) => {
+                        if (!this.isProductAlreadyVisited(slug)) {
+                            // Do the product fetching
+                            let ajax = jQuery.ajax({
+                                url: react_vars.ajax_url,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    action: 'fetch_product',
+                                    slug: slug,
+                                },
+                                success: function (data) {
+                                    if (data.found) {
+                                        resolve(data.payload);
+                                    } else {
+                                        reject(data.error);
+                                    }
+                                },
+                                error: function (xhr, status, error) {
+                                    reject(error);
+                                }
+                            });
+                        } else {
+                            resolve(visitedProducts[slug]);
+                        }
+                    });
+                },
+
+                get: () => {
+                    return visitedProducts;
+                }
+            }
+
 
             let methods = {
                 registerProductsInCategory: function (product, category, subcategory) {
@@ -166,7 +222,10 @@ jQuery(document).on("ready", function() {
                 retrieveProductsSync: function (category, subcategory) {
                     let searchTerm = helpers.findSearchTerm(category, subcategory);
                     return productsLibrary[searchTerm];
-                }
+                },
+
+                // Visited products operations
+                visitedProducts: visitedProductsMethods
             };
 
             if (react_vars.page === "opened-category") {
@@ -180,19 +239,25 @@ jQuery(document).on("ready", function() {
 
             return methods;
         })();
-        window.productsFactory = productsFactory;
+        window.productsFactory = ProductsManager;
+
+        const ProductLibrary = (() => {
+
+        })();
 
 
-        window.renderApp = function(id, component, unmountAll) {
+        window.renderApp = function(id, component, unmountAll, force) {
             if (document.getElementById(id)) { //check if element exists before rendering
 
                 if (unmountAll) {
                     for (const pageId in renderedApps) {
-                        if (pageId !== id) {
-                            console.log(renderedApps[pageId]);
-                            renderedApps[pageId].root.unmount();
-                            delete renderedApps[pageId].root;
-                        }
+                        try {
+                            if (pageId !== id || force !== undefined && force) {
+                                console.log("destroyed", pageId, renderedApps[pageId]);
+                                renderedApps[pageId].root.unmount();
+                                delete renderedApps[pageId].root;
+                            }
+                        } catch(e) {}
                     }
                 }
 
@@ -276,24 +341,21 @@ jQuery(document).on("ready", function() {
                     let props = {...e.state};
                     delete props.page;
                     delete props.isSingleProduct;
-                    window.renderApp('single-product-preview', <SingleProductPreview {...props} />);
+                    window.renderApp(consts.SINGLE_PRODUCT_PREVIEW, <SingleProductPreview {...props} />);
                     return;
                 }
 
                 let props = {...e.state};
                 delete props.page;
                 console.log("11", props);
-                window.renderApp('product-category-preview', <ProductCategoryPreview data={true} {...props} />);
+                window.renderApp(consts.PRODUCT_CATEGORY_PREVIEW, <ProductCategoryPreview data={true} {...props} />);
 
             } else if (e.state.page === "single-product") {
-                transitionOverlayLoader();
+                console.log(e.state);
+                window.showLoader();
                 let props = {...e.state};
                 delete props.page;
-                window.renderApp('single-product-preview', <SingleProductPreview {...props} />);
-                history.replaceState({
-                    page: 'single-product',
-                    ...props
-                }, null);
+                window.renderApp(consts.SINGLE_PRODUCT_PREVIEW, <SingleProductPreview {...props} />);
             }
         };
         window.addEventListener('popstate', onPopStateHandler);
@@ -308,10 +370,11 @@ jQuery(document).on("ready", function() {
                 />
         );
 
-        const product = typeof product_vars !== 'undefined' ? product_vars.product[0] : null;
-        const recommendations = typeof product_vars !== 'undefined' ? product_vars.recommended_products : null;
-        whitelistApp("single-product", "single-product-preview",
-            <SingleProductPreview product={product} recommendations={recommendations} />
+        const product = typeof product_vars !== 'undefined' ? product_vars.product : null;
+        const recommended_products = typeof product_vars !== 'undefined' ? product_vars.recommended_products : null;
+        const recommended_products_category = typeof product_vars !== 'undefined' ? product_vars.recommended_products_category : null;
+        whitelistApp("single-product", consts.SINGLE_PRODUCT_PREVIEW,
+            <SingleProductPreview product={product} recommended_products={recommended_products} recommended_products_category={recommended_products_category} />
         );
 
         // Initialize all react apps
@@ -332,12 +395,43 @@ jQuery(document).on("ready", function() {
                             return allCategories[i].subcategories;
                         }
                     }
+                },
+
+                getCategoryData: function(slug) {
+                    for (let i=0; i<allCategories.length; i++) {
+                        if (allCategories[i].slug === slug) {
+                            return {
+                                category: allCategories[i],
+                                subcategory: null,
+                                subcategories: allCategories[i].subcategories,
+                                isSingleProduct: allCategories[i].is_product_and_category
+                            };
+                        } else {
+                            // Check subcategories
+                            let subcategories = allCategories[i].subcategories;
+                            if (subcategories === null) {
+                                continue;
+                            }
+                            for (let j=0; j<subcategories.length; j++) {
+                                if (subcategories[j].slug === slug) {
+                                    return {
+                                        category: allCategories[i],
+                                        subcategory: subcategories[j],
+                                        subcategories: subcategories,
+                                        isSingleProduct: subcategories[j].is_product_and_category
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             };
         };
 
 
         window.reactMain = {
+            consts: consts,
+
             pushStartHistoryState: function() {
                 if (isPushedFirstTime || firstStateObject === null) {
                     return;
@@ -352,12 +446,7 @@ jQuery(document).on("ready", function() {
             scrollToTop: scrollToTop,
 
             openProduct: function(prevProps, product, callback) {
-                console.log(product, callback);
-                transitionOverlayLoader(() => {
-                    if (typeof callback === 'function') {
-                        callback();
-                    }
-                });
+                window.showLoader();
 
                 // Push a new state to the history
                 const newState = {
@@ -369,21 +458,9 @@ jQuery(document).on("ready", function() {
                 history.pushState(newState, null, newUrl);
                 document.title = newTitle;
 
-                const appsToRemove = whitelistedApps["single-product"];
-                for (const appId in appsToRemove) {
-                    if (renderedApps[appId] === undefined) {
-                        continue;
-                    }
-                    try {
-                        renderedApps[appId].root.unmount();
-                    } catch(e) {}
-                    delete renderedApps[appId].root;
+                if (typeof callback === 'function') {
+                    callback();
                 }
-
-                history.replaceState({
-                    page: 'single-product',
-                    product: product
-                }, null);
             }
         };
 

@@ -22,7 +22,7 @@ function isButtonNearEnd(button) {
     return buttonRect.top <= windowHeight - threshold;
 }
 
-const ProductListing = ({category, subcategory, subcategories}) => {
+const ProductListing = ({category, subcategory, subcategories, fetchProducts}) => {
 
     const [displayNoProducts, setDisplayNoProducts] = useState(false);
     const [products, setProducts] = useState([]);
@@ -41,7 +41,7 @@ const ProductListing = ({category, subcategory, subcategories}) => {
             page: "opened-category",
             isSingleProduct: false
         }, product,() => {
-            window.renderApp("single-product-preview", <SingleProductPreview product={product} />, true);
+            window.renderApp(window.reactMain.consts.SINGLE_PRODUCT_PREVIEW, <SingleProductPreview slug={product.post_name} />, true);
         });
     }, [category, subcategory, subcategories]);
 
@@ -79,6 +79,9 @@ const ProductListing = ({category, subcategory, subcategories}) => {
     }, [showMoreProducts]);
 
     useEffect(() => {
+        if (!fetchProducts) {
+            return;
+        }
 
         setPage(0);
         setProductsToDisplay([]);
@@ -117,7 +120,7 @@ const ProductListing = ({category, subcategory, subcategories}) => {
         return () => {
             window.productsFactory.rejectAllPromises(category, subcategory);
         }
-    }, [category, subcategory, subcategories]);
+    }, [category, subcategory, subcategories, fetchProducts]);
 
     const showAllProducts = useCallback(() => {
         window.showLoader();

@@ -6,11 +6,12 @@ import SubcategoriesListing from "./SubcategoriesListing";
 import SingleCategory from "../../elementor/product-category-listing/react/SingleCategory";
 import ProductListing from "./ProductListing";
 
-const ProductCategoryPreviewComp = ({category, subcategory, subcategories, renderedAgain}) => {
+const ProductCategoryPreview = ({category, subcategory, subcategories, renderedAgain}) => {
 
     const [categoryState, setCategoryState] = useState(category);
     const [subcategoryState, setSubcategoryState] = useState(subcategory);
     const [subcategoriesState, setSubcategoriesState] = useState(subcategories);
+    const [fetchProducts, setFetchProducts] = useState(false);
     const [title, setTitle] = useState("");
     const [imageSrc, setImageSrc] = useState("");
 
@@ -18,6 +19,14 @@ const ProductCategoryPreviewComp = ({category, subcategory, subcategories, rende
         let subcategories = window.reactMain.categoriesManager.getSubcategoriesForCategoryBySlug(category.slug);
         console.log(subcategories);
         setSubcategoriesState(subcategories);
+        setFetchProducts(true);
+
+        history.replaceState({
+            page: "opened-category",
+            category: category,
+            subcategory: subcategory === undefined ? null : subcategory,
+            subcategories: subcategories === undefined ? null : subcategories
+        }, null);
     }, []);
 
     useEffect(() => {
@@ -96,31 +105,12 @@ const ProductCategoryPreviewComp = ({category, subcategory, subcategories, rende
                     category={categoryState}
                     subcategory={subcategoryState}
                     subcategories={subcategoriesState}
+                    fetchProducts={fetchProducts}
                 />
 
             </div>
         </>
     );
-};
-
-const ProductCategoryPreview = (props) => {
-
-    const [data, setData] = useState(props.data);
-
-    useEffect(() => {
-        if (data === undefined) {
-            // Fetch data
-            setTimeout(() => {
-                console.log("fetching data...");
-            }, 500);
-        }
-    }, [data]);
-
-    if (data === undefined) {
-        return;
-    }
-
-    return <ProductCategoryPreviewComp {...props} />;
 };
 
 export default ProductCategoryPreview;

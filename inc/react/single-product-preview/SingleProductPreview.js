@@ -7,7 +7,7 @@ import ChooseFromGallery from "./ChooseFromGallery";
 import Slider from "./Slider";
 import ProductRecommendations from "../product-recommendations/ProductRecommendations";
 
-const SingleProductPreviewComp = ({product, recommendations}) => {
+const SingleProductPreviewComp = ({product, recommendations, recommended_products_category}) => {
 
     const [hasAttributes, setHasAttributes] = useState(false);
     const [attributes, setAttributes] = useState([]);
@@ -17,7 +17,11 @@ const SingleProductPreviewComp = ({product, recommendations}) => {
     const [pauseMainSlideshow, setPauseMainSlideshow] = useState(false);
 
     useEffect(() => {
-        console.log(product);
+
+        // Save product as fetched and visited
+        window.productsFactory.visitedProducts.saveVisitedProduct(product.post_name, product, recommendations, recommended_products_category);
+
+        console.log(1212, product);
         let gallery = [];
         if (product.featured_image) {
             gallery.push(product.featured_image[0]);
@@ -75,7 +79,15 @@ const SingleProductPreviewComp = ({product, recommendations}) => {
             thumbnail={'vertical'}
             pauseSlideshow={pauseMainSlideshow}
         />
-    </>
+    </>;
+
+    const mouseEnteredSlider = useCallback(() => {
+        setPauseMainSlideshow(true);
+    }, []);
+
+    const mouseLeftSlider = useCallback(() => {
+        setPauseMainSlideshow(false);
+    }, []);
 
     return (
         <>
@@ -99,7 +111,7 @@ const SingleProductPreviewComp = ({product, recommendations}) => {
 
                             {gallery.length > 0 &&
                                 <>
-                                    <div className={styles.slider}>
+                                    <div className={styles.slider} onMouseEnter={mouseEnteredSlider} onMouseLeave={mouseLeftSlider}>
                                         {imageSlider}
                                     </div>
                                 </>
@@ -200,24 +212,61 @@ const SingleProductPreviewComp = ({product, recommendations}) => {
                 </div>
             </div>
 
-            <ProductRecommendations recommendations={recommendations} />
+            <ProductRecommendations product={product} recommendations={recommendations} recommended_products_category={recommended_products_category} />
         </>
     )
 };
 
-const SingleProductPreview = ({product, recommendations}) => {
+const SingleProductPreview = ({product, recommended_products, recommended_products_category, slug}) => {
 
     const [loaded, setLoaded] = useState(false);
+    const [productState, setProductState] = useState(product);
+    const [recommendationsState, setRecommendationsState] = useState(recommended_products);
+    const [recommendedProductsCategoryState, setRecommendedProductsCategoryState] = useState(recommended_products_category);
 
     useEffect(() => {
-        setLoaded(true);
+        if (slug !== undefined) {
+            // We should load product
+            console.log("fetching slug");
+            window.productsFactory.visitedProducts.getProduct(slug)
+                .then((payload) => {
+                    setProductState(payload.product);
+                    setRecommendationsState(payload.recommended_products);
+                    setRecommendedProductsCategoryState(payload.recommended_products_category);
+
+                    history.replaceState({
+                        page: 'single-product',
+                        product: payload.product,
+                        recommended_products: payload.recommended_products,
+                        recommended_products_category: payload.recommended_products_category
+                    }, null);
+
+                    setLoaded(true);
+                    setTimeout(() => {
+                        window.hideLoader();
+                    }, 100);
+                })
+        } else {
+            setLoaded(true);
+
+            history.replaceState({
+                page: 'single-product',
+                product: product,
+                recommended_products: recommended_products,
+                recommended_products_category: recommended_products_category
+            }, null);
+
+            setTimeout(() => {
+                window.hideLoader();
+            }, 100);
+        }
     }, []);
 
     if (!loaded) {
         return;
     }
 
-    return <SingleProductPreviewComp product={product} recommendations={recommendations} />;
+    return <SingleProductPreviewComp product={productState} recommendations={recommendationsState} recommended_products_category={recommendedProductsCategoryState} />;
 };
 
 export default SingleProductPreview;
