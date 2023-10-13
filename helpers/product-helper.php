@@ -97,6 +97,7 @@ if ( ! class_exists('ProductHelper') ) {
                 'posts_per_page' => 4,
                 'orderby'        => 'rand',
                 'post__not_in'    => array($product->ID),
+                'post_status'    => 'publish',
                 'tax_query'      => array(
                     array(
                         'taxonomy' => 'product_cat',
@@ -118,7 +119,11 @@ if ( ! class_exists('ProductHelper') ) {
 
         public static function get_leaf_category_for_product($product) {
             if (!empty($product->categories)) {
-                return $product->categories[count($product->categories)-1];
+                $first = $product->categories[0];
+                if ($first->slug == "led-trake") {
+                    $first = Product_Category_Listing::fetch_data_for_category_by("rozetne");
+                }
+                return $first;
             }
 
             return NULL;
@@ -135,6 +140,15 @@ if ( ! class_exists('ProductHelper') ) {
             $products = new WP_Query($args);
 
             return $products->have_posts();
+        }
+
+        public static function is_allowed_category_selection_for_product($product) {
+            if ($product->categories) {
+                if ($product->categories[0]->slug == "led-trake") {
+                    return false;
+                }
+            }
+            return true;
         }
 
     }

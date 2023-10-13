@@ -41,7 +41,7 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
                 post_title: category.name,
                 post_name: category.slug
             }, () => {
-                window.renderApp("single-product-preview", <SingleProductPreview product={category} isCategory />)
+                window.renderApp(window.reactMain.consts.SINGLE_PRODUCT_PREVIEW, <SingleProductPreview slug={category.slug} />)
             });
             return;
         }

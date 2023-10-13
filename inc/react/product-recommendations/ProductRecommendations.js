@@ -12,11 +12,10 @@ const ProductRecommendations = ({ product, recommendations, recommended_products
         window.showLoader();
 
         setTimeout(() => {
+            let props = window.reactMain.categoriesManager.getPropsForComponentRendering(recommended_products_category.slug);
+            console.log("props", props);
             window.renderApp(window.reactMain.consts.PRODUCT_CATEGORY_PREVIEW,
-                <ProductCategoryPreview
-                    category={recommended_products_category}
-                    subcategories={window.reactMain.categoriesManager.getSubcategoriesForCategoryBySlug(recommended_products_category)}
-                />,
+                <ProductCategoryPreview {...props} />,
                 true,
                 true
             );
@@ -30,14 +29,15 @@ const ProductRecommendations = ({ product, recommendations, recommended_products
             recommended_products_category: recommended_products_category
         };
         const newTitle = recommended_products_category.name + " — Kandelaber";
-        const newUrl = '/proizvodi/' + recommended_products_category.slug + "/";
+        let toShow = recommendations[0].categories.length > 1 ? 1 : 0;
+        const newUrl = '/proizvodi' +  window.reactMain.categoriesManager.getURLPathForCategories(recommendations[0].categories, toShow);
 
         history.pushState(newState, null, newUrl);
         document.title = newTitle;
 
         // Scroll to top of the document
         window.reactMain.scrollToTop();
-    }, []);
+    }, [product]);
 
     const selectProduct = useCallback((recommendation) => {
         window.showLoader();

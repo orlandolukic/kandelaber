@@ -6,6 +6,7 @@ import Modal from "../modal/Modal";
 import ChooseFromGallery from "./ChooseFromGallery";
 import Slider from "./Slider";
 import ProductRecommendations from "../product-recommendations/ProductRecommendations";
+import ProductCategoryPreview from "../product-category-preview/ProductCategoryPreview";
 
 const SingleProductPreviewComp = ({product, recommendations, recommended_products_category}) => {
 
@@ -89,18 +90,53 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
         setPauseMainSlideshow(false);
     }, []);
 
+    const openCategory = useCallback((toShow) => {
+
+        // Disable led trake to click on category
+        if (product.post_name === 'led-trake') {
+            return;
+        }
+
+        window.showLoader();
+
+        console.log("toShow", toShow);
+        // Push a new state to the history
+        let categoryToDisplay = product.categories[product.categories.length-1-toShow];
+        const newState = {
+            page: "single-product",
+            product: product,
+            recommended_products: recommendations,
+            recommended_products_category: recommended_products_category
+        };
+        const newTitle = categoryToDisplay.name + " — Kandelaber";
+        const newUrl = '/proizvodi' + window.reactMain.categoriesManager.getURLPathForCategories(product.categories, toShow);
+
+        history.pushState(newState, null, newUrl);
+        document.title = newTitle;
+
+        // Scroll to top of the document
+        window.reactMain.scrollToTop();
+
+        setTimeout(() => {
+            let props = window.reactMain.categoriesManager.getPropsForComponentRendering(categoryToDisplay.slug);
+            window.renderApp(reactMain.consts.PRODUCT_CATEGORY_PREVIEW, <ProductCategoryPreview {...props} />, true, true);
+        }, 250);
+    }, []);
+
     return (
         <>
             {product.categories.length > 1 &&
                 <Breadcrumbs
                     category={product.categories[1]}
                     subcategory={product.categories[0]}
+                    onOpenCategory={openCategory}
                 />
             }
 
             {product.categories.length === 1 &&
                 <Breadcrumbs
                     category={product.categories[0]}
+                    onOpenCategory={openCategory}
                 />
             }
 
@@ -246,7 +282,7 @@ const SingleProductPreview = ({product, recommended_products, recommended_produc
                         window.hideLoader();
                     }, 100);
                 })
-        } else {
+        } else if (product !== undefined && recommended_products !== undefined && recommended_products_category !== undefined) {
             setLoaded(true);
 
             history.replaceState({

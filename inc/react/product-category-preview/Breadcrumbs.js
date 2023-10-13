@@ -2,7 +2,7 @@ import styles from "./product-category-preview.module.scss";
 import {useCallback, useEffect} from "react";
 import SubcategoriesListing from "./SubcategoriesListing";
 
-const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories, changeSubcategories}) => {
+const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories, changeSubcategories, onOpenCategory}) => {
 
     useEffect(() => {
         tippy('#tooltipAllProducts', {
@@ -17,8 +17,14 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
         window.location.href = "/proizvodi";
     }, []);
 
-    const openCategory = useCallback(() => {
-        if (subcategory !== undefined && subcategory !== null) {
+    const openCategory = useCallback((i) => {
+        if (onOpenCategory !== undefined && typeof onOpenCategory === 'function') {
+            onOpenCategory(i);
+        } else if (subcategory !== undefined && subcategory !== null) {
+
+            if (i === 1) {
+                return;
+            }
 
             console.log("subcategories", subcategories);
             // Push a new state to the history
@@ -37,7 +43,7 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
             changeSubcategory(null);
             window.showLoader();
         }
-    }, [subcategory, category, subcategories]);
+    }, [subcategory, category, subcategories, onOpenCategory]);
 
     return (
         <div className={styles.breadcrumbs}>
@@ -56,7 +62,7 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
                             <div className={styles.categoryNameDisplay}>
                                 <div className={styles.textContent}>
                                     <div className={styles.text}>Kategorija</div>
-                                    <div className={styles.name} onClick={openCategory}>{category.name}</div>
+                                    <div className={styles.name} onClick={openCategory.bind(null, 0)}>{category.name}</div>
                                 </div>
                             </div>
 
@@ -69,7 +75,7 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
 
                                         <div className={styles.textContent}>
                                             <div className={styles.text}>Podkategorija</div>
-                                            <div className={styles.name}>{subcategory.name}</div>
+                                            <div className={styles.name}  onClick={openCategory.bind(null, 1)}>{subcategory.name}</div>
                                         </div>
                                     </div>
                                 </>

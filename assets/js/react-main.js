@@ -300,19 +300,23 @@ jQuery(document).on("ready", function() {
         let timeout1 = null;
         let timeout2 = null;
 
-        const transitionOverlayLoader = (whenFinishedCallback) => {
+        const transitionOverlayLoader = (whenFinishedCallback, hideOverlay, timeoutIntervals) => {
             clearTimeout(timeout1);
             clearTimeout(timeout2);
+            hideOverlay = hideOverlay === undefined ? true : hideOverlay;
+            timeoutIntervals = timeoutIntervals === undefined ? { hide: 500, show: 500 } : timeoutIntervals;
             jQuery(".overlay-loader-container").css('display', 'flex');
             timeout1 = setTimeout(() => {
                 if (jQuery("#heading-section").parents("#qodef-page-outer").length > 0) {
                     jQuery("#heading-section").parents("#qodef-page-outer").fadeOut(function () {
                         timeout2 = setTimeout(() => {
-                            jQuery(".overlay-loader-container").hide();
+                            if (hideOverlay) {
+                                jQuery(".overlay-loader-container").hide();
+                            }
                             if (typeof whenFinishedCallback === 'function') {
                                 whenFinishedCallback();
                             }
-                        }, 500);
+                        }, timeoutIntervals.show);
                     });
                 } else {
                     jQuery(".overlay-loader-container").hide();
@@ -320,7 +324,7 @@ jQuery(document).on("ready", function() {
                         whenFinishedCallback();
                     }
                 }
-            }, 500);
+            }, timeoutIntervals.hide);
         };
 
         const onPopStateHandler=  (e) => {
@@ -370,11 +374,12 @@ jQuery(document).on("ready", function() {
                 />
         );
 
-        const product = typeof product_vars !== 'undefined' ? product_vars.product : null;
-        const recommended_products = typeof product_vars !== 'undefined' ? product_vars.recommended_products : null;
-        const recommended_products_category = typeof product_vars !== 'undefined' ? product_vars.recommended_products_category : null;
+        let props = null;
+        if (typeof product_vars !== 'undefined') {
+            props = product_vars;
+        }
         whitelistApp("single-product", consts.SINGLE_PRODUCT_PREVIEW,
-            <SingleProductPreview product={product} recommended_products={recommended_products} recommended_products_category={recommended_products_category} />
+            <SingleProductPreview {...props} />
         );
 
         // Initialize all react apps
@@ -389,11 +394,51 @@ jQuery(document).on("ready", function() {
                 getAllCategories: function() {
                   return allCategories;
                 },
+
                 getSubcategoriesForCategoryBySlug: function(slug) {
                     for (let i=0; i<allCategories.length; i++) {
                         if (allCategories[i].slug === slug) {
                             return allCategories[i].subcategories;
                         }
+                    }
+                },
+
+                getPropsForComponentRendering: function (slug) {
+                    for (let i=0; i<allCategories.length; i++) {
+                        if (allCategories[i].slug === slug) {
+                            return {
+                                category: allCategories[i],
+                                subcategory: null
+                            };
+                        } else if (allCategories[i].subcategories && allCategories[i].subcategories.length > 0) {
+                            let subcategories = allCategories[i].subcategories;
+                            for (let j=0; j<subcategories.length; j++) {
+                                if (subcategories[j].slug === slug) {
+                                    return {
+                                        category: allCategories[i],
+                                        subcategory:  subcategories[j]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+
+                getURLPathForCategories: function (categories, start) {
+                    if (start === 0) {
+                        return "/" + categories[categories.length-1].slug + "/";
+                    } else {
+                        let url = "/";
+                        let count = 0;
+                        for (let i = categories.length - start; i >= 0; i--) {
+                            if (count > 0) {
+                                url += "/";
+                            }
+                            url += categories[i].slug;
+                            count++;
+                        }
+                        url += "/";
+                        return url;
                     }
                 },
 
@@ -458,9 +503,14 @@ jQuery(document).on("ready", function() {
                 history.pushState(newState, null, newUrl);
                 document.title = newTitle;
 
-                if (typeof callback === 'function') {
-                    callback();
-                }
+                transitionOverlayLoader(() => {
+                    if (typeof callback === 'function') {
+                        callback();
+                    }
+                }, false, {
+                    hide: 300,
+                    show: 200
+                });
             }
         };
 

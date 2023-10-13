@@ -23,6 +23,7 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             add_action( 'kandelaber_action_before_page_template_footer', array($this, 'add_div') );
             add_action( 'wp_ajax_fetch_product', array($this, 'fetch_product') );
             add_action( 'wp_ajax_nopriv_fetch_product', array($this, 'fetch_product') );
+            add_action( 'woocommerce_product_options_advanced', array($this, 'add_custom_product_field') );
 
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
@@ -38,6 +39,20 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             ?>
             <div id="single-product-preview"></div>
             <?php
+        }
+
+        public function add_custom_product_field() {
+            woocommerce_wp_select(array(
+                'id'          => '_product_weight',
+                'label'       => 'Product Weight (kg)',
+                'placeholder' => 'Enter the product weight in kilograms',
+                'desc_tip'    => 'true',
+                'options'     => array(
+                    1 => "1",
+                    2 => "2",
+                    3 => "3"
+                )
+            ));
         }
 
         public function whitelist_query_vars( $query_vars ) {
