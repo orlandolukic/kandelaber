@@ -27,6 +27,7 @@ if ( ! class_exists('KandelaberMain') ) {
             add_action('lucent_action_before_wrapper_close_tag', array($this, 'add_loading_overlay'));
 
             add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
+            add_filter( 'lucent_filter_header_inner_class', array($this, 'header_classes') );
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
             add_action( 'remove_categories_for_products', array($this, 'remove_categories') );
             add_action( 'init', array($this, 'init') );
@@ -38,6 +39,11 @@ if ( ! class_exists('KandelaberMain') ) {
 
         private function require_files() {
             require LUCENT_INC_ROOT_DIR . "/elementor/product-category-listing/product-category-listing.php";
+        }
+
+        public function header_classes($classes) {
+            $classes[] = "kandelaber-header";
+            return $classes;
         }
 
         public function add_custom_css() {

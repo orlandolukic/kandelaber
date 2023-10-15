@@ -8,12 +8,16 @@ do_action( 'lucent_action_before_page_header' );
 	do_action( 'lucent_action_before_page_header_inner' );
 
     // Include top info bar
-    echo lucent_get_template_part( 'header', 'templates/parts/top-info-bar' );
+    lucent_template_part( 'header', 'templates/parts/top-info-bar' );
 	?>
 	<div id="qodef-page-header-inner" <?php lucent_class_attribute( apply_filters( 'lucent_filter_header_inner_class', array(), 'default' ) ); ?>>
-		<?php
-		// Include module content template
-		echo apply_filters( 'lucent_filter_header_content_template', lucent_get_template_part( 'header', 'templates/header-content' ) ); ?>
+       <div class="container">
+           <div class="row">
+               <?php
+               // Include module content template
+               echo apply_filters( 'lucent_filter_header_content_template', lucent_get_template_part( 'header', 'templates/header-content' ) ); ?>
+           </div>
+       </div>
 	</div>
 	<?php
 	// Hook to include additional content after page header inner

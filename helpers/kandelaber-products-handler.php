@@ -315,6 +315,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
                         $products_arr[$i]->categories = ProductHelper::get_categories_for_product($product);
                         $products_arr[$i]->cross_sells = $product->get_cross_sells();
                         $products_arr[$i]->upsells = $product->get_upsells();
+                        $products_arr[$i]->fast_collections = ProductHelper::get_fast_collections($product);
                     }
                 }
                 return $products_arr;

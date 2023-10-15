@@ -151,6 +151,52 @@ if ( ! class_exists('ProductHelper') ) {
             return true;
         }
 
+        public static function get_fast_collections($product) {
+
+            $args = array(
+                'post_type' => 'product',
+                'p'         => $product->get_id(),
+                'meta_query' => array(
+                    'relation' => 'AND',
+                    array(
+                        'key' => 'fast_collection_activated',
+                        'compare' => 'EXISTS'
+                    )
+                )
+            );
+            $array = array();
+            $query = new WP_Query($args);
+            if ($query->have_posts()) {
+                $posts = $query->get_posts();
+                for($i=0; $i<count($posts); $i++) {
+                    $fast_collection = $posts[$i]->fast_collection_activated;
+                    foreach ($fast_collection as $key => $value) {
+                        if (!$value) {
+                            continue;
+                        }
+                        $fast_collection_product_id = $key;
+                        $fast_collection_product_id = intval( str_replace("product_", "", $fast_collection_product_id) );
+
+                        // Get data for this fast_collection
+                        $fast_collection_product = wc_get_product($fast_collection_product_id);
+                        $is_active_fast_collection = get_post_meta($fast_collection_product_id, 'fast_collection_is_active', true);
+                        if (!$is_active_fast_collection) {
+                            continue;
+                        }
+                        $array[] = array(
+                            "metadata"   => KandelaberWooFastCollection::get()->get_fast_collection_metadata($fast_collection_product_id),
+                            "variations" => self::get_variations_for_product($fast_collection_product)
+                        );
+                    }
+                }
+            }
+            return $array;
+        }
+
+        public static function get_variations_for_product_id() {
+
+        }
+
     }
 
 }

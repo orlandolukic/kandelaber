@@ -20,6 +20,10 @@
   border-radius: 4px;
   position: relative;
   transition: 0.2s;
+
+  -webkit-box-shadow: 3px 2px 34px -9px rgba(0,0,0,0.75);
+  -moz-box-shadow: 3px 2px 34px -9px rgba(0,0,0,0.75);
+  box-shadow: 3px 2px 34px -9px rgba(0,0,0,0.75);
 }
 
 .modal-close-button {

@@ -2,7 +2,7 @@ import styles from './single-product-preview.module.scss';
 import Slider from "./Slider";
 import {useCallback} from "react";
 
-const ChooseFromGallery = ({variations, pauseSlideshow}) => {
+const ChooseFromGallery = ({variations, pauseSlideshow, metadata}) => {
 
     pauseSlideshow = pauseSlideshow !== undefined ? pauseSlideshow : false;
 
@@ -15,11 +15,11 @@ const ChooseFromGallery = ({variations, pauseSlideshow}) => {
             <div className={`${styles.chooseCable} ${styles.chooseCableInModal}`}>
                 <div className={styles.text}>
                     <div className={styles.title}>
-                        <i className="fa-solid fa-wand-magic-sparkles"></i>
-                        <span className={styles.titleText}>Odabirite boju i tip kabla</span>
+                        <i className={metadata.modal_icon}></i>
+                        <span className={styles.titleText}>{metadata.modal_title}</span>
                     </div>
                     <div className={styles.subtitle}>
-                        Kod nas možete pogledati kablove koje možemo primeniti na Vašem projektu
+                        {metadata.modal_subtitle}
                     </div>
                 </div>
             </div>

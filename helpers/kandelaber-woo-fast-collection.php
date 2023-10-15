@@ -1,8 +1,8 @@
 <?php
 
-if ( ! class_exists('KandelaberCustomProductFields') ) {
+if ( ! class_exists('KandelaberWooFastCollection') ) {
 
-    class KandelaberCustomProductFields {
+    class KandelaberWooFastCollection {
 
         private static $instance;
 
@@ -45,6 +45,9 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
             $title_icon     = get_post_meta($id, 'fast_collection_title_icon', true);
             $button_text    = get_post_meta($id, 'fast_collection_button_text', true);
             $button_icon    = get_post_meta($id, 'fast_collection_button_icon', true);
+            $modal_title    = get_post_meta($id, 'fast_collection_modal_title', true);
+            $modal_subtitle = get_post_meta($id, 'fast_collection_modal_subtitle', true);
+            $modal_icon     = get_post_meta($id, 'fast_collection_modal_icon', true);
             $activated      = get_post_meta($id, 'fast_collection_activated', true);
 
             // Content for your custom tab
@@ -104,6 +107,35 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
 
                     ?>
                 </div>
+                <div class="options_group">
+                    <?php
+
+                    woocommerce_wp_text_input(
+                        array(
+                            'id'          => 'fast_collection_modal_title',
+                            'label'       =>  __('Naslov modala', 'kandelaber'),
+                            'value'       => $modal_title
+                        )
+                    );
+
+                    woocommerce_wp_text_input(
+                        array(
+                            'id'          => 'fast_collection_modal_subtitle',
+                            'label'       =>  __('Podnaslov modala', 'kandelaber'),
+                            'value'       => $modal_subtitle
+                        )
+                    );
+
+                    woocommerce_wp_text_input(
+                        array(
+                            'id'          => 'fast_collection_modal_icon',
+                            'label'       =>  __('Ikonica modala', 'kandelaber'),
+                            'value'       => $modal_icon
+                        )
+                    );
+
+                    ?>
+                </div>
                 <?php
                 if ($fast_collection_products->have_posts()) {
                 ?>
@@ -138,13 +170,19 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
                         title_icon: null,
                         subtitle: null,
                         button_text: null,
-                        button_icon: null
+                        button_icon: null,
+                        modal_title: null,
+                        modal_subtitle: null,
+                        modal_icon: null,
                     };
                     $("#fast_collection_title").attr("disabled", !isActive);
                     $("#fast_collection_title_icon").attr("disabled", !isActive);
                     $("#fast_collection_subtitle").attr("disabled", !isActive);
                     $("#fast_collection_button_text").attr("disabled", !isActive);
                     $("#fast_collection_button_icon").attr("disabled", !isActive);
+                    $("#fast_collection_modal_title").attr("disabled", !isActive);
+                    $("#fast_collection_modal_subtitle").attr("disabled", !isActive);
+                    $("#fast_collection_modal_icon").attr("disabled", !isActive);
 
                     $("#fast_collection_is_active").on("click", function (e) {
 
@@ -154,17 +192,26 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
                             values.subtitle = $("#fast_collection_subtitle").val();
                             values.button_text = $("#fast_collection_button_text").val();
                             values.button_icon = $("#fast_collection_button_icon").val();
+                            values.modal_title = $("#fast_collection_modal_title").val();
+                            values.modal_subtitle = $("#fast_collection_modal_subtitle").val();
+                            values.modal_icon = $("#fast_collection_modal_icon").val();
                             $("#fast_collection_title").val('');
                             $("#fast_collection_title_icon").val('');
                             $("#fast_collection_subtitle").val('');
                             $("#fast_collection_button_text").val('');
                             $("#fast_collection_button_icon").val('');
+                            $("#fast_collection_modal_title").val('');
+                            $("#fast_collection_modal_subtitle").val('');
+                            $("#fast_collection_modal_icon").val('');
                         } else {
                             $("#fast_collection_title").val(values.title);
                             $("#fast_collection_title_icon").val(values.title_icon);
                             $("#fast_collection_subtitle").val(values.subtitle);
                             $("#fast_collection_button_text").val(values.button_text);
                             $("#fast_collection_button_icon").val(values.button_icon);
+                            $("#fast_collection_modal_title").val(values.modal_title);
+                            $("#fast_collection_modal_subtitle").val(values.modal_subtitle);
+                            $("#fast_collection_modal_icon").val(values.modal_icon);
                         }
 
                         $("#fast_collection_title").attr("disabled", !this.checked);
@@ -172,6 +219,9 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
                         $("#fast_collection_subtitle").attr("disabled", !this.checked);
                         $("#fast_collection_button_text").attr("disabled", !this.checked);
                         $("#fast_collection_button_icon").attr("disabled", !this.checked);
+                        $("#fast_collection_modal_title").attr("disabled", !this.checked);
+                        $("#fast_collection_modal_subtitle").attr("disabled", !this.checked);
+                        $("#fast_collection_modal_icon").attr("disabled", !this.checked);
                     })
                 })(jQuery);
             </script>
@@ -188,6 +238,10 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
             $title_icon = isset($_POST['fast_collection_title_icon']) ? wc_clean(wp_unslash($_POST['fast_collection_title_icon'])) : '';
             $button_text = isset($_POST['fast_collection_button_text']) ? wc_clean(wp_unslash($_POST['fast_collection_button_text'])) : '';
             $button_icon = isset($_POST['fast_collection_button_icon']) ? wc_clean(wp_unslash($_POST['fast_collection_button_icon'])) : '';
+            $modal_title = isset($_POST['fast_collection_modal_title']) ? wc_clean(wp_unslash($_POST['fast_collection_modal_title'])) : '';
+            $modal_subtitle = isset($_POST['fast_collection_modal_subtitle']) ? wc_clean(wp_unslash($_POST['fast_collection_modal_subtitle'])) : '';
+            $modal_icon = isset($_POST['fast_collection_modal_icon']) ? wc_clean(wp_unslash($_POST['fast_collection_modal_icon'])) : '';
+
 
             $activated = array();
             $products = $fast_collection_products->get_posts();
@@ -203,6 +257,9 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
             update_post_meta($product_id, 'fast_collection_title_icon', $title_icon);
             update_post_meta($product_id, 'fast_collection_button_text', $button_text);
             update_post_meta($product_id, 'fast_collection_button_icon', $button_icon);
+            update_post_meta($product_id, 'fast_collection_modal_title', $modal_title);
+            update_post_meta($product_id, 'fast_collection_modal_subtitle', $modal_subtitle);
+            update_post_meta($product_id, 'fast_collection_modal_icon', $modal_icon);
             update_post_meta($product_id, 'fast_collection_activated', $activated);
 
         }
@@ -226,8 +283,8 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
                     'relation' => 'AND',
                     array(
                         'key' => 'fast_collection_is_active',
+                        'compare' => '=',
                         'value' => 'yes',
-                        'compare' => '='
                     ),
                     array(
                         'relation' => "OR",
@@ -247,9 +304,30 @@ if ( ! class_exists('KandelaberCustomProductFields') ) {
             return new WP_Query($args);
         }
 
+        public function get_fast_collection_metadata($id) {
+            $title          = get_post_meta($id, 'fast_collection_title', true);
+            $subtitle       = get_post_meta($id, 'fast_collection_subtitle', true);
+            $title_icon     = get_post_meta($id, 'fast_collection_title_icon', true);
+            $button_text    = get_post_meta($id, 'fast_collection_button_text', true);
+            $button_icon    = get_post_meta($id, 'fast_collection_button_icon', true);
+            $modal_title    = get_post_meta($id, 'fast_collection_modal_title', true);
+            $modal_subtitle = get_post_meta($id, 'fast_collection_modal_subtitle', true);
+            $modal_icon     = get_post_meta($id, 'fast_collection_modal_icon', true);
+            return array(
+                "title" => $title,
+                "subtitle" => $subtitle,
+                "title_icon" => $title_icon,
+                "button_text" => $button_text,
+                "button_icon" => $button_icon,
+                "modal_title" => $modal_title,
+                "modal_subtitle" => $modal_subtitle,
+                "modal_icon" => $modal_icon,
+            );
+        }
+
 
     }
 
     // Create cutom fields for WooCommerce edit page
-    KandelaberCustomProductFields::get();
+    KandelaberWooFastCollection::get();
 }

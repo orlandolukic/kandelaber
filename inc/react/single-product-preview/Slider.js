@@ -11,11 +11,14 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
 
     useEffect(() => {
 
-        setTimeout(() => {
+        let timeout1 = null;
+        let timeout2 = null;
+
+        timeout1 = setTimeout(() => {
             setLoaded(true);
         }, 600);
 
-        setTimeout(() => {
+        timeout2 = setTimeout(() => {
             splideRef.current = new Splide("#" + id, {
                 pauseOnHover: true,
                 autoplay: true,
@@ -48,10 +51,16 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
             }
         }, 500);
         return () => {
-            splideRef.current.destroy();
+            try {
+                splideRef.current.destroy();
+            } catch(e) {}
             if (splideThumbnailRef.current !== null) {
-                splideThumbnailRef.current.destroy();
+                try {
+                    splideThumbnailRef.current.destroy();
+                } catch(e) {}
             }
+            clearTimeout(timeout1);
+            clearTimeout(timeout2);
         };
     }, []);
 

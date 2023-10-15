@@ -252,7 +252,7 @@ jQuery(document).on("ready", function() {
                 if (unmountAll) {
                     for (const pageId in renderedApps) {
                         try {
-                            if (pageId !== id || force !== undefined && force) {
+                            if (pageId !== id || typeof force !== 'undefined' && force) {
                                 console.log("destroyed", pageId, renderedApps[pageId]);
                                 renderedApps[pageId].root.unmount();
                                 delete renderedApps[pageId].root;
@@ -319,7 +319,9 @@ jQuery(document).on("ready", function() {
                         }, timeoutIntervals.show);
                     });
                 } else {
-                    jQuery(".overlay-loader-container").hide();
+                    if (hideOverlay) {
+                        jQuery(".overlay-loader-container").hide();
+                    }
                     if (typeof whenFinishedCallback === 'function') {
                         whenFinishedCallback();
                     }

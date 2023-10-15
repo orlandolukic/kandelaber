@@ -14,6 +14,10 @@ body {
   height: 1000px;
 }
 
+.qodef-header-navigation > ul > li {
+  margin: 0 15px;
+}
+
 .qodef-header-navigation > ul > li > a .qodef-menu-item-text {
   position: relative;
   font-size: 18px;
@@ -366,5 +370,43 @@ div.wpforms-container-full .wpforms-confirmation-container-full {
     100% {
       transform: rotate(360deg);
     }
+  }
+}
+
+.kandelaber-header-layout-menu {
+  border: 1px solid #ebf2fa;
+  -webkit-box-shadow: 0px 0px 33px -15px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 33px -15px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 33px -15px rgba(0,0,0,0.75);
+  height: auto;
+
+  .qodef-header-logo-link {
+    height: 50px;
+  }
+
+  .navigation-column {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.kandelaber-header {
+  .navigation-column {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+#qodef-404-page {
+  padding: 60px 0 120px 0;
+
+  .not-found-image {
+    max-width: 250px;
+  }
+
+  .button-404 {
+    font-size: 20px;
+    font-family: Lexend;
+    cursor: pointer;
   }
 }

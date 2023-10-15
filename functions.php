@@ -15,7 +15,7 @@ if ( ! class_exists( 'LucentHandler' ) ) {
             require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-main.php';
             require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-products-handler.php';
             require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-single-product.php';
-            require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-custom-product-fields.php';
+            require_once LUCENT_ROOT_DIR . '/helpers/kandelaber-woo-fast-collection.php';
             require_once LUCENT_INC_ROOT_DIR . '/react/product-category-preview/product-category-preview.php';
 
 			// Include theme's style and inline style

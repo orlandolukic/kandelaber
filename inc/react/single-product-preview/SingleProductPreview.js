@@ -167,28 +167,31 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
                             {product.post_content}
                         </div>
 
-                        {allowCableChoose &&
-                            <div className={styles.chooseCable}>
-                                <div className={styles.text}>
-                                    <div className={styles.title}>
-                                        <i className="fa-solid fa-wand-magic-sparkles"></i>
-                                        <span className={styles.titleText}>Odaberite boju i tip kabla</span>
+                        {/* Check for fast_collections */}
+                        {product.fast_collections.map((collection, i) => {
+                            return (
+                                <div key={i} className={styles.chooseCable}>
+                                    <div className={styles.text}>
+                                        <div className={styles.title}>
+                                            <i className="fa-solid fa-wand-magic-sparkles"></i>
+                                            <span className={styles.titleText}>{collection.metadata.title}</span>
+                                        </div>
+                                        <div className={styles.subtitle}>
+                                            {collection.metadata.subtitle}
+                                        </div>
                                     </div>
-                                    <div className={styles.subtitle}>
-                                        Pogledajte asortiman kablova koje nudimo
+                                    <div className={styles.button}>
+                                        <Button onClick={openModal}>
+                                            <i className={collection.metadata.button_icon}></i> {collection.metadata.button_text}
+                                        </Button>
                                     </div>
-                                </div>
-                                <div className={styles.button}>
-                                    <Button onClick={openModal}>
-                                        <i className="fa-solid fa-eye"></i> Odabir
-                                    </Button>
-                                </div>
 
-                                <Modal isOpen={isOpenedModal} onClose={onClose}>
-                                    <ChooseFromGallery variations={product.variations} />
-                                </Modal>
-                            </div>
-                        }
+                                    <Modal isOpen={isOpenedModal} onClose={onClose}>
+                                        <ChooseFromGallery variations={collection.variations} metadata={collection.metadata} />
+                                    </Modal>
+                                </div>
+                            )
+                        })}
 
                         <div className={styles.specifications}>
                             <div className={styles.title}>Specifikacije proizvoda</div>
@@ -281,8 +284,14 @@ const SingleProductPreview = ({product, recommended_products, recommended_produc
                     setTimeout(() => {
                         window.hideLoader();
                     }, 100);
-                })
-        } else if (product !== undefined && recommended_products !== undefined && recommended_products_category !== undefined) {
+                });
+
+            // Set this state before ajax request loads everything from the server
+            history.replaceState({
+                page: 'single-product',
+                slug: slug
+            }, null);
+        } else if (typeof product !== 'undefined' && typeof recommended_products !== 'undefined' && typeof recommended_products_category !== 'undefined') {
             setLoaded(true);
 
             history.replaceState({
@@ -292,9 +301,17 @@ const SingleProductPreview = ({product, recommended_products, recommended_produc
                 recommended_products_category: recommended_products_category
             }, null);
 
-            setTimeout(() => {
-                window.hideLoader();
-            }, 100);
+            if (document.readyState === 'complete') {
+                setTimeout(() => {
+                    window.hideLoader();
+                }, 100);
+            } else {
+                jQuery(window).on("load", function () {
+                    setTimeout(() => {
+                        window.hideLoader();
+                    }, 100);
+                });
+            }
         }
     }, []);
 
