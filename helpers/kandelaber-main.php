@@ -28,9 +28,19 @@ if ( ! class_exists('KandelaberMain') ) {
 
             add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
             add_filter( 'lucent_filter_header_inner_class', array($this, 'header_classes') );
+            add_filter( 'document_title_parts', array($this, 'set_title_of_the_document') );
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
             add_action( 'remove_categories_for_products', array($this, 'remove_categories') );
             add_action( 'init', array($this, 'init') );
+        }
+
+        public function set_title_of_the_document($title) {
+            if (is_404()) {
+                $title['title'] = __('Stranica nije pronađena', 'kandelaber');
+                return $title;
+            }
+
+            return $title;
         }
 
         public function init() {

@@ -19,6 +19,8 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
         private $category_field;
         private $subcategory_field;
 
+        private $should_be_404;
+
         public function __construct() {
             // Add actions & filters
             add_action( 'init',  array($this, 'add_rewrite_rules') );
@@ -28,7 +30,8 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             add_action( 'deleted_term_taxonomy', array($this, 'delete_product_cat_taxonomy') );
             add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts'), 11 );
             add_action( 'init', function() {
-                //$this->get_products_in_category('unutrasnja-rasveta');
+//                echo json_encode($this->get_products_in_category__shorted('unutrasnja-rasveta'));
+//                wp_die();
             });
 
             // Ajax requests
@@ -38,6 +41,15 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
             add_filter( 'document_title_parts', array($this, 'custom_modify_page_title') );
+            add_filter('body_class', array($this, 'custom_body_classes'));
+        }
+
+        public function custom_body_classes($classes) {
+            if ($this->should_be_404) {
+                $classes[] = "error404";
+            }
+
+            return $classes;
         }
 
         public function add_rewrite_rules() {
@@ -62,11 +74,19 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             // Check if given product category exists within the site
             $category = get_term_by( 'slug', $product_category, 'product_cat' );
             if (!$category) {
-                return get_template_directory() . '/404.php';
+                header("location: " . get_home_url() . "/404");
+                return $template;
             }
             $this->is_category = true;
             $this->is_subcategory = false;
             $this->category_field = $product_category;
+
+            // Check if category is product-only
+            $is_product_only = get_term_meta($category->data->term_id, 'is_product_and_category', true);
+            if ($is_product_only) {
+                header("location: " . get_home_url() . "/proizvodi");
+                return $template;
+            }
 
             // Check if subcategory is present
             $product_subcategory = get_query_var( 'product_subcategory' );
@@ -78,10 +98,18 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             // Check if given product subcategory exists within the site
             $subcategory = get_term_by( 'slug', $product_subcategory, 'product_cat' );
             if (!$subcategory || $subcategory->parent !== $category->term_id) {
-                return get_template_directory() . '/404.php';
+                header("location: " . get_home_url() . "/404");
+                return $template;
             }
             $this->is_subcategory = true;
             $this->subcategory_field = $product_subcategory;
+
+            // Check if subcategory is product-only
+            $is_product_only = get_term_meta($subcategory->data->term_id, 'is_product_and_category', true);
+            if ($is_product_only) {
+                header("location: " . get_home_url() . "/proizvodi");
+                return $template;
+            }
 
             return get_template_directory() . '/category-preview.php';
         }
@@ -142,10 +170,10 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             $array["subcategories"] = Product_Category_Listing::fetch_subcategories_for($array["category"]);
 
             if ($this->get_is_only_category()) {
-                $array["products"] = KandelaberProductsHandler::get_products_in_category($array["category"]);
+                $array["products"] = KandelaberProductsHandler::get_products_in_category__shorted($array["category"]);
                 $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
             } else if ($this->is_subcategory) {
-                $array["products"] = KandelaberProductsHandler::get_products_in_category($array["subcategory"]);
+                $array["products"] = KandelaberProductsHandler::get_products_in_category__shorted($array["subcategory"]);
                 $array["category"] = Product_Category_Listing::fetch_data_for_category_by($array["category"]);
                 $array["subcategory"] = Product_Category_Listing::fetch_data_for_category_by($array["subcategory"]);
             }
@@ -265,11 +293,31 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             return $this->get_all_data_for_products($products);
         }
 
+        public function get_products_in_category__shorted($slug) {
+
+            $args = array(
+                'post_type'      => 'product',
+                'posts_per_page' => -1,
+                'post_status'    => 'publish',
+                'tax_query'      => array(
+                    array(
+                        'taxonomy'         => 'product_cat',
+                        'field'            => 'slug',
+                        'terms'            => $slug,
+                        'include_children' => false
+                    ),
+                ),
+            );
+            $products = new WP_Query($args);
+
+            return $this->get_all_data_for_products__shorted($products);
+        }
+
         public function fetch_products_for_category_ajax() {
 
             $slug = sanitize_text_field($_POST['slug']);
 
-            echo json_encode($this->get_products_in_category($slug));
+            echo json_encode($this->get_products_in_category__shorted($slug));
 
             // Always use die() at the end of your callback function
             die();
@@ -285,6 +333,50 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             $products = new WP_Query($args);
 
             return $this->get_all_data_for_products($products);
+        }
+
+        public function get_all_data_for_products__shorted($products) {
+            $attr_to_remove = array(
+                "comment_count",
+                "comment_status",
+                "filter",
+                "guid",
+                "menu_order",
+                "ping_status",
+                "pinged",
+                "post_author",
+                "post_mime_type",
+                "to_ping",
+                "tags",
+                "post_status",
+                "post_content_filtered",
+                "post_date",
+                "post_date_gmt",
+                "post_excerpt",
+                "post_modified",
+                "post_modified_gmt",
+                "post_password",
+                "categories",
+                "attributes",
+                "upsells",
+                "variations",
+                "gallery",
+                "cross_sells",
+                "fast_collections",
+                "post_content",
+                "post_type",
+                "post_parent"
+            );
+            $products_arr = $this->get_all_data_for_products($products);
+            if (!empty($products_arr)) {
+                for ($i=0; $i<count($products_arr); $i++) {
+                    for ($j=0; $j<count($attr_to_remove); $j++) {
+                        unset($products_arr[$i]->{$attr_to_remove[$j]});
+                    }
+                }
+            }
+
+            return $products_arr;
         }
 
         public function get_all_data_for_products($products) {

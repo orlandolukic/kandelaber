@@ -65,6 +65,10 @@ class Product_Category_Listing {
         );
         $all_categories = get_categories( $args );
 
+        if (empty($all_categories)) {
+            return array();
+        }
+
         // Check for subcategories
         // Use the parent category ID to retrieve its child categories (subcategories).
         $subcategories = get_categories(array(

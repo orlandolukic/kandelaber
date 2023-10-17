@@ -369,3 +369,25 @@ div.wpforms-container-full .wpforms-confirmation-container-full {
   font-family: Lexend;
   cursor: pointer;
 }
+
+.qodef-mobile-header--sticky #qodef-page-mobile-header {
+  transform: translateY(-500%);
+}
+
+.qodef-mobile-header--sticky-display #qodef-page-mobile-header {
+  transform: translateY(0);
+}
+
+#qodef-page-mobile-header {
+  box-shadow: 3px 2px 30px -16px rgba(0, 0, 0, 0.75);
+}
+#qodef-page-mobile-header #qodef-page-mobile-header-inner {
+  padding: 0 !important;
+}
+#qodef-page-mobile-header .qodef-mobile-header-opener {
+  padding: 10px 15px;
+}
+#qodef-page-mobile-header .qodef-mobile-header-opener .qodef-m-icon.qodef--close {
+  top: 12px;
+  left: 18px;
+}
