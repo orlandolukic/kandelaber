@@ -178,7 +178,7 @@ const ProductListing = ({category, subcategory, subcategories, fetchProducts}) =
     }
 
     const productElements = productsToDisplay.map((product, i) => {
-        return <SingleProductElement product={product} i={i} delayIndex={i} onClick={openProduct.bind(null, product)} />
+        return <SingleProductElement product={product} i={i} onClick={openProduct.bind(null, product)} />
     });
 
     return (

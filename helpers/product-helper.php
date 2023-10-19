@@ -94,7 +94,7 @@ if ( ! class_exists('ProductHelper') ) {
 
             $args = array(
                 'post_type'      => 'product',
-                'posts_per_page' => 4,
+                'posts_per_page' => 8,
                 'orderby'        => 'rand',
                 'post__not_in'    => array($product->ID),
                 'post_status'    => 'publish',
