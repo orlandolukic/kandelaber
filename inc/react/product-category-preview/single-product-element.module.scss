@@ -1,4 +1,5 @@
 @import "../../../assets/scss/global";
+@import "../../../assets/scss/media-query";
 @import "../../../assets/scss/animations";
 
 // Styling of the single product preview
@@ -12,6 +13,18 @@
     fill-mode: forwards;
   }
 
+  @include media-query-xs {
+    &:not(:first-child) {
+      margin-top: 30px;
+    }
+  }
+  @include media-query-sm {
+    &:nth-child(n+3) {
+      margin-top: 30px;
+    }
+  }
+
+
   &.shown {
     animation: none;
     opacity: 1;
@@ -19,6 +32,12 @@
 
   &:nth-child(n+5) {
     margin-top: 50px;
+    @include media-query-xs {
+      margin-top: 30px;
+    }
+    @include media-query-sm {
+      margin-top: 30px;
+    }
   }
 
   .content {

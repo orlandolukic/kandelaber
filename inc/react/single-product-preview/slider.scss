@@ -1,7 +1,15 @@
 @import '../../../assets/scss/global';
+@import '../../../assets/scss/media-query';
 
 .splide.splide-thumbnail
 {
+
+  @include media-query-xs {
+    &.dont-show-thumbnails {
+      display: none;
+    }
+  }
+
   .splide__slide.is-active {
     border: 3px solid $cl-normal;
     opacity: 1;
@@ -16,4 +24,8 @@
       bottom: 0;
     }
   }
+}
+
+.splide .splide__track {
+  height: 100%;
 }

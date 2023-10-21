@@ -436,3 +436,52 @@ div.wpforms-container-full .wpforms-confirmation-container-full {
   }
 }
 
+.call-button-placeholder {
+  position: fixed;
+  bottom: 80px;
+  right: 35px;
+  background-color: $cl-primary;
+  color: $cl-2;
+  padding: 10px 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+  transform: translateX(160px);
+  z-index: 10;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale3d(0.9,0.9,0.9);
+  }
+
+  a {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  @include media-query-xs {
+    &.visible {
+      transform: translateX(0);
+    }
+  }
+  @include media-query-sm {
+    &.visible {
+      transform: translateX(0);
+    }
+  }
+  @include media-query-md {
+    &.visible {
+      transform: translateX(0);
+    }
+  }
+  @include media-query-lg {
+    &.visible {
+      transform: translateX(0);
+    }
+  }
+
+}
+

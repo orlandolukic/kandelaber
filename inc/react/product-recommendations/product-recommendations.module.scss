@@ -1,4 +1,5 @@
 @import '../../../assets/scss/global';
+@import '../../../assets/scss/media-query';
 
 .productRecommendationsContainer {
   padding-top: 80px;
@@ -34,6 +35,10 @@
       .subtitle {
         color: $cl-1;
         font-size: 16px;
+
+        @include media-query-xs {
+          margin-top: 5px;
+        }
       }
     }
   }
@@ -43,5 +48,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
+    @include media-query-xs {
+      margin-top: 20px;
+    }
   }
 }

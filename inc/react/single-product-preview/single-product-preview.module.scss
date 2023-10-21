@@ -1,4 +1,5 @@
 @import "../../../assets/scss/global";
+@import "../../../assets/scss/media-query";
 
 .singleProductContainer {
 
@@ -43,6 +44,13 @@
       color: $cl-primary;
       font-weight: bold;
       margin: 0;
+
+      @include media-query-xs {
+        margin-top: 40px;
+      }
+      @include media-query-sm {
+        margin-top: 40px;
+      }
     }
 
     .excerpt {
@@ -75,7 +83,6 @@
         border-radius: 5px;
         display: flex;
         flex-direction: row;
-        align-items: center;
         color: $cl-normal;
         border: 2px solid $cl-normal;
         margin-top: 15px;
@@ -87,6 +94,8 @@
           background-color: darken($cl-2, 10%);
           color: $cl-normal;
           border-right: 2px solid $cl-normal;
+          display: flex;
+          align-items: center;
         }
 
         .text {
@@ -180,7 +189,8 @@
   }
 }
 
-.chooseCable {
+// Fast Collection Placeholder styles
+.fastCollectionPlaceholder {
   margin: {
     top: 40px;
     bottom: 40px;
@@ -189,7 +199,14 @@
   flex-direction: row;
   align-items: center;
 
-  &.chooseCableInModal {
+  @include media-query-xs {
+    flex-direction: column;
+  }
+  @include media-query-sm {
+    flex-direction: column;
+  }
+
+  &.fastCollectionPlaceholderInModal {
     margin: {
       top: 10px;
       bottom: 10px;
@@ -214,6 +231,17 @@
     .subtitle {
       font-size: 14px;
       color: $cl-1;
+
+      @include media-query-xs {
+        margin-top: 10px;
+        line-height: 18px;
+        margin-bottom: 15px;
+      }
+      @include media-query-sm {
+        margin-top: 10px;
+        line-height: 18px;
+        margin-bottom: 15px;
+      }
     }
   }
 

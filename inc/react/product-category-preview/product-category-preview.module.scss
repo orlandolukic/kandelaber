@@ -1,15 +1,15 @@
 @import '../../../assets/scss/global';
+@import '../../../assets/scss/media-query';
 @import '../../../assets/scss/animations';
 
 .productCategoryPreviewContainer {
-
-  //min-height: 850px;
 
   .categoryInfo {
     position: relative;
     .categoryName {
       text-align: center;
       font-size: 40px;
+      line-height: 40px;
       margin-top: 40px;
       color: $cl-primary;
       font-weight: bold;
@@ -19,6 +19,13 @@
       position: absolute;
       top: -70px;
       right: 150px;
+
+      @include media-query-xs {
+        display: none;
+      }
+      @include media-query-sm {
+        right: -60px;
+      }
 
       img {
         max-width: 180px;
@@ -93,15 +100,33 @@
         delay: 100ms;
       }
 
+      @include media-query-xs {
+        padding: 40px 30px;
+      }
+      @include media-query-sm {
+        padding: 40px 30px;
+      }
+
       .title {
         font-size: 26px;
         margin-top: 20px;
         color: $cl-normal;
         font-weight: bold;
+
+        @include media-query-xs {
+          text-align: center;
+        }
+        @include media-query-sm {
+          text-align: center;
+        }
       }
 
       .subtitle {
         margin-top: 10px;
+
+        @include media-query-xs {
+          font-size: 16px;
+        }
       }
 
       .button {
@@ -200,7 +225,7 @@
 }
 
 .breadcrumbs {
-  margin-top: 0px;
+  margin-top: 0;
   padding: 25px 0;
   background: $cl-2;
   color: $cl-normal;
@@ -210,8 +235,17 @@
     flex-direction: row;
     align-items: center;
 
+    @include media-query-xs {
+      flex-direction: column;
+    }
+
     > div:not(:first-child) {
       margin-left: 40px;
+
+      @include media-query-xs {
+        margin-top: 20px;
+        margin-left: 0;
+      }
     }
 
     .showAllProductsIcon {
@@ -221,6 +255,10 @@
     .arrow {
       font-size: 140%;
       opacity: 0.6;
+
+      @include media-query-xs {
+        transform: rotate(90deg);
+      }
     }
 
     .categoryNameDisplay {
@@ -237,9 +275,12 @@
       .textContent {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        margin-left: 0px;
+        margin-left: 0;
         justify-content: center;
+
+        @include media-query-xs {
+          align-items: center;
+        }
 
         .text {
           text-transform: uppercase;

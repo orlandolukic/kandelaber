@@ -73,7 +73,7 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
 
     return (
         <div ref={singleCategoryDiv}
-             className={`col-md-3 ${styles.singleCategory}${fromCategoryPreview ? ' ' + styles.subcategoryListing : ''}${hasProducts ? ' ' + styles.hasProducts : ''}`}
+             className={`col-12 col-md-3 col-sm-6 ${styles.singleCategory}${fromCategoryPreview ? ' ' + styles.subcategoryListing : ''}${hasProducts ? ' ' + styles.hasProducts : ''}`}
              style={{animationDelay: i*250 + "ms"}} onClick={openCategory}>
             <div className={`${styles.content}${!showSubcategoriesContent ? ' ' + styles.noZoom : ''}`}>
                 <div className={styles.imagePlaceholder}>

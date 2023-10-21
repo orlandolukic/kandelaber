@@ -26,7 +26,7 @@ if ( ! class_exists('KandelaberMain') ) {
             add_action('lucent_action_after_body_tag_open', array($this, 'set_loading_screen'));
             add_action('lucent_action_before_wrapper_close_tag', array($this, 'add_loading_overlay'));
 
-            add_filter('tiny_mce_before_init', array($this, 'set_mce_colors'));
+            add_filter( 'tiny_mce_before_init', array($this, 'set_mce_colors') );
             add_filter( 'lucent_filter_header_inner_class', array($this, 'header_classes') );
             add_filter( 'document_title_parts', array($this, 'set_title_of_the_document') );
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
@@ -71,6 +71,7 @@ if ( ! class_exists('KandelaberMain') ) {
 
         public function add_loading_overlay() {
             echo lucent_get_template_part('footer', 'templates/parts/overlay-loader');
+            echo lucent_get_template_part('footer', 'templates/parts/footer-call-button');
         }
 
         public function include_js_scripts() {
@@ -82,7 +83,7 @@ if ( ! class_exists('KandelaberMain') ) {
             wp_enqueue_script( 'splide', LUCENT_ASSETS_JS_ROOT . '/splide.min.js', [], KandelaberMain::$JS_VERSION );
 
             //wp_register_script('react', LUCENT_ASSETS_JS_ROOT . "/react.production.min.js", [], '18');
-           //wp_register_script('react-dom', LUCENT_ASSETS_JS_ROOT . "/react-dom.production.min.js", ['react'], '18');
+            //wp_register_script('react-dom', LUCENT_ASSETS_JS_ROOT . "/react-dom.production.min.js", ['react'], '18');
             wp_register_script('react-rendered', LUCENT_ASSETS_JS_ROOT . "/react-rendered.js", ['react-dom', 'tippy-bundle'], KandelaberMain::$JS_VERSION );
 
             wp_localize_script('kandelaber-main', 'ajax_object', array(
@@ -111,21 +112,6 @@ if ( ! class_exists('KandelaberMain') ) {
             if ( $sec_check_value !== "8" )  {
                 wpforms()->process->errors[ $form_data[ 'id' ] ] [ '4' ] = esc_html__( 'Dogodila se greška', 'kandelaber' );
             }
-        }
-
-        public function custom_ajax_callback() {
-            // Handle the AJAX request here
-
-            $parameter1 = $_POST['parameter1'];
-            $parameter2 = $_POST['parameter2'];
-
-            // Perform your server-side logic here
-
-            // Return a response
-            echo 'Hello, AJAX! Received parameter1: ' . $parameter1 . ', parameter2: ' . $parameter2;
-
-            // Always exit to prevent extra output
-            wp_die();
         }
 
         public function remove_categories($category_slug) {

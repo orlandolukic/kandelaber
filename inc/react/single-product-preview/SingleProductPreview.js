@@ -7,6 +7,7 @@ import ChooseFromGallery from "./ChooseFromGallery";
 import Slider from "./Slider";
 import ProductRecommendations from "../product-recommendations/ProductRecommendations";
 import ProductCategoryPreview from "../product-category-preview/ProductCategoryPreview";
+import FastCollections from "./FastCollections";
 
 const SingleProductPreviewComp = ({product, recommendations, recommended_products_category}) => {
 
@@ -78,6 +79,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
             id={"splide-main"}
             hasShadow={true}
             thumbnail={'vertical'}
+            dontShowThumbnail={true}
             pauseSlideshow={pauseMainSlideshow}
         />
     </>;
@@ -142,7 +144,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
 
             <div className={`container ${styles.singleProductContainer}`}>
                 <div className={"row"}>
-                    <div className={"col-md-6"}>
+                    <div className={"col-12 col-md-6 col-sm-12"}>
                         <div className={styles.imageContainer}>
 
                             {gallery.length > 0 &&
@@ -158,7 +160,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
 
                         </div>
                     </div>
-                    <div className={`col-md-6 ${styles.productContent}`}>
+                    <div className={`col-md-6 col-md-6 col-sm-12 ${styles.productContent}`}>
                         <h3 className={styles.productTitle}>
                             {product.post_title}
                         </h3>
@@ -168,30 +170,11 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
                         </div>
 
                         {/* Check for fast_collections */}
-                        {product.fast_collections.map((collection, i) => {
-                            return (
-                                <div key={i} className={styles.chooseCable}>
-                                    <div className={styles.text}>
-                                        <div className={styles.title}>
-                                            <i className="fa-solid fa-wand-magic-sparkles"></i>
-                                            <span className={styles.titleText}>{collection.metadata.title}</span>
-                                        </div>
-                                        <div className={styles.subtitle}>
-                                            {collection.metadata.subtitle}
-                                        </div>
-                                    </div>
-                                    <div className={styles.button}>
-                                        <Button onClick={openModal}>
-                                            <i className={collection.metadata.button_icon}></i> {collection.metadata.button_text}
-                                        </Button>
-                                    </div>
-
-                                    <Modal isOpen={isOpenedModal} onClose={onClose}>
-                                        <ChooseFromGallery variations={collection.variations} metadata={collection.metadata} />
-                                    </Modal>
-                                </div>
-                            )
-                        })}
+                        <FastCollections
+                            fastCollections={product.fast_collections}
+                            openModal={openModal}
+                            isOpenedModal={isOpenedModal}
+                            onClose={onClose} />
 
                         <div className={styles.specifications}>
                             <div className={styles.title}>Specifikacije proizvoda</div>

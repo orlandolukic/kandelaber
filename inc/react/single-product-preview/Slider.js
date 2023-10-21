@@ -2,12 +2,13 @@ import styles from "./slider.module.scss";
 import './slider.scss';
 import {useEffect, useRef, useState} from "react";
 
-const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, thumbnail, timeout, pauseSlideshow}) => {
+const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, thumbnail, timeout, pauseSlideshow, dontShowThumbnail}) => {
 
     const splideRef = useRef(null);
     const splideThumbnailRef = useRef(null);
     const [loaded, setLoaded] = useState(false);
     const timeoutInterval = timeout === undefined ? 3000 : timeout;
+    dontShowThumbnail = typeof dontShowThumbnail !== 'undefined' && dontShowThumbnail ? ' dont-show-thumbnails' : '';
 
     useEffect(() => {
 
@@ -87,7 +88,7 @@ const Slider = ({id, list, getImageSource, maxHeight, hasShadow, slideChanged, t
             {thumbnail === "vertical" &&
                 <section
                     id={id+"-thumbnail"}
-                    className={`splide splide-thumbnail splide-thumbnail-vertical ${styles.thumbnail} ${styles.verticalThumbnail}`}
+                    className={`splide splide-thumbnail splide-thumbnail-vertical ${styles.thumbnail} ${styles.verticalThumbnail}${dontShowThumbnail}`}
                 >
                     <div className="splide__track">
                         <ul className="splide__list">

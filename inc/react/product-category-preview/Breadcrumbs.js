@@ -47,9 +47,9 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
 
     return (
         <div className={styles.breadcrumbs}>
-            <div className={`container`}>
+            <div className={`container-md`}>
                 <div className={"row"}>
-                    <div className={`col-md-12`}>
+                    <div className={`col-md-12 col-sm-12`}>
                         <div className={styles.content}>
                             <div onClick={showProducts} className={styles.showAllProductsIcon}>
                                 <i id={'tooltipAllProducts'} className="fa-solid fa-shop fa-2x"></i>

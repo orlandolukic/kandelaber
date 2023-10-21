@@ -1,8 +1,6 @@
-$cl-primary: #679436;
-$cl-secondary: #A5BE00;
-$cl-normal: #064789;
-$cl-1: #427AA1;
-$cl-2: #EBF2FA;
+@import '../../../../assets/scss/global';
+@import '../../../../assets/scss/media-query';
+@import '../../../../assets/scss/animations';
 
 .loader {
   width: 70px;
@@ -15,20 +13,22 @@ $cl-2: #EBF2FA;
   animation: rotation 1s linear infinite;
 }
 
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-
 .mainContainer {
   min-height: 350px;
   position: relative;
+
+  @include media-query-xs {
+    padding: {
+      left: 20px;
+      right: 20px;
+    }
+  }
+  @include media-query-sm {
+    padding: {
+      left: 20px;
+      right: 20px;
+    }
+  }
 
   .loaderContainer {
     position: absolute;
@@ -71,9 +71,22 @@ $cl-2: #EBF2FA;
     opacity: 0;
     margin-top: 40px;
 
+    @include media-query-xs {
+      min-height: 350px;
+      margin-top: 60px;
+    }
+
     // From category preview View
     &.subcategoryListing {
       margin-top: 10px;
+
+      @include media-query-xs {
+        min-height: 150px;
+        margin-top: 10px;
+      }
+      @include media-query-sm {
+        min-height: 120px;
+      }
 
       &.hasProducts {
         .content {
@@ -84,8 +97,22 @@ $cl-2: #EBF2FA;
 
           .imagePlaceholder {
             margin-left: 20px;
+            @include media-query-xs {
+              margin-left: 0;
+            }
+            @include media-query-sm {
+              margin-left: 0;
+            }
+
             img {
               max-height: 100px;
+
+              @include media-query-xs {
+                max-height: 150px;
+              }
+              @include media-query-sm {
+                max-height: 150px;
+              }
             }
           }
 
@@ -106,7 +133,7 @@ $cl-2: #EBF2FA;
         box-shadow: none;
         border: 1px solid $cl-primary;
       }
-      // .singleCategory.content
+      // .singleCategory .content
 
     }
 
@@ -128,6 +155,13 @@ $cl-2: #EBF2FA;
       -webkit-box-shadow: 2px -1px 17px -8px rgba(0,0,0,0.75);
       -moz-box-shadow: 2px -1px 17px -8px rgba(0,0,0,0.75);
       box-shadow: 2px -1px 17px -8px rgba(0,0,0,0.75);
+
+      @include media-query-xs {
+        margin-right: 0;
+      }
+      @include media-query-sm {
+        margin-right: 0;
+      }
 
 
       .imagePlaceholder {
@@ -197,7 +231,7 @@ $cl-2: #EBF2FA;
         flex-direction: column;
         
         &.noDisplay {
-          transform: translateX(300px);
+          transform: translateX(100%);
         }
 
         .nameContainer {

@@ -6,7 +6,7 @@ const SingleProductElement = ({product, delayIndex, i, onClick, className}) => {
     let styleObj = delayIndex === undefined ? null : {animationDelay: delay + "ms"};
     className = typeof className !== 'undefined' ? ' ' + className : '';
     return (
-        <div className={`col-md-3 ${styles.singleProduct}${delayIndex === undefined ? ' ' + styles.shown : ''}${className}`} key={i} style={styleObj} onClick={onClick}>
+        <div className={`col-md-3 col-sm-6 ${styles.singleProduct}${delayIndex === undefined ? ' ' + styles.shown : ''}${className}`} key={i} style={styleObj} onClick={onClick}>
             <div className={styles.content}>
                 <div className={styles.image}>
                     <img src={product.featured_image[0]} />

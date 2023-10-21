@@ -64,10 +64,6 @@ const ProductRecommendations = ({ product, recommendations, recommended_products
         document.title = newTitle;
     }, []);
 
-    useEffect(() => {
-        console.log(recommendations);
-    }, []);
-
     if (recommendations === null || recommendations === undefined) {
         return null;
     }
