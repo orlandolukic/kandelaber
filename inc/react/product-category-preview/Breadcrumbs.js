@@ -26,7 +26,6 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
                 return;
             }
 
-            console.log("subcategories", subcategories);
             // Push a new state to the history
             const newState = {
                 page: "opened-category",

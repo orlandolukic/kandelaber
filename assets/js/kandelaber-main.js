@@ -103,7 +103,6 @@
                 aboutStarsInterval = setInterval(() => {
                     aboutStarsInitiator(-1,-1);
                 }, 3000);
-                console.log(e.originalEvent.offsetX);
             });
         };
         aboutStarsAppender();

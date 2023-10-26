@@ -17,7 +17,6 @@ const ProductCategoryPreview = ({category, subcategory, subcategories, renderedA
 
     useEffect(() => {
         let subcategories = window.reactMain.categoriesManager.getSubcategoriesForCategoryBySlug(category.slug);
-        console.log(subcategories);
         setSubcategoriesState(subcategories);
         setFetchProducts(true);
 

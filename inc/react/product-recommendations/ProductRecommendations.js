@@ -13,7 +13,6 @@ const ProductRecommendations = ({ product, recommendations, recommended_products
 
         setTimeout(() => {
             let props = window.reactMain.categoriesManager.getPropsForComponentRendering(recommended_products_category.slug);
-            console.log("props", props);
             window.renderApp(window.reactMain.consts.PRODUCT_CATEGORY_PREVIEW,
                 <ProductCategoryPreview {...props} />,
                 true,

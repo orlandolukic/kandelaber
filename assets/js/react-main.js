@@ -253,7 +253,6 @@ jQuery(document).on("ready", function() {
                     for (const pageId in renderedApps) {
                         try {
                             if (pageId !== id || typeof force !== 'undefined' && force) {
-                                console.log("destroyed", pageId, renderedApps[pageId]);
                                 renderedApps[pageId].root.unmount();
                                 delete renderedApps[pageId].root;
                             }
@@ -353,11 +352,9 @@ jQuery(document).on("ready", function() {
 
                 let props = {...e.state};
                 delete props.page;
-                console.log("11", props);
                 window.renderApp(consts.PRODUCT_CATEGORY_PREVIEW, <ProductCategoryPreview data={true} {...props} />);
 
             } else if (e.state.page === "single-product") {
-                console.log(e.state);
                 window.showLoader();
                 let props = {...e.state};
                 delete props.page;

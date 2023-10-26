@@ -23,7 +23,6 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
         // Save product as fetched and visited
         window.productsFactory.visitedProducts.saveVisitedProduct(product.post_name, product, recommendations, recommended_products_category);
 
-        console.log(1212, product);
         let gallery = [];
         if (product.featured_image) {
             gallery.push(product.featured_image[0]);
@@ -101,7 +100,6 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
 
         window.showLoader();
 
-        console.log("toShow", toShow);
         // Push a new state to the history
         let categoryToDisplay = product.categories[product.categories.length-1-toShow];
         const newState = {
@@ -249,7 +247,6 @@ const SingleProductPreview = ({product, recommended_products, recommended_produc
     useEffect(() => {
         if (slug !== undefined) {
             // We should load product
-            console.log("fetching slug");
             window.productsFactory.visitedProducts.getProduct(slug)
                 .then((payload) => {
                     setProductState(payload.product);

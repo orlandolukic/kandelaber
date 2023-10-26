@@ -16,7 +16,7 @@
             <div class="col-xxl-3 col-lg-4 col-xl-4">
                 <div class="info-bar-item">
                     <i class="fa-solid fa-phone-volume"></i>
-                    <span>+381 60 23 50 693, +381 11 20 30 650</span>
+                    <span>+381 63 26 31 22, +381 11 24 92 000</span>
                 </div>
             </div>
         </div>
