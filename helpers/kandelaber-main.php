@@ -20,18 +20,22 @@ if ( ! class_exists('KandelaberMain') ) {
             // Require all files necessary for theme development
             $this->require_files();
 
+            // Add actions
             add_action( 'lucent_action_after_main_js', array( $this, 'include_js_scripts' ) );
-            add_action('lucent_action_after_main_css', array($this, 'add_custom_css'));
-
-            add_action('lucent_action_after_body_tag_open', array($this, 'set_loading_screen'));
-            add_action('lucent_action_before_wrapper_close_tag', array($this, 'add_loading_overlay'));
-
-            add_filter( 'tiny_mce_before_init', array($this, 'set_mce_colors') );
-            add_filter( 'lucent_filter_header_inner_class', array($this, 'header_classes') );
-            add_filter( 'document_title_parts', array($this, 'set_title_of_the_document') );
+            add_action('lucent_action_after_main_css', array($this, 'add_custom_css') );
+            add_action('lucent_action_after_body_tag_open', array($this, 'set_loading_screen') );
+            add_action('lucent_action_before_wrapper_close_tag', array($this, 'add_loading_overlay') );
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
             add_action( 'remove_categories_for_products', array($this, 'remove_categories') );
             add_action( 'init', array($this, 'init') );
+
+            // Add filters
+            add_filter( 'image_resize_dimensions', array($this, 'preserve_image_dimensions'), 10, 6 );
+            add_filter( 'admin_post_thumbnail_html', array($this, 'set_category_thumbnail_size') );
+            add_filter( 'intermediate_image_sizes_advanced', array($this, 'disable_image_sizes') );
+            add_filter( 'tiny_mce_before_init', array($this, 'set_mce_colors') );
+            add_filter( 'lucent_filter_header_inner_class', array($this, 'header_classes') );
+            add_filter( 'document_title_parts', array($this, 'set_title_of_the_document') );
         }
 
         public function set_title_of_the_document($title) {
@@ -165,6 +169,32 @@ if ( ! class_exists('KandelaberMain') ) {
                 <script type="text/javascript">alert("Nema proizvoda u kategoriji '<?= $category_slug ?>'");</script>
                 <?php
             }
+        }
+
+        public function preserve_image_dimensions( $default, $orig_w, $orig_h, $new_w, $new_h, $crop )
+        {
+            if ($new_w == $orig_w && $new_h == $orig_h) {
+                return false;
+            }
+            return $default;
+        }
+
+        public function set_category_thumbnail_size($content) {
+            // Check if we are currently editing a category term.
+            if (strpos($content, 'id="taxonomy-category"') !== false) {
+                // Replace 'thumbnail' with 'full' to set the size to 'full'.
+                $content = str_replace('thumbnail', 'full', $content);
+            }
+            return $content;
+        }
+
+        public function disable_image_sizes( $sizes ) {
+            return array(
+                'thumbnail' => false,
+                'medium' => false,
+                'medium_large' => false,
+                'large' => false,
+            );
         }
 
     }
