@@ -21,7 +21,7 @@ class Product_Category_Listing {
 
         $thumbnail_id = get_term_meta($all_categories[0]->term_id, 'thumbnail_id', true);
         if ($thumbnail_id) {
-            $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+            $image = wp_get_attachment_image_src($thumbnail_id, 'full');
             $all_categories[0]->image = $image;
         }
         $is_product_and_category = get_term_meta($all_categories[0]->term_id, 'is_product_and_category', true);
@@ -86,7 +86,7 @@ class Product_Category_Listing {
                 // Get image for subcategory
                 $thumbnail_id = get_term_meta($subcategory->term_id, 'thumbnail_id', true);
                 if ($thumbnail_id) {
-                    $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+                    $image = wp_get_attachment_image_src($thumbnail_id, 'full');
                     $subcategory->image = $image;
                 }
             }
@@ -119,6 +119,14 @@ class Product_Category_Listing {
         wp_enqueue_script('react-main');
     }
 
+    private static function get_uncategorized_id() {
+        $term = get_term_by('slug', 'uncategorized', 'product_cat');
+        if ($term) {
+            return $term->term_id;
+        }
+        return 0;
+    }
+
     public static function get_root_categories() {
 
         $taxonomy     = 'product_cat';
@@ -137,7 +145,7 @@ class Product_Category_Listing {
             'hierarchical' => $hierarchical,
             'title_li'     => $title,
             'hide_empty'   => $empty,
-            'exclude'      => [15],
+            'exclude'      => [self::get_uncategorized_id()],
             'parent'       => 0,
             'meta_query'   => array(
                 'meta_key' => 'is_product_and_category'
@@ -150,7 +158,7 @@ class Product_Category_Listing {
         for ($i=0; $i < count($all_categories); $i++) {
             $thumbnail_id = get_term_meta($all_categories[$i]->term_id, 'thumbnail_id', true);
             if ($thumbnail_id) {
-                $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+                $image = wp_get_attachment_image_src($thumbnail_id, 'full');
                 $all_categories[$i]->image = $image;
             }
             $is_product_and_category = get_term_meta($all_categories[$i]->term_id, 'is_product_and_category', true);
@@ -201,7 +209,7 @@ class Product_Category_Listing {
                     // Get image for subcategory
                     $thumbnail_id = get_term_meta($subcategory->term_id, 'thumbnail_id', true);
                     if ($thumbnail_id) {
-                        $image = wp_get_attachment_image_src($thumbnail_id); // Change 'thumbnail' to the desired image size
+                        $image = wp_get_attachment_image_src($thumbnail_id, 'full');
                         $subcategory->image = $image;
                     }
                 }
@@ -218,4 +226,33 @@ class Product_Category_Listing {
 
 // Create widget
 Product_Category_Listing::get();
+
+function preserve_image_dimensions( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ) {
+    if ( $new_w == $orig_w && $new_h == $orig_h ) {
+        return false;
+    }
+    return $default;
+}
+add_filter( 'image_resize_dimensions', 'preserve_image_dimensions', 10, 6 );
+
+function set_category_thumbnail_size($content) {
+    // Check if we are currently editing a category term.
+    if (strpos($content, 'id="taxonomy-category"') !== false) {
+        // Replace 'thumbnail' with 'full' to set the size to 'full'.
+        $content = str_replace('thumbnail', 'full', $content);
+    }
+    return $content;
+}
+
+add_filter('admin_post_thumbnail_html', 'set_category_thumbnail_size');
+
+function disable_image_sizes( $sizes ) {
+    return array(
+        'thumbnail' => false,
+        'medium' => false,
+        'medium_large' => false,
+        'large' => false,
+    );
+}
+add_filter( 'intermediate_image_sizes_advanced', 'disable_image_sizes' );
 

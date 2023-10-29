@@ -32,6 +32,23 @@ if ( ! class_exists('KandelaberMain') ) {
             add_action( 'wpforms_process', array($this, 'wpf_dev_process'), 10, 3 );
             add_action( 'remove_categories_for_products', array($this, 'remove_categories') );
             add_action( 'init', array($this, 'init') );
+            add_action( 'wp_head', array($this, 'google_analytic') );
+        }
+
+        public function google_analytic() {
+            ?>
+            <meta name="google-site-verification" content="CnaAkEsNS7KzxT-0du2roDNZh8-vnakfrZokdzoFG_M" />
+
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-G47W0S5B8N"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-G47W0S5B8N');
+            </script>
+            <?php
         }
 
         public function set_title_of_the_document($title) {
