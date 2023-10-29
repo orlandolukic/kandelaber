@@ -227,32 +227,3 @@ class Product_Category_Listing {
 // Create widget
 Product_Category_Listing::get();
 
-function preserve_image_dimensions( $default, $orig_w, $orig_h, $new_w, $new_h, $crop ) {
-    if ( $new_w == $orig_w && $new_h == $orig_h ) {
-        return false;
-    }
-    return $default;
-}
-add_filter( 'image_resize_dimensions', 'preserve_image_dimensions', 10, 6 );
-
-function set_category_thumbnail_size($content) {
-    // Check if we are currently editing a category term.
-    if (strpos($content, 'id="taxonomy-category"') !== false) {
-        // Replace 'thumbnail' with 'full' to set the size to 'full'.
-        $content = str_replace('thumbnail', 'full', $content);
-    }
-    return $content;
-}
-
-add_filter('admin_post_thumbnail_html', 'set_category_thumbnail_size');
-
-function disable_image_sizes( $sizes ) {
-    return array(
-        'thumbnail' => false,
-        'medium' => false,
-        'medium_large' => false,
-        'large' => false,
-    );
-}
-add_filter( 'intermediate_image_sizes_advanced', 'disable_image_sizes' );
-

@@ -24,6 +24,7 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             add_action( 'wp_ajax_fetch_product', array($this, 'fetch_product') );
             add_action( 'wp_ajax_nopriv_fetch_product', array($this, 'fetch_product') );
             add_action( 'woocommerce_product_options_advanced', array($this, 'add_custom_product_field') );
+            add_action( 'wp_head', array($this, 'print_seo') );
 
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
@@ -161,6 +162,33 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             echo json_encode($ret_array);
             wp_die();
 
+        }
+
+        public function print_seo() {
+
+            if ( KandelaberProductsHandler::get_instance()->is_products_page() || !$this->is_single_product ) {
+                return;
+            }
+
+            $product = $this->get_current_product();
+
+            ?>
+            <meta property="og:locale" content="en_US">
+            <meta property="og:site_name" content="Kandelaber - Sve od rasvete, na jednom mestu">
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="<?= $product->post_title ?> - Kandelaber">
+            <meta property="og:description" content="<?= $product->post_content ?>">
+            <meta property="og:url" content="https://kandelaberdoo.rs/">
+            <meta property="og:image" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <meta property="og:image:secure_url" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <meta property="og:image:width" content="4416">
+            <meta property="og:image:height" content="3312">
+
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="<?= $product->post_title ?> - Kandelaber">
+            <meta name="twitter:description" content="<?= $product->post_content ?>">
+            <meta name="twitter:image" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <?php
         }
 
     }

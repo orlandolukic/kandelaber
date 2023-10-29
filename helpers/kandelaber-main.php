@@ -69,6 +69,7 @@ if ( ! class_exists('KandelaberMain') ) {
         }
 
         private function require_files() {
+            require LUCENT_ROOT_DIR . '/helpers/kandelaber-seo.php';
             require LUCENT_INC_ROOT_DIR . "/elementor/product-category-listing/product-category-listing.php";
         }
 
