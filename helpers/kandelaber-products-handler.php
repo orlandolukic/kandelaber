@@ -42,7 +42,8 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
             add_filter( 'document_title_parts', array($this, 'custom_modify_page_title') );
-            add_filter( 'body_class', array($this, 'custom_body_classes') );
+            add_filter( 'aioseo_title', array($this, 'custom_modify_page_title_aioseo') );
+            add_filter('body_class', array($this, 'custom_body_classes'));
         }
 
         public function custom_body_classes($classes) {
@@ -149,6 +150,45 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             // Customize the page title here
             $title['title'] = $newTitle;
             return $title;
+        }
+
+        public function custom_modify_page_title_aioseo($title) {
+            $single_product = get_query_var('single_product');
+            if (!$single_product || $single_product == "") {
+                return $title;
+            }
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return $title;
+            }
+
+            if (!$this->is_category && !$this->is_subcategory) {
+                return $title;
+            }
+
+            if ($this->is_subcategory) {
+                $category_slug = get_query_var('product_subcategory');
+            } else {
+                $category_slug = get_query_var('product_category');
+            }
+
+            $args = array(
+                'taxonomy'     => 'product_cat',
+                'hide_empty'   => 0
+            );
+            $all_categories = get_categories( $args );
+
+            $newTitle = '';
+            // Go through all categories and fetch thumbnail
+            for ($i=0; $i < count($all_categories); $i++) {
+                if ($all_categories[$i]->slug === $category_slug) {
+                    $newTitle = $all_categories[$i]->name;
+                    break;
+                }
+            }
+
+            // Customize the page title here
+            return $newTitle . " - Kandelaber";
         }
 
         public function enqueue_scripts() {
