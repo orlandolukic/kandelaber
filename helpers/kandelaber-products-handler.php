@@ -35,13 +35,16 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             });
 
             // Ajax requests
-            add_action('wp_ajax_fetch_products_for_category', array($this, 'fetch_products_for_category_ajax') );
-            add_action('wp_ajax_nopriv_fetch_products_for_category', array($this, 'fetch_products_for_category_ajax') );
+            add_action( 'wp_ajax_fetch_products_for_category', array($this, 'fetch_products_for_category_ajax') );
+            add_action( 'wp_ajax_nopriv_fetch_products_for_category', array($this, 'fetch_products_for_category_ajax') );
+            add_action( 'wp_head', array($this, 'print_seo') );
 
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
             add_filter( 'document_title_parts', array($this, 'custom_modify_page_title') );
-            add_filter('body_class', array($this, 'custom_body_classes'));
+            add_filter( 'aioseo_title', array($this, 'custom_modify_page_title_aioseo') );
+            add_filter( 'body_class', array($this, 'custom_body_classes') );
+            add_filter( 'aioseo_disable', array($this, 'aioseo_disable_term_output') );
         }
 
         public function custom_body_classes($classes) {
@@ -148,6 +151,49 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             // Customize the page title here
             $title['title'] = $newTitle;
             return $title;
+        }
+
+        public function aioseo_disable_term_output($disabled) {
+            if (!$this->is_products_page()) {
+                return $disabled;
+            }
+
+            return true;
+        }
+
+        public function custom_modify_page_title_aioseo($title) {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page()) {
+                return $title;
+            }
+
+            if (!$this->is_category && !$this->is_subcategory) {
+                return $title;
+            }
+
+            if ($this->is_subcategory) {
+                $category_slug = get_query_var('product_subcategory');
+            } else {
+                $category_slug = get_query_var('product_category');
+            }
+
+            $args = array(
+                'taxonomy'     => 'product_cat',
+                'hide_empty'   => 0
+            );
+            $all_categories = get_categories( $args );
+
+            $newTitle = '';
+            // Go through all categories and fetch thumbnail
+            for ($i=0; $i < count($all_categories); $i++) {
+                if ($all_categories[$i]->slug === $category_slug) {
+                    $newTitle = $all_categories[$i]->name;
+                    break;
+                }
+            }
+
+            // Customize the page title here
+            return $newTitle . " - Kandelaber";
         }
 
         public function enqueue_scripts() {
@@ -413,6 +459,37 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
                 return $products_arr;
             endif;
             return array();
+        }
+
+        public function print_seo() {
+
+            if (KandelaberSingleProduct::get_instance()->is_single_product_page() || !$this->is_products_page()) {
+                return;
+            }
+
+            if ($this->get_is_only_category()) {
+                $category = Product_Category_Listing::fetch_data_for_category_by($this->category_field);
+            } else if ($this->is_subcategory) {
+                $category = Product_Category_Listing::fetch_data_for_category_by($this->subcategory_field);
+            }
+
+            ?>
+            <meta property="og:locale" content="en_US">
+            <meta property="og:site_name" content="Kandelaber - Sve od rasvete, na jednom mestu">
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="<?= $category->name ?> - Kandelaber">
+            <meta property="og:description" content="<?= $category->description ?>">
+            <meta property="og:url" content="https://kandelaberdoo.rs/">
+            <meta property="og:image" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <meta property="og:image:secure_url" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <meta property="og:image:width" content="4416">
+            <meta property="og:image:height" content="3312">
+
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="<?= $category->name ?> - Kandelaber">
+            <meta name="twitter:description" content="<?= $category->description ?>">
+            <meta name="twitter:image" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <?php
         }
 
         public function get_is_category() {

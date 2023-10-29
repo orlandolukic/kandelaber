@@ -24,11 +24,14 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             add_action( 'wp_ajax_fetch_product', array($this, 'fetch_product') );
             add_action( 'wp_ajax_nopriv_fetch_product', array($this, 'fetch_product') );
             add_action( 'woocommerce_product_options_advanced', array($this, 'add_custom_product_field') );
+            add_action( 'wp_head', array($this, 'print_seo') );
 
             add_filter( 'query_vars', array($this, 'whitelist_query_vars') );
             add_filter( 'template_include', array($this, 'determine_what_to_show') );
             add_filter( 'document_title_parts', array($this, 'custom_modify_page_title') );
+            add_filter( 'aioseo_title', array($this, 'custom_modify_page_title_aioseo') );
             add_filter( 'kandelaber_product_vars', array($this, 'get_single_product_data'), 10, 2 );
+            add_filter( 'aioseo_disable', array($this, 'aioseo_disable_term_output') );
         }
 
         public function add_rewrite_rules() {
@@ -89,6 +92,16 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             return $title;
         }
 
+        public function custom_modify_page_title_aioseo($title) {
+            $single_product = get_query_var('single_product');
+            if (!$single_product || $single_product == "") {
+                return $title;
+            }
+
+            $product = $this->get_current_product();
+            return $product->post_title . " - Kandelaber";
+        }
+
         public function enqueue_scripts() {
 
             if (!$this->is_single_product) {
@@ -118,6 +131,13 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             $array["recommended_products_category"] = $leaf_category_extended;
 
             return $array;
+        }
+
+        public function aioseo_disable_term_output($disabled) {
+            if (!$this->is_single_product_page()) {
+                return $disabled;
+            }
+            return true;
         }
 
         public function is_single_product_page() {
@@ -161,6 +181,33 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             echo json_encode($ret_array);
             wp_die();
 
+        }
+
+        public function print_seo() {
+
+            if ( KandelaberProductsHandler::get_instance()->is_products_page() || !$this->is_single_product ) {
+                return;
+            }
+
+            $product = $this->get_current_product();
+
+            ?>
+            <meta property="og:locale" content="en_US">
+            <meta property="og:site_name" content="Kandelaber - Sve od rasvete, na jednom mestu">
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="<?= $product->post_title ?> - Kandelaber">
+            <meta property="og:description" content="<?= $product->post_content ?>">
+            <meta property="og:url" content="https://kandelaberdoo.rs/">
+            <meta property="og:image" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <meta property="og:image:secure_url" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <meta property="og:image:width" content="4416">
+            <meta property="og:image:height" content="3312">
+
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="<?= $product->post_title ?> - Kandelaber">
+            <meta name="twitter:description" content="<?= $product->post_content ?>">
+            <meta name="twitter:image" content="<?= KandelaberSEO::$SEO_IMAGE ?>">
+            <?php
         }
 
     }

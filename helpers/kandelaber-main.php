@@ -36,6 +36,23 @@ if ( ! class_exists('KandelaberMain') ) {
             add_filter( 'tiny_mce_before_init', array($this, 'set_mce_colors') );
             add_filter( 'lucent_filter_header_inner_class', array($this, 'header_classes') );
             add_filter( 'document_title_parts', array($this, 'set_title_of_the_document') );
+            add_action( 'wp_head', array($this, 'google_analytic') );
+        }
+
+        public function google_analytic() {
+            ?>
+            <meta name="google-site-verification" content="CnaAkEsNS7KzxT-0du2roDNZh8-vnakfrZokdzoFG_M" />
+
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-G47W0S5B8N"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-G47W0S5B8N');
+            </script>
+            <?php
         }
 
         public function set_title_of_the_document($title) {
@@ -52,6 +69,7 @@ if ( ! class_exists('KandelaberMain') ) {
         }
 
         private function require_files() {
+            require LUCENT_ROOT_DIR . '/helpers/kandelaber-seo.php';
             require LUCENT_INC_ROOT_DIR . "/elementor/product-category-listing/product-category-listing.php";
         }
 
