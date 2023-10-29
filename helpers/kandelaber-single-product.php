@@ -31,15 +31,7 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             add_filter( 'document_title_parts', array($this, 'custom_modify_page_title') );
             add_filter( 'aioseo_title', array($this, 'custom_modify_page_title_aioseo') );
             add_filter( 'kandelaber_product_vars', array($this, 'get_single_product_data'), 10, 2 );
-
-            //add_filter( 'aioseo_disable', 'aioseo_disable_term_output' );
-
-            function aioseo_disable_term_output( $disabled ) {
-                if ( is_category() || is_tag() || is_tax() ) {
-                    return true;
-                }
-                return false;
-            }
+            add_filter( 'aioseo_disable', array($this, 'aioseo_disable_term_output') );
         }
 
         public function add_rewrite_rules() {
@@ -139,6 +131,13 @@ if ( ! class_exists('KandelaberSingleProduct') ) {
             $array["recommended_products_category"] = $leaf_category_extended;
 
             return $array;
+        }
+
+        public function aioseo_disable_term_output($disabled) {
+            if (!$this->is_single_product_page()) {
+                return $disabled;
+            }
+            return true;
         }
 
         public function is_single_product_page() {
