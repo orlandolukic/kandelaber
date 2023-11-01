@@ -18,13 +18,15 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
     }, []);
 
     const openCategory = useCallback((i) => {
+
+        // Check if leaf category is being clicked on
+        if (i === 1) {
+            return;
+        }
+
         if (onOpenCategory !== undefined && typeof onOpenCategory === 'function') {
             onOpenCategory(i);
         } else if (subcategory !== undefined && subcategory !== null) {
-
-            if (i === 1) {
-                return;
-            }
 
             // Push a new state to the history
             const newState = {

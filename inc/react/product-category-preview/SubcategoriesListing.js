@@ -21,6 +21,7 @@ const SubcategoriesListing = ({category, subcategory, subcategories, changeSubca
             parentCategory={category}
             fromCategoryPreview={fromCategoryPreview}
             hasProducts={category.has_products}
+            isSingleProduct={subcategory.is_product_and_category}
         />
     ));
 

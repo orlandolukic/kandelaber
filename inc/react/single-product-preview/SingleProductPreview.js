@@ -93,11 +93,6 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
 
     const openCategory = useCallback((toShow) => {
 
-        // Disable led trake to click on category
-        if (product.post_name === 'led-trake') {
-            return;
-        }
-
         window.showLoader();
 
         // Push a new state to the history

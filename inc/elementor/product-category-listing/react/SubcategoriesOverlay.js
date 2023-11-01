@@ -2,6 +2,7 @@ import styles from './app.module.scss';
 import {useCallback, useEffect, useRef, useState} from "react";
 import {createRoot} from "react-dom/client";
 import ProductCategoryPreview from "../../../react/product-category-preview/ProductCategoryPreview";
+import SingleProductPreview from "../../../react/single-product-preview/SingleProductPreview";
 
 const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay, setShowSubcategoriesContent, subcategories, singleCategoryDiv}) => {
 
@@ -49,13 +50,29 @@ const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay
     }, [parentCategory.slug, parentCategory.name, subcategories]);
 
     const openSubcategory = useCallback((subcategory) => {
-        window.openSubcategory({
-            category: parentCategory,
-            subcategory: subcategory,
-            subcategories: subcategories
-        }, () => {
-            window.renderApp("product-category-preview", <ProductCategoryPreview data={true} category={parentCategory} subcategory={subcategory} subcategories={subcategories} />);
-        });
+        if (subcategory.is_product_and_category) {
+            window.reactMain.openProduct({
+                category: parentCategory,
+                subcategory: subcategory,
+                subcategories: subcategories
+            }, {
+                post_title: subcategory.name,
+                post_name: subcategory.slug
+            }, () => {
+                window.renderApp(window.reactMain.consts.SINGLE_PRODUCT_PREVIEW, <SingleProductPreview slug={subcategory.slug} />)
+            });
+        } else {
+            window.openSubcategory({
+                category: parentCategory,
+                subcategory: subcategory,
+                subcategories: subcategories
+            }, () => {
+                window.renderApp("product-category-preview", <ProductCategoryPreview data={true}
+                                                                                     category={parentCategory}
+                                                                                     subcategory={subcategory}
+                                                                                     subcategories={subcategories}/>);
+            });
+        }
     }, []);
 
     // Mapping of subcategories

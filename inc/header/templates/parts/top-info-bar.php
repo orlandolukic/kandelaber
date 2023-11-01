@@ -4,7 +4,7 @@
             <div class="col-xxl-3 offset-xxl-2 col-lg-4 col-xl-4">
                 <div class="info-bar-item">
                     <i class="fa-solid fa-lightbulb"></i>
-                    <span>Zajedno sa vama od 1998. godine</span>
+                    <span>Zajedno sa vama od 2001. godine</span>
                 </div>
             </div>
             <div class="col-xxl-3 col-lg-4 col-xl-4">

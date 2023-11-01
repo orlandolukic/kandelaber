@@ -85,7 +85,7 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
                 </div>
 
 
-                {category.subcategories != null &&
+                {category.subcategories != null && category.subcategories.length > 0 &&
                     <>
                         <div className={`${styles.subcategoriesContent}${!showSubcategoriesContent ? ' ' + styles.noOpacity : ''}`} onClick={openSubcategoriesOverlay}>
                             <span>Podkategorije</span>
