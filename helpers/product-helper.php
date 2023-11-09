@@ -103,6 +103,7 @@ if ( ! class_exists('ProductHelper') ) {
                         'taxonomy' => 'product_cat',
                         'field'    => 'slug',
                         'terms'    => $category->slug,
+                        "include_children" => false
                     ),
                 ),
             );
