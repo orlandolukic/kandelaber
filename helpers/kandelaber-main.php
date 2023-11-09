@@ -12,8 +12,8 @@ if ( ! class_exists('KandelaberMain') ) {
             return self::$instance;
         }
 
-        private static $CSS_VERSION = '1.0.0';
-        private static $JS_VERSION = '1.0.0';
+        private static $CSS_VERSION = '1.0.1';
+        private static $JS_VERSION = '1.0.2';
 
         private function __construct()
         {
