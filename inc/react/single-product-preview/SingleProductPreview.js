@@ -76,7 +76,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
             maxHeight={650}
             getImageSource={(item) => item}
             id={"splide-main"}
-            hasShadow={true}
+            hasShadow={false}
             thumbnail={'vertical'}
             dontShowThumbnail={true}
             pauseSlideshow={pauseMainSlideshow}
@@ -142,7 +142,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
 
                             {gallery.length > 0 &&
                                 <>
-                                    <div className={styles.slider} onMouseEnter={mouseEnteredSlider} onMouseLeave={mouseLeftSlider}>
+                                    <div style={{width: "100%"}} onMouseEnter={mouseEnteredSlider} onMouseLeave={mouseLeftSlider}>
                                         {imageSlider}
                                     </div>
                                 </>
@@ -158,9 +158,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
                             {product.post_title}
                         </h3>
 
-                        <div className={styles.excerpt}>
-                            {product.post_content}
-                        </div>
+                        <div className={styles.excerpt} dangerouslySetInnerHTML={{__html: product.post_content}}></div>
 
                         {/* Check for fast_collections */}
                         <FastCollections

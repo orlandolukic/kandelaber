@@ -142,11 +142,11 @@ body {
       }
 
       &.loading-image-bottom {
-        transform: rotate(-180deg);
-        justify-content: flex-start;
+        justify-content: flex-end;
         img {
+          left: auto;
           position: relative;
-          right: 15%;
+          right: -15%;
         }
       }
     }
@@ -157,6 +157,12 @@ body {
         img {
           width: 180px;
           left: -15%;
+        }
+
+        &.loading-image-bottom {
+          img {
+            right: 0;
+          }
         }
       }
 
