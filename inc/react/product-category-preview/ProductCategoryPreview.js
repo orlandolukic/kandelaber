@@ -70,6 +70,7 @@ const ProductCategoryPreview = ({category, subcategory, subcategories, renderedA
             <div className={` ${styles.productCategoryPreviewContainer}`}>
 
                 <Breadcrumbs
+                    blockLeaf={true}
                     category={categoryState}
                     changeCategory={setCategoryState}
                     subcategory={subcategoryState}

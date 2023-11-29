@@ -2,7 +2,8 @@ import styles from "./product-category-preview.module.scss";
 import {useCallback, useEffect} from "react";
 import SubcategoriesListing from "./SubcategoriesListing";
 
-const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories, changeSubcategories, onOpenCategory}) => {
+const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, subcategories, changeSubcategories, onOpenCategory,
+                     blockLeaf}) => {
 
     useEffect(() => {
         tippy('#tooltipAllProducts', {
@@ -20,7 +21,7 @@ const Breadcrumbs = ({category, subcategory, changeCategory, changeSubcategory, 
     const openCategory = useCallback((i) => {
 
         // Check if leaf category is being clicked on
-        if (i === 1) {
+        if (i === 1 && blockLeaf) {
             return;
         }
 

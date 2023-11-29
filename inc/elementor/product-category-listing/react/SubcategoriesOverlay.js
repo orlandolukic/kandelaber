@@ -62,6 +62,14 @@ const SubcategoriesOverlay = ({show, parentCategory, setShowSubcategoriesOverlay
                 window.renderApp(window.reactMain.consts.SINGLE_PRODUCT_PREVIEW, <SingleProductPreview slug={subcategory.slug} />)
             });
         } else {
+
+            // Go external if this is stated
+            if (subcategory.external_link) {
+                window.showLoader();
+                window.location.href = subcategory.external_link;
+                return;
+            }
+
             window.openSubcategory({
                 category: parentCategory,
                 subcategory: subcategory,

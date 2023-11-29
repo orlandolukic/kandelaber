@@ -122,6 +122,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
         <>
             {product.categories.length > 1 &&
                 <Breadcrumbs
+                    blockLeaf={false}
                     category={product.categories[1]}
                     subcategory={product.categories[0]}
                     onOpenCategory={openCategory}
@@ -130,6 +131,7 @@ const SingleProductPreviewComp = ({product, recommendations, recommended_product
 
             {product.categories.length === 1 &&
                 <Breadcrumbs
+                    blockLeaf={false}
                     category={product.categories[0]}
                     onOpenCategory={openCategory}
                 />

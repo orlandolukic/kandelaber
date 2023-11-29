@@ -47,6 +47,14 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
         }
 
         if (typeof changeSubcategory === 'function' && fromCategoryPreview) {
+
+            // Go external if this is stated
+            if (category.external_link) {
+                window.showLoader();
+                window.location.href = category.external_link;
+                return;
+            }
+
             window.openSubcategory({
                 category: parentCategory,
                 subcategory: category,
@@ -55,6 +63,14 @@ const SingleCategory = ({category, i, changeSubcategory, parentCategory, fromCat
             changeSubcategory(category);
             return;
         }
+
+        // Go external if this is stated
+        if (category.external_link) {
+            window.showLoader();
+            window.location.href = category.external_link;
+            return;
+        }
+
         window.openCategory(showSubcategoriesOverlay, category, subcategories, () => {
             window.renderApp('product-category-preview', <ProductCategoryPreview data={true} category={category} subcategories={category.subcategories} />);
         });
