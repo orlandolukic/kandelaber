@@ -380,3 +380,10 @@ if ( ! function_exists( 'lucent_get_svg_icon' ) ) {
 		return $html;
 	}
 }
+
+if ( !function_exists('is_valid_link') ) {
+    function is_valid_link($text)
+    {
+        return filter_var($text, FILTER_VALIDATE_URL) !== false;
+    }
+}

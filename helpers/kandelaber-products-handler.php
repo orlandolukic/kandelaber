@@ -83,6 +83,7 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             $this->is_category = true;
             $this->is_subcategory = false;
             $this->category_field = $product_category;
+            $external_link = get_term_meta($category->data->term_id, KandelaberProductCategory::$LINK_FIELD, true);
 
             // Check if category is product-only
             $is_product_only = get_term_meta($category->data->term_id, 'is_product_and_category', true);
@@ -95,6 +96,12 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             $product_subcategory = get_query_var( 'product_subcategory' );
             if ( !$product_subcategory || $product_subcategory == '' ) {
                 $this->is_subcategory = false;
+
+                // Check if external link is present
+                if ($external_link !== "") {
+                    header("location: " . $external_link);
+                    return $template;
+                }
                 return get_template_directory() . '/category-preview.php';
             };
 
@@ -106,11 +113,18 @@ if ( ! class_exists('KandelaberProductsHandler' ) ) {
             }
             $this->is_subcategory = true;
             $this->subcategory_field = $product_subcategory;
+            $external_link = get_term_meta($subcategory->data->term_id, KandelaberProductCategory::$LINK_FIELD, true);
 
             // Check if subcategory is product-only
             $is_product_only = get_term_meta($subcategory->data->term_id, 'is_product_and_category', true);
             if ($is_product_only) {
                 header("location: " . get_home_url() . "/proizvodi");
+                return $template;
+            }
+
+            // Check if external link is present
+            if ($external_link !== "") {
+                header("location: " . $external_link);
                 return $template;
             }
 

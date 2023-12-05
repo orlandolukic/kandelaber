@@ -33,6 +33,8 @@ class Product_Category_Listing {
         } else {
             $all_categories[0]->is_product_and_category = false;
         }
+        $external_link = get_term_meta($all_categories[0]->term_id, KandelaberProductCategory::$LINK_FIELD, true);
+        $all_categories[0]->external_link = $external_link !== "" ? $external_link : NULL;
 
         // Check if category has products within
         $args = array(
@@ -99,6 +101,8 @@ class Product_Category_Listing {
                 } else {
                     $subcategory->is_product_and_category = false;
                 }
+                $external_link = get_term_meta($subcategory->term_id, KandelaberProductCategory::$LINK_FIELD, true);
+                $subcategory->external_link = $external_link !== "" ? $external_link : NULL;
             }
 
         }
@@ -177,6 +181,8 @@ class Product_Category_Listing {
             } else {
                 $all_categories[$i]->is_product_and_category = false;
             }
+            $external_link = get_term_meta($all_categories[$i]->term_id, KandelaberProductCategory::$LINK_FIELD, true);
+            $all_categories[$i]->external_link = $external_link !== "" ? $external_link : NULL;
 
             // Check if this category have products
             // Check if category has products within
